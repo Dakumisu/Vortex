@@ -19,7 +19,7 @@ body {
     min-height: 100vh;
     text-rendering: optimizeSpeed;
     line-height: 1.5;
-    background-color: #000;
+    background-color: #000000;
 }
 
 body,
@@ -76,7 +76,7 @@ select {
 }
 
 
-button {
+.buttons {
     position: absolute;
     top: 10px;
     left: 10px;

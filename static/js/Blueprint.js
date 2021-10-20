@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import vertex from '../glsl/vertex.vert'
-import fragment from '../glsl/fragment.frag'
+import vertex from '../glsl/vertex.glsl'
+import fragment from '../glsl/fragment.glsl'
 
 class Blueprint {
    constructor(opt) {

@@ -1,7 +1,6 @@
 import './main.scss'
 
 import * as THREE from 'three' // https://threejs.org/docs/
-import { BloomEffect, EffectComposer, ShaderPass, EffectPass, RenderPass } from "postprocessing" // https://threejs.org/docs/?q=pro#manual/en/introduction/How-to-use-post-processing
 import { TweenLite, TweenMax, gsap } from 'gsap' // https://greensock.com/docs/
 import howlerjs from 'howler' // https://github.com/goldfire/howler.js#documentation
 
@@ -45,8 +44,8 @@ document.addEventListener('keydown', e => {
     console.log(`${e.key} touch pressed`)
 })
 
-let renderPostProc = false
-let sheeesh = false
+let renderPostProc = true
+let sheeesh = true
 document.querySelector('.toggle').addEventListener('click', () => renderPostProc ? renderPostProc = false: renderPostProc = true )
 document.querySelector('.sheeesh').addEventListener('click', () => {
     if (sheeesh) {

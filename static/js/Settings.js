@@ -5,7 +5,7 @@ class Settings {
       this.gui = new dat.GUI()
       this.settings = {
          exposure: 1,
-         bloomStrength: 1,
+         bloomStrength: .8,
          bloomThreshold: 0,
          bloomRadius: 0,
       }

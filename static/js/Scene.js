@@ -25,7 +25,7 @@ class Scene {
 
    init() {
       this.scene = new THREE.Scene()
-      this.camera = new THREE.PerspectiveCamera(75, this.sizes.width / this.sizes.height, 0.01, 1000)
+      this.camera = new THREE.PerspectiveCamera(75, this.sizes.width / this.sizes.height, 1.2, 1000)
       this.camera.position.set(0, 0, 3);  
       this.renderer = new THREE.WebGLRenderer({
          canvas: this.canvas,
@@ -35,7 +35,7 @@ class Scene {
       })
       this.renderer.setSize(this.sizes.width, this.sizes.height)
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-      this.renderer.setClearColor(0x000000, 0)
+      this.renderer.setClearColor(0x000000, 1)
 
       this.clock = new THREE.Clock()
 
@@ -45,16 +45,17 @@ class Scene {
    postProcessing() {
       this.renderScene = new RenderPass( this.scene, this.camera );
 
-      this.bloomPass = new UnrealBloomPass( new THREE.Vector2( this.sizes.width, this.sizes.height ), 1.5, 0.4, 0.85 );
+      this.bloomPass = new UnrealBloomPass( new THREE.Vector2(this.sizes.width, this.sizes.height ));
       this.bloomPass.threshold = this.settings.bloomThreshold;
       this.bloomPass.strength = this.settings.bloomStrength;
       this.bloomPass.radius = this.settings.bloomRadius;
 
       this.afterimagePass = new AfterimagePass();
-      this.afterimagePass.uniforms.damp.value = .5
+      this.afterimagePass.uniforms.damp.value = .8
 
       this.rgbShift = new ShaderPass( RGBShiftShader )
-      this.rgbShift.uniforms.amount.value = 0.0015;
+      console.log(this.rgbShift);
+      this.rgbShift.uniforms.amount.value = 0.0008;
       
       this.composer = new EffectComposer( this.renderer );
       this.composer.addPass( this.renderScene );
