@@ -1,8 +1,9 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
-import vertex from '../glsl/vertex.glsl'
-import fragment from '../glsl/fragment.glsl'
-import { BoxBufferGeometry, BufferGeometry, Group, Mesh, MeshBasicMaterial, Points, SphereBufferGeometry, TorusBufferGeometry } from 'three'
+import { BoxBufferGeometry, BufferGeometry, Group, Mesh, MeshBasicMaterial, PlaneBufferGeometry, Points, SphereBufferGeometry, TorusBufferGeometry } from 'three'
+import vertex from '../glsl/vortex/vertex.glsl'
+import fragment from '../glsl/vortex/fragment.glsl'
+import { Store } from './Store'
 
 class Torus {
    constructor(opt) {
@@ -26,7 +27,7 @@ class Torus {
    //          uColor: { value: new THREE.Color(0xffffff) },
    //          uAlpha: { value: 1 },
    //          uFreq: { value: 0 },
-   //          uAspect : { value : new THREE.Vector2(this.scene.sizes.width, this.scene.sizes.height) },
+   //          uAspect : { value : new THREE.Vector2(Store.params.sizes.width, Store.params.sizes.height) },
    //          uPixelRatio: { value: window.devicePixelRatio }
    //       },
    //       side: THREE.DoubleSide,
@@ -110,8 +111,8 @@ class Torus {
    //          uAlpha: { value: 1 },
    //          uFreq: { value: 0.5 },
    //          uSize: { value: 5 },
-   //          uProgress: { value: 1 },
-   //          uAspect : { value : new THREE.Vector2(this.scene.sizes.width, this.scene.sizes.height) },
+   //          uProgress: { value: 0 },
+   //          uAspect : { value : new THREE.Vector2(Store.params.sizes.width, Store.params.sizes.height) },
    //          uPixelRatio: { value: window.devicePixelRatio }
    //       },
    //       side: THREE.DoubleSide,
@@ -138,7 +139,8 @@ class Torus {
    // }
    
    init() { //Instanced Buffer Geo version
-      const torusGeometry = new TorusBufferGeometry( .4, .02, 30, 200 );
+      const torusGeometry = new TorusBufferGeometry( .4, .02, 30, 200    );
+      // const torusGeometry = new PlaneBufferGeometry( 1, 1, 32, 32 );
       const particlesCount = torusGeometry.attributes.position.array
 
       this.blueprintParticle = new THREE.PlaneBufferGeometry()
@@ -155,26 +157,33 @@ class Torus {
       this.positions = new Float32Array(particlesCount.length)
       this.randomPositions = new Float32Array(particlesCount.length)
       this.timeOffset = new Float32Array(particlesCount.length)
-            
+      this.randomScale = new Float32Array(particlesCount.length)
+      
       for (let i = 0; i < particlesCount.length; i = i + 3) {
          this.positions[i + 0] = particlesCount[i + 0]
          this.positions[i + 1] = particlesCount[i + 1]
          this.positions[i + 2] = particlesCount[i + 2]
 
          // Vortex
-         const radius = Math.random() * 10
-         const spinAngle = radius * 5
+         const radius = Math.random() * 30
+         const spinAngle = radius * 2
          const branchAngle = (i % 5) / 5 * (Math.PI * 2)
 
          const randomX = Math.cos(branchAngle + spinAngle) * radius + Math.pow(Math.random(), 3) * (Math.random())
          const randomY = Math.sin(branchAngle + spinAngle) * radius + Math.pow(Math.random(), 3) * (Math.random())
-         const randomZ = -40 + (Math.sqrt((randomX * randomX) + (randomY * randomY) - 2) * 6)
+         const randomZ = -40 + (Math.sqrt((randomX * randomX) + (randomY * randomY) - .5) * 6)
 
          this.randomPositions[i + 0] = randomX
          this.randomPositions[i + 1] = randomY
          this.randomPositions[i + 2] = randomZ
 
-         this.timeOffset[i] = THREE.MathUtils.randFloatSpread(300)
+         this.timeOffset[i + 0] = THREE.MathUtils.randFloatSpread(50)
+         this.timeOffset[i + 1] = THREE.MathUtils.randFloatSpread(50)
+         this.timeOffset[i + 3] = THREE.MathUtils.randFloatSpread(50)
+
+         this.randomScale[i + 0] = THREE.MathUtils.randFloat(.5, 1.5)
+         this.randomScale[i + 1] = THREE.MathUtils.randFloat(.5, 1.5)
+         this.randomScale[i + 3] = THREE.MathUtils.randFloat(.5, 1.5)
       }
       
       this.material = new THREE.ShaderMaterial({
@@ -183,11 +192,11 @@ class Torus {
          uniforms: {
             uTime: { value : 0 },
             uColor: { value: new THREE.Color(0xffffff) },
-            uAlpha: { value: .1 },
+            uAlpha: { value: .75 },
             uFreq: { value: 0.5 },
             uSize: { value: 5 },
-            uProgress: { value: 1 },
-            uAspect : { value : new THREE.Vector2(this.scene.sizes.width, this.scene.sizes.height) },
+            uProgress: { value: 0 },
+            uAspect : { value : new THREE.Vector2(Store.params.sizes.width, Store.params.sizes.height) },
             uPixelRatio: { value: window.devicePixelRatio }
          },
          side: THREE.DoubleSide,
@@ -202,12 +211,10 @@ class Torus {
 
       // this.geometry = new BufferGeometry()
 
-      this.geometry.setAttribute( 'aPosition', new THREE.InstancedBufferAttribute( this.positions, 3 ) );
-      this.geometry.setAttribute( 'aRandomPos', new THREE.InstancedBufferAttribute( this.randomPositions, 3 ) );
-      this.geometry.setAttribute( 'aTimeOffset', new THREE.InstancedBufferAttribute( this.timeOffset, 1, false ) )
-
-
-      console.log(this.geometry);
+      this.geometry.setAttribute( 'aPosition', new THREE.InstancedBufferAttribute( this.positions, 3, false ) );
+      this.geometry.setAttribute( 'aRandomPos', new THREE.InstancedBufferAttribute( this.randomPositions, 3, false ) );
+      this.geometry.setAttribute( 'aTimeOffset', new THREE.InstancedBufferAttribute( this.timeOffset, 3, false ) )
+      this.geometry.setAttribute( 'aRandomScale', new THREE.InstancedBufferAttribute( this.randomScale, 3, false ) )
 
       this.torusMesh = new Mesh(this.geometry, this.material)
       this.torusMesh.frustumCulled = false
@@ -217,23 +224,25 @@ class Torus {
 
       this.scene.scene.add(this.torusMesh)
 
-      // this.start()
+      this.start()
    }
 
 
    start() {
       gsap.from(this.torusMesh.position, 4, { y: -5, ease: "Power3.easeInOut" })
-      gsap.from(this.torusMesh.rotation, 2, { y: .5 * (Math.PI * 2), ease: "Power3.easeOut", delay: 2})
-      this.fakeAudioScale()
+      gsap.from(this.torusMesh.rotation, 2, { y: -.5 * (Math.PI * 2), ease: "Power3.easeOut", delay: 2})
+      // this.fakeAudioScale()
    }
-
+   
    expand(bool) {
       if (bool) {
          gsap.to(this.torusMesh.scale, .5, { x: 0, y: 0, z: 0, ease: "Expo.easeInOut"})
+         gsap.to(this.torusMesh.rotation, 0, { y: .5 * (Math.PI * 2), ease: "Power3.easeOut", delay: .5})
          gsap.to(this.torusMesh.scale, .5, { x: 1, y: 1, z: 1, ease: "Expo.easeInOut", delay: .5})
          gsap.to(this.torusMesh.material.uniforms.uProgress, 1.1, { value: .75, ease: "Expo.easeInOut", delay: .5})
       } else {
          gsap.to(this.torusMesh.material.uniforms.uProgress, 2, { value: 0, ease: "Expo.easeOut"})
+         // gsap.from(this.torusMesh.rotation, 1, { y: .5 * (Math.PI * 2), ease: "Power3.easeOut", delay: 1})
       }
    }
 
@@ -244,7 +253,7 @@ class Torus {
 
    resize() {
       window.addEventListener('resize', () => {
-         this.material.uniforms.uAspect.value = new THREE.Vector2(this.scene.sizes.width, this.scene.sizes.height)
+         this.material.uniforms.uAspect.value = new THREE.Vector2(Store.params.sizes.width, Store.params.sizes.height)
          this.material.uniforms.uPixelRatio.value = window.devicePixelRatio
      })
    }
@@ -254,9 +263,9 @@ class Torus {
       // this.torusMesh.position.z = time
       // this.torusMesh.rotation.y = time * - Math.PI * .2
       // this.torusMesh.rotation.x = time * - Math.PI * .2
-      const rdmScale = Math.random() * 100
-      gsap.to(this.torusMesh.material.uniforms.uFreq, .1, { value: rdmScale, ease: "Power3.easeInOut"})
-      // this.torusMesh.material.uniforms.uFreq.value = rdmScale
+         const rdmScale = Math.random() * 100
+         // gsap.to(this.torusMesh.material.uniforms.uFreq, .1, { value: rdmScale, ease: "Power3.easeInOut"})
+         // this.torusMesh.material.uniforms.uFreq.value = rdmScale
 
 
       this.torusMesh.material.uniforms.uTime.value = time

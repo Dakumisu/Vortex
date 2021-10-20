@@ -6,16 +6,13 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass.js';
 import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
 
+import { Store } from './Store'
+
 class Scene {
    constructor(opt) {
       this.canvas = opt.canvas
       this.settings = opt.settings
 
-      this.sizes = {
-         width: window.innerWidth,
-         height: window.innerHeight
-      }
-      
       this.lowestElapsedTime = 0
 
       this.init()
@@ -25,7 +22,8 @@ class Scene {
 
    init() {
       this.scene = new THREE.Scene()
-      this.camera = new THREE.PerspectiveCamera(75, this.sizes.width / this.sizes.height, 1.2, 1000)
+      // this.camera = new THREE.PerspectiveCamera(75, Store.params.sizes.width / Store.params.sizes.height, 1.2, 1000)
+      this.camera = new THREE.PerspectiveCamera(75, Store.params.sizes.width / Store.params.sizes.height, .01, 1000)
       this.camera.position.set(0, 0, 3);  
       this.renderer = new THREE.WebGLRenderer({
          canvas: this.canvas,
@@ -33,7 +31,7 @@ class Scene {
          antialias: true,
          alpha: true
       })
-      this.renderer.setSize(this.sizes.width, this.sizes.height)
+      this.renderer.setSize(Store.params.sizes.width, Store.params.sizes.height)
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
       this.renderer.setClearColor(0x000000, 1)
 
@@ -45,7 +43,7 @@ class Scene {
    postProcessing() {
       this.renderScene = new RenderPass( this.scene, this.camera );
 
-      this.bloomPass = new UnrealBloomPass( new THREE.Vector2(this.sizes.width, this.sizes.height ));
+      this.bloomPass = new UnrealBloomPass( new THREE.Vector2(Store.params.sizes.width, Store.params.sizes.height ));
       this.bloomPass.threshold = this.settings.bloomThreshold;
       this.bloomPass.strength = this.settings.bloomStrength;
       this.bloomPass.radius = this.settings.bloomRadius;
@@ -54,8 +52,7 @@ class Scene {
       this.afterimagePass.uniforms.damp.value = .8
 
       this.rgbShift = new ShaderPass( RGBShiftShader )
-      console.log(this.rgbShift);
-      this.rgbShift.uniforms.amount.value = 0.0008;
+      this.rgbShift.uniforms.amount.value = 0.0012;
       
       this.composer = new EffectComposer( this.renderer );
       this.composer.addPass( this.renderScene );
@@ -67,15 +64,15 @@ class Scene {
    resize() {
       window.addEventListener('resize', () => {
          // Update sizes
-         this.sizes.width = window.innerWidth
-         this.sizes.height = window.innerHeight
+         Store.params.sizes.width = window.innerWidth
+         Store.params.sizes.height = window.innerHeight
      
          // Update camera
-         this.camera.aspect = this.sizes.width / this.sizes.height
+         this.camera.aspect = Store.params.sizes.width / Store.params.sizes.height
          this.camera.updateProjectionMatrix()
      
          // Update renderer
-         this.renderer.setSize(this.sizes.width, this.sizes.height)
+         this.renderer.setSize(Store.params.sizes.width, Store.params.sizes.height)
          this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
      })
    }

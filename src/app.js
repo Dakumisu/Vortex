@@ -4,10 +4,11 @@ import * as THREE from 'three' // https://threejs.org/docs/
 import { TweenLite, TweenMax, gsap } from 'gsap' // https://greensock.com/docs/
 import howlerjs from 'howler' // https://github.com/goldfire/howler.js#documentation
 
+import { Store } from '../static/js/Store' // Store
 import Scene from '../static/js/Scene' // Création de la scène + renderer + camera
-import LoadModel from '../static/js/LoadModel' // Chargement d'un modèle 3D
+import LoadAlphabet from '../static/js/LoadAlphabet' // Chargement de l'alphabet
+import Letter from '../static/js/Letter' // Ajout d'une lettre à la scène
 import Mouse from '../static/js/Mouse' // Obtenir la position de la souris dans tous les environnement
-import Blueprint from '../static/js/Blueprint' // Template de plane
 import Torus from '../static/js/Torus' // Torus
 import Raycaster from '../static/js/Raycaster' // Création de raycasters si besoin
 import Control from '../static/js/Control' // Orbitcontrol (pour le debbugage)
@@ -30,6 +31,8 @@ const torus = new Torus({
     scene: scene,
 })
 
+new LoadAlphabet()
+
 const mouse = new Mouse({
     scene: scene
 })
@@ -39,24 +42,67 @@ const control = new Control({
     renderer: scene.renderer
 })
 
+const alphabet = []
+
+document.addEventListener('touchstart', e => {
+    const letters = 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * 25))
+    alphabet.push(new Letter({
+        scene: scene,
+        mesh: Store.alphabet[letters].mesh
+    }))
+})
 
 document.addEventListener('keydown', e => {
     console.log(`${e.key} touch pressed`)
+    console.log(e);
+
+    const key = e.key
+    const regex = /[a-zA-Z]+/
+    const checkKey =  e.getModifierState(key)
+
+    if (key.match(regex) && !checkKey && key != 'Escape') {
+        console.log(Store.alphabet[key]);
+
+        alphabet.push(new Letter({
+            scene: scene,
+            mesh: Store.alphabet[key].mesh
+        }))
+    }
+
+
+    // if (e.key == 'a') {
+    //     const newLetter = new LoadModel({
+    //         name: 'alphabet_a',
+    //         model: '../assets/3D/alphabet/a.glb',
+    //         scene: scene,
+    //     })
+    //     // newLetter.add()
+    //     alphabet.push(newLetter)
+    // }
 })
 
 let renderPostProc = true
-let sheeesh = true
+let expand = false
 document.querySelector('.toggle').addEventListener('click', () => renderPostProc ? renderPostProc = false: renderPostProc = true )
-document.querySelector('.sheeesh').addEventListener('click', () => {
-    if (sheeesh) {
-        sheeesh = false
-        torus.expand(sheeesh)
+document.querySelector('.expand').addEventListener('click', () => {
+    if (expand) {
+        expand = false
+        torus.expand(expand)
     } else {
-        sheeesh = true
-        torus.expand(sheeesh)
+        expand = true
+        torus.expand(expand)
     }
 })
 
+setTimeout(() => {
+    const parole = new SpeechSynthesisUtterance()
+    const texte = "thomas bad dog"
+    parole.text = texte
+    parole.volume = 1
+    parole.rate = .8
+    parole.lang = 'en-US'
+    speechSynthesis.speak(parole)
+}, 2000);
 
 function raf() {
     const deltaTime = scene.clock.getDelta()
@@ -64,6 +110,10 @@ function raf() {
     const lowestElapsedTime = elapsedTime / 11
 
     torus.update(elapsedTime)
+
+    // alphabet.forEach(letter => {
+    //     letter.update(elapsedTime)
+    // })
 
     renderPostProc ? scene.composer.render(): scene.renderer.render(scene.scene, scene.camera)
     
