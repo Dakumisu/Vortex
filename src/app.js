@@ -44,7 +44,7 @@ const control = new Control({
 
 const alphabet = []
 
-document.addEventListener('touchstart', e => {
+document.querySelector('.webgl').addEventListener('touchstart', e => {
     const letters = 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * 25))
     alphabet.push(new Letter({
         scene: scene,
@@ -56,17 +56,21 @@ document.addEventListener('keydown', e => {
     console.log(`${e.key} touch pressed`)
     console.log(e);
 
-    const key = e.key
-    const regex = /[a-zA-Z]+/
+    const key = e.key.toLowerCase()
+    const regex = /[a-zA-Z]/
     const checkKey =  e.getModifierState(key)
 
-    if (key.match(regex) && !checkKey && key != 'Escape') {
-        console.log(Store.alphabet[key]);
+    console.log(key.match(regex));
 
-        alphabet.push(new Letter({
-            scene: scene,
-            mesh: Store.alphabet[key].mesh
-        }))
+    if (key.match(regex)) {
+        if (key.match(regex).input.length && key.match(regex).input.length == 1) {
+            console.log(Store.alphabet[key]);
+    
+            alphabet.push(new Letter({
+                scene: scene,
+                mesh: Store.alphabet[key].mesh
+            }))
+        }
     }
 
 
@@ -94,15 +98,15 @@ document.querySelector('.expand').addEventListener('click', () => {
     }
 })
 
-setTimeout(() => {
-    const parole = new SpeechSynthesisUtterance()
-    const texte = "thomas bad dog"
-    parole.text = texte
-    parole.volume = 1
-    parole.rate = .8
-    parole.lang = 'en-US'
-    speechSynthesis.speak(parole)
-}, 2000);
+// setTimeout(() => {
+//     const parole = new SpeechSynthesisUtterance()
+//     const texte = "thomas bad dog"
+//     parole.text = texte
+//     parole.volume = 1
+//     parole.rate = .8
+//     parole.lang = 'en-US'
+//     speechSynthesis.speak(parole)
+// }, 2000);
 
 function raf() {
     const deltaTime = scene.clock.getDelta()

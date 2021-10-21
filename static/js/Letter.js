@@ -22,19 +22,16 @@ class Letter {
       gsap.fromTo(this.mesh.position, 3, { y: -5 + Math.random(), ease: "Power3.easeOut" }, { y: (-.5 + Math.random()) * 10, ease: "Power3.easeOut" })
       gsap.fromTo(this.mesh.position, 4.3  , { z: 0, ease: "Power3.easeOut" }, { z: -50, ease: "Power3.easeInOut" })
       gsap.to(this.mesh.rotation, 2, { z: (10 * Math.random()) * (Math.PI * 2), ease: "Power3.easeOut" })
-      gsap.to(this.mesh.material.uniforms.uAlpha, 1, { value: 0, ease: "Power3.easeOut" , delay: 3 })
-
-      console.log(this.mesh.material);
-      
-      // setTimeout(() => {
-      //    this.scene.remove(this.mesh)
-      // }, 3100);
+      gsap.to(this.mesh.material.uniforms.uAlpha, 1, { value: 0, ease: "Power3.easeOut" , delay: 3, onComplete: () => {
+         console.log('here');
+         this.scene.remove(this.mesh)
+      } })
    }
 
    update(time) {
       if (this.mesh) {
-         this.mesh.rotation.z = (time * .3) * Math.PI
-         // this.mesh.rotation.x = (time * .3) * Math.PI
+         this.mesh.rotation.x = (time * .3) * Math.PI
+         this.mesh.rotation.y = (time * .3) * Math.PI
          this.mesh.rotation.z = (time * .3) * Math.PI
       }
    }

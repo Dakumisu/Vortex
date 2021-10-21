@@ -44,15 +44,15 @@ class Scene {
       this.renderScene = new RenderPass( this.scene, this.camera );
 
       this.bloomPass = new UnrealBloomPass( new THREE.Vector2(Store.params.sizes.width, Store.params.sizes.height ));
-      this.bloomPass.threshold = this.settings.bloomThreshold;
-      this.bloomPass.strength = this.settings.bloomStrength;
-      this.bloomPass.radius = this.settings.bloomRadius;
+      this.bloomPass.threshold = 0;
+      this.bloomPass.strength = .76;
+      this.bloomPass.radius = 0;
 
       this.afterimagePass = new AfterimagePass();
-      this.afterimagePass.uniforms.damp.value = .8
+      this.afterimagePass.uniforms.damp.value = .80
 
       this.rgbShift = new ShaderPass( RGBShiftShader )
-      this.rgbShift.uniforms.amount.value = 0.0012;
+      this.rgbShift.uniforms.amount.value = 0.0011;
       
       this.composer = new EffectComposer( this.renderer );
       this.composer.addPass( this.renderScene );

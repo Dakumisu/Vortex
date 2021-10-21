@@ -32,7 +32,7 @@ class LoadAlphabet {
          fragmentShader: fragment,
          uniforms: {
             uTime: { value : 0 },
-            uColor: { value: new THREE.Color(0xffffff) },
+            uColor: { value: new THREE.Color(0xff55ff) },
             uAlpha: { value: 1 },
             uFreq: { value: 0.5 },
             uSize: { value: 100 },
@@ -52,16 +52,16 @@ class LoadAlphabet {
       
 
       for(const [key, value] of Object.entries(Store.alphabet)) {
-         console.log(key);
-         console.log(value);
+         // console.log(key);
+         // console.log(value);
          
          this.loader.load(
             value.model,
             (gltf) => {
-               console.log('success')
+               // console.log('success')
                value.mesh = gltf.scene.children[0]
                value.mesh.name = value.key
-               console.log(gltf.scene.children[0])
+               // console.log(gltf.scene.children[0])
                
                value.mesh.traverse((vertice) => {
                   if (vertice.isMesh) {
@@ -69,7 +69,7 @@ class LoadAlphabet {
                   }
                })
    
-               const rdmScale = 1 + Math.random()
+               const rdmScale = .5 + Math.random() * .5
    
                value.mesh.rotation.z = Math.PI * 2
                value.mesh.scale.set(rdmScale, rdmScale, rdmScale)
@@ -81,8 +81,8 @@ class LoadAlphabet {
                // console.log(progress)
             },
             (error) => {
-               console.log('error')
-               console.log(error)
+               // console.log('error')
+               // console.log(error)
             }
          )
       }
