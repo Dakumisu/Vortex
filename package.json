@@ -27,6 +27,7 @@
     "portfinder-sync": "0.0.2",
     "raw-loader": "^4.0.2",
     "shader": "^1.0.0",
+    "soundcloud": "^3.3.2",
     "style-loader": "^2.0.0",
     "three": "^0.125.1",
     "vercel": "^23.1.2",
