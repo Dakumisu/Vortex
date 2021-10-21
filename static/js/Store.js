@@ -1,6 +1,7 @@
 const modelLinkBase = `../assets/3D/alphabet/`
 
 export const Store = {
+   // 3D Alphabet
    alphabet: {
       a: {
          key: 'a',
@@ -133,6 +134,13 @@ export const Store = {
          model: `${modelLinkBase}z.glb`
       },
    },
+
+   // Sound control
+   sound: {
+      a: null
+   },
+
+   // Paramètres gééraux
    params: {
       sizes: {
          width: window.innerWidth,

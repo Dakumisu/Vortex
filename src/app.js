@@ -20,22 +20,22 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     // Desktop
 }
 
-const settings = new Settings()
+// const settings = new Settings()
 
 const scene = new Scene({
     canvas: document.querySelector('.webgl'),
-    settings: settings.settings
 })
-
-const torus = new Torus({
-    scene: scene,
-})
-
-new LoadAlphabet()
 
 const mouse = new Mouse({
     scene: scene
 })
+
+const torus = new Torus({
+    scene: scene,
+    mouse: mouse.mouseScene
+})
+
+new LoadAlphabet()
 
 const control = new Control({
     camera: scene.camera,
@@ -92,15 +92,21 @@ document.querySelector('.expand').addEventListener('click', () => {
     if (expand) {
         expand = false
         torus.expand(expand)
+        gsap.to(scene.composer.passes[1].uniforms.damp, 1, { value: .8, esae: "Power.easeInOut" })
     } else {
+        gsap.to(scene.composer.passes[1].uniforms.damp, 1, { value: .85, esae: "Power.easeInOut" })
         expand = true
         torus.expand(expand)
     }
 })
+document.querySelector('.fov').addEventListener('click', () => {
+    gsap.to(scene.camera, 1, { fov: 45, ease: "Power3.easeInOut" })
+    gsap.to(scene.camera.position, 1, { z: 6, ease: "Power3.easeInOut" })
+})
 
 // setTimeout(() => {
 //     const parole = new SpeechSynthesisUtterance()
-//     const texte = "thomas bad dog"
+//     const texte = "sheeeeeeeeeesh"
 //     parole.text = texte
 //     parole.volume = 1
 //     parole.rate = .8
@@ -115,6 +121,11 @@ function raf() {
 
     torus.update(elapsedTime)
 
+    // scene.camera.fov += (Math.sin(elapsedTime) * .7)
+    scene.camera.updateProjectionMatrix();
+
+    console.log(scene.camera.fov);
+    
     // alphabet.forEach(letter => {
     //     letter.update(elapsedTime)
     // })

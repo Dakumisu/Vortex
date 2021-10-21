@@ -22,7 +22,6 @@ class Scene {
 
    init() {
       this.scene = new THREE.Scene()
-      // this.camera = new THREE.PerspectiveCamera(75, Store.params.sizes.width / Store.params.sizes.height, 1.2, 1000)
       this.camera = new THREE.PerspectiveCamera(75, Store.params.sizes.width / Store.params.sizes.height, .01, 1000)
       this.camera.position.set(0, 0, 3);  
       this.renderer = new THREE.WebGLRenderer({
