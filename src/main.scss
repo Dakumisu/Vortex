@@ -81,3 +81,14 @@ select {
     top: 10px;
     left: 10px;
 }
+
+canvas {
+    user-select: none;
+    // pointer-events: none;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    // z-index: -1;
+    // position: fixed;
+}

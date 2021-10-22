@@ -4,13 +4,15 @@ import * as THREE from 'three' // https://threejs.org/docs/
 import { TweenLite, TweenMax, gsap } from 'gsap' // https://greensock.com/docs/
 import howlerjs from 'howler' // https://github.com/goldfire/howler.js#documentation
 
+import SoundCloudAPI from '../static/js/SoundCloudAPI' // Soundcloud API
+
 import { Store } from '../static/js/Store' // Store
 import Scene from '../static/js/Scene' // Création de la scène + renderer + camera
 import LoadAlphabet from '../static/js/LoadAlphabet' // Chargement de l'alphabet
 import Letter from '../static/js/Letter' // Ajout d'une lettre à la scène
 import Mouse from '../static/js/Mouse' // Obtenir la position de la souris dans tous les environnement
 import Torus from '../static/js/Torus' // Torus
-import Raycaster from '../static/js/Raycaster' // Création de raycasters si besoin
+import SoundController from '../static/js/SoundController' // Sound Controller
 import Control from '../static/js/Control' // Orbitcontrol (pour le debbugage)
 import Settings from '../static/js/Settings.js' // Dat.gui (toujours pour le debbugage)
 
@@ -21,6 +23,8 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 }
 
 // const settings = new Settings()
+
+new SoundCloudAPI()
 
 const scene = new Scene({
     canvas: document.querySelector('.webgl'),
@@ -35,41 +39,47 @@ const torus = new Torus({
     mouse: mouse.mouseScene
 })
 
-new LoadAlphabet()
-
-const control = new Control({
-    camera: scene.camera,
-    renderer: scene.renderer
+const soundController = new SoundController({
+    camera: scene.camera
 })
 
-const alphabet = []
+new LoadAlphabet({
+    scene: scene.scene
+})
+
+// const control = new Control({
+//     camera: scene.camera,
+//     renderer: scene.renderer
+// })
+
 
 document.querySelector('.webgl').addEventListener('touchstart', e => {
     const letters = 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * 25))
-    alphabet.push(new Letter({
+    Store.alphabetArray.push(new Letter({
         scene: scene,
         mesh: Store.alphabet[letters].mesh
     }))
 })
 
 document.addEventListener('keydown', e => {
-    console.log(`${e.key} touch pressed`)
-    console.log(e);
+    // console.log(`${e.key} touch pressed`)
+    // console.log(e);
 
     const key = e.key.toLowerCase()
     const regex = /[a-zA-Z]/
     const checkKey =  e.getModifierState(key)
 
-    console.log(key.match(regex));
+    // console.log(key.match(regex));
 
     if (key.match(regex)) {
         if (key.match(regex).input.length && key.match(regex).input.length == 1) {
-            console.log(Store.alphabet[key]);
-    
-            alphabet.push(new Letter({
+            Store.alphabetArray.push(new Letter({
+                id: Store.letterIndex,
                 scene: scene,
-                mesh: Store.alphabet[key].mesh
+                mesh: Store.alphabet[key].mesh,
+                mouse: mouse.mouseScene
             }))
+            Store.letterIndex ++
         }
     }
 
@@ -92,17 +102,37 @@ document.querySelector('.expand').addEventListener('click', () => {
     if (expand) {
         expand = false
         torus.expand(expand)
-        gsap.to(scene.composer.passes[1].uniforms.damp, 1, { value: .8, esae: "Power.easeInOut" })
+        
+        gsap.to(Store.params.pp.aip, 1, { damp: .8, esae: "Power.easeInOut" })
     } else {
-        gsap.to(scene.composer.passes[1].uniforms.damp, 1, { value: .85, esae: "Power.easeInOut" })
+        gsap.to(Store.params.pp.aip, 1, { damp: .875, esae: "Power.easeInOut" })
         expand = true
         torus.expand(expand)
     }
 })
-document.querySelector('.fov').addEventListener('click', () => {
-    gsap.to(scene.camera, 1, { fov: 45, ease: "Power3.easeInOut" })
-    gsap.to(scene.camera.position, 1, { z: 6, ease: "Power3.easeInOut" })
-})
+
+document.querySelector('.webgl').addEventListener('mousedown', e => {
+    Store.mouseDown = true
+    if (e.which == 1) {
+        gsap.to(scene.camera, 1, { fov: 45, ease: "Power3.easeInOut" })
+        gsap.to(scene.camera.position, 1, { z: 6, ease: "Power3.easeInOut" })
+    } else if (e.which == 3) {
+        gsap.to(scene.camera, 1, { fov: 145, ease: "Power3.easeInOut" })
+        gsap.to(scene.camera.position, 1, { z: 0.1, ease: "Power3.easeInOut" })
+    }
+});
+
+document.querySelector('.webgl').addEventListener('contextmenu', e => {
+    e.stopPropagation()
+    e.preventDefault ()
+    e.cancelBubble = true;
+});
+
+document.querySelector('.webgl').addEventListener('mouseup', e => {
+    Store.mouseDown = false
+    gsap.to(scene.camera, 1, { fov: 75, ease: "Power3.easeInOut" })
+    gsap.to(scene.camera.position, 1, { z: 3, ease: "Power3.easeInOut" })
+});
 
 // setTimeout(() => {
 //     const parole = new SpeechSynthesisUtterance()
@@ -119,21 +149,29 @@ function raf() {
     const elapsedTime = scene.clock.getElapsedTime()
     const lowestElapsedTime = elapsedTime / 11
 
-    torus.update(elapsedTime)
+    soundController.update()
+    scene.update()
+    torus.update(elapsedTime, deltaTime)
 
-    // scene.camera.fov += (Math.sin(elapsedTime) * .7)
     scene.camera.updateProjectionMatrix();
 
-    console.log(scene.camera.fov);
-    
-    // alphabet.forEach(letter => {
-    //     letter.update(elapsedTime)
-    // })
+    if (Store.alphabetArray.length) {
+        Store.alphabetArray.forEach(letter => {
+            // console.log(letter);
+            if (letter !== null) {
+                letter.update(elapsedTime)
+            }
+        })
+    }
+
+    // if (Store.mouseDown) {
+
+    // }
 
     renderPostProc ? scene.composer.render(): scene.renderer.render(scene.scene, scene.camera)
     
     // Update controls
-    control.controls.update()
+    // control.controls.update()
     window.requestAnimationFrame(raf)
 }
 

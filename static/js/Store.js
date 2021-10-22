@@ -135,9 +135,24 @@ export const Store = {
       },
    },
 
+   alphabetGroup: null,
+   alphabetArray: [],
+   letterIndex: 0,
+
    // Sound control
    sound: {
-      a: null
+      freq: 0,
+      freqDatas: {
+         uSoundLowBass: 0,
+         uSoundBass: 0,
+         uSoundHighBass: 0,
+         uSoundLowMedium: 0,
+         uSoundMedium: 0,
+         uSoundHighMedium: 0,
+         uSoundLowAcute: 0,
+         uSoundAcute: 0,
+         uSoundHighAcute: 0
+      }
    },
 
    // Paramètres gééraux
@@ -145,6 +160,15 @@ export const Store = {
       sizes: {
          width: window.innerWidth,
          height: window.innerHeight
-      }
+      },
+      pp: {
+         aip: {
+            damp: .8
+         },
+         rgbShift: {
+            amount: .0011
+         },
+      },
+      mouseDown: false
    }
 }

@@ -48,16 +48,16 @@ class Scene {
       this.bloomPass.radius = 0;
 
       this.afterimagePass = new AfterimagePass();
-      this.afterimagePass.uniforms.damp.value = .80
+      this.afterimagePass.uniforms.damp.value = Store.params.pp.aip.damp
 
       this.rgbShift = new ShaderPass( RGBShiftShader )
-      this.rgbShift.uniforms.amount.value = 0.0011;
+      this.rgbShift.uniforms.amount.value = Store.params.pp.rgbShift.amount
       
       this.composer = new EffectComposer( this.renderer );
       this.composer.addPass( this.renderScene );
 		this.composer.addPass( this.afterimagePass );
-      this.composer.addPass( this.bloomPass );
       this.composer.addPass( this.rgbShift );
+      this.composer.addPass( this.bloomPass );
    }
 
    resize() {
@@ -74,6 +74,13 @@ class Scene {
          this.renderer.setSize(Store.params.sizes.width, Store.params.sizes.height)
          this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
      })
+   }
+
+   update() {
+      this.composer.passes[1].uniforms.damp.value = Store.params.pp.aip.damp + Math.abs(Store.sound.freqDatas.uSoundLowBass * .04)
+      this.composer.passes[2].uniforms.amount.value = Store.params.pp.rgbShift.amount + Math.abs(Store.sound.freqDatas.uSoundAcute * .0008)
+      // this.camera.fov = 75 + Math.abs(Store.sound.freqDatas.uSoundHighBass * 3)
+      // console.log(this.camera.fov);
    }
 }
 

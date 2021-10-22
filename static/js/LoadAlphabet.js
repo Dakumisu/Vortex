@@ -5,23 +5,19 @@ import gsap from 'gsap'
 import { Store } from './Store' // Store
 import vertex from '../glsl/letter/vertex.glsl'
 import fragment from '../glsl/letter/fragment.glsl'
+import { Group } from 'three'
 
 class LoadAlphabet {
    constructor(opt) {
-      // this.name = opt.name // nom du model
-      // this.model = opt.model // lien du model (ex: '../assets/3D/model.glb')
-      // this.scene = opt.scene.scene
-
-      // console.log([...Store.alphabet]);
-      
-
-      // this.alphabetModel = []
-
+      this.scene = opt.scene
 
       this.loader = new GLTFLoader()
       this.dracoLoader = new DRACOLoader()
       this.dracoLoader.setDecoderPath('../assets/js/draco/')
       this.loader.setDRACOLoader(this.dracoLoader)
+
+      Store.alphabetGroup = new Group()
+      this.scene.add(Store.alphabetGroup)
 
       this.init()
    }
@@ -33,7 +29,7 @@ class LoadAlphabet {
          uniforms: {
             uTime: { value : 0 },
             uColor: { value: new THREE.Color(0xff55ff) },
-            uAlpha: { value: 1 },
+            uAlpha: { value: .75 },
             uFreq: { value: 0.5 },
             uSize: { value: 100 },
             uProgress: { value: 0 },
@@ -42,7 +38,6 @@ class LoadAlphabet {
          },
          side: THREE.DoubleSide,
          transparent: true,
-         // wireframe: true,
 
          /* pour les particules */
          depthTest: false,
@@ -52,16 +47,11 @@ class LoadAlphabet {
       
 
       for(const [key, value] of Object.entries(Store.alphabet)) {
-         // console.log(key);
-         // console.log(value);
-         
          this.loader.load(
             value.model,
             (gltf) => {
-               // console.log('success')
                value.mesh = gltf.scene.children[0]
                value.mesh.name = value.key
-               // console.log(gltf.scene.children[0])
                
                value.mesh.traverse((vertice) => {
                   if (vertice.isMesh) {
@@ -73,38 +63,9 @@ class LoadAlphabet {
    
                value.mesh.rotation.z = Math.PI * 2
                value.mesh.scale.set(rdmScale, rdmScale, rdmScale)
-
-               // this.add(value.mesh)
-            },
-            (progress) => {
-               // console.log('progress')
-               // console.log(progress)
-            },
-            (error) => {
-               // console.log('error')
-               // console.log(error)
             }
          )
       }
-
-      console.log(Store.alphabet);
-
-      // this.asyncMesh = await this.loader.loadAsync(this.model)
-      // this.modelMesh = this.asyncMesh.scene.children[0]
-      
-      // const modelMaterial = new THREE.MeshBasicMaterial()
-
-      // this.modelMesh.traverse((vertice) => {
-      //    if (vertice.isMesh) {
-      //       vertice.material = modelMaterial
-      //    }
-      // })
-
-      // this.scene.add(this.modelMesh)
-
-      // setTimeout(() => {
-      //    this.add()
-      // }, 100);
    }
 }
 

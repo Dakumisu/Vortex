@@ -6,13 +6,22 @@
 precision highp float;
 
 uniform float uTime;
-uniform float uFreq;
 uniform float uProgress;
 
-attribute vec3 aRandomPos;
-attribute vec3 aPosition;
-// attribute vec3 aTimeOffset;
-// attribute vec3 aRandomScale;
+// Sound
+uniform float uSoundLowBass;
+uniform float uSoundBass;
+uniform float uSoundHighBass;
+uniform float uSoundLowMedium;
+uniform float uSoundMedium;
+uniform float uSoundHighMedium;
+uniform float uSoundLowAcute;
+uniform float uSoundAcute;
+uniform float uSoundHighAcute;
+
+
+attribute vec3 aTorusPositions;
+attribute vec3 aVortexPositions;
 attribute vec3 aParams;
 
 varying vec2 vUv;
@@ -28,30 +37,30 @@ void main() {
    vUv = uv;
    vec3 pos = position;
    // vec3 randomPos = aRandomPos;
-   vec3 torusPos = pos + aPosition;
-   vec3 rdmPos = pos + aRandomPos;
+   vec3 torusPos = pos + aTorusPositions;
+   vec3 vortexPos = pos + aVortexPositions;
 
    float progress = mod(uTime + aParams.x * maxDuration, maxDuration) / maxDuration;
    vLoop = progress;
 
-   rdmPos.z -= -25. + ((1. - progress)) * (30. + rdmPos.z) * (1. - abs(cos(uTime * .1 + aParams.x * 70. ) - 1.) * .5);
+   // vortexPos.z -= -25. + ((1. - progress)) * (3000. + vortexPos.z) * (1. - abs(cos(uTime + aParams.x * 70. ) - 1.) * .5); // chaotic mode
+   vortexPos.z -= -25. + ((1. - progress)) * (30. + vortexPos.z) * (1. - abs(cos(uTime * .1 + aParams.x * 70.) - 1.) * .5);
+   vortexPos.x -=  .013 + (sin(uTime * 5.) * .01) * (1. - progress) * (vortexPos.x * aParams.z * 1.2) * (1. - abs(((aParams.x * .06) * (uSoundLowBass * .7)) - 1.) * .5) * (vortexPos.z * .5 * (uSoundLowBass * .03)); // For bass
+   vortexPos.y -=  .013 + (sin(uTime * 5.) * .01) * (1. - progress) * (vortexPos.y * aParams.z * 1.2) * (1. - abs(((aParams.x * .06) * (uSoundLowBass * .7)) - 1.) * .5) * (vortexPos.z * .5 * (uSoundLowBass * .03)); // For bass
 
-   torusPos.x -=  abs(.001 + (sin(uTime * 5.) * .00006) * (1. - progress) * (rdmPos.x * aParams.z) * (1. - abs(cos(uTime * aParams.z * .1 + aParams.x ) - 1.) * .1)); // For bass
-   torusPos.x +=  abs(.001 + (sin(uTime * 5.) * .00006) * (1. - progress) * (rdmPos.y * aParams.z) * (1. - abs(cos(uTime * aParams.z * .1 + aParams.x ) - 1.) * .1)); // For bass
-   torusPos.y -=  abs(.001 + (sin(uTime * 5.) * .00006) * (1. - progress) * (rdmPos.x * aParams.z) * (1. - abs(cos(uTime * aParams.z * .1 + aParams.x ) - 1.) * .1)); // For bass
-   torusPos.y +=  abs(.001 + (sin(uTime * 5.) * .00006) * (1. - progress) * (rdmPos.y * aParams.z) * (1. - abs(cos(uTime * aParams.z * .1 + aParams.x ) - 1.) * .1)); // For bass
+   torusPos.x -=  abs(.001 + (sin(uTime * 5.) * .00006) * (1. - progress) * (vortexPos.x * aParams.z) * (1. - abs(cos(uTime * aParams.z * .1 + aParams.x ) - 1.) * .1)) * uSoundLowBass + uSoundHighBass; // For bass
+   torusPos.x +=  abs(.001 + (sin(uTime * 5.) * .00006) * (1. - progress) * (vortexPos.y * aParams.z) * (1. - abs(cos(uTime * aParams.z * .1 + aParams.x ) - 1.) * .1)) * uSoundLowBass + uSoundHighBass; // For bass
+   torusPos.y -=  abs(.001 + (sin(uTime * 5.) * .00006) * (1. - progress) * (vortexPos.x * aParams.z) * (1. - abs(cos(uTime * aParams.z * .1 + aParams.x ) - 1.) * .1)) * uSoundLowBass + uSoundHighBass; // For bass
+   torusPos.y +=  abs(.001 + (sin(uTime * 5.) * .00006) * (1. - progress) * (vortexPos.y * aParams.z) * (1. - abs(cos(uTime * aParams.z * .1 + aParams.x ) - 1.) * .1)) * uSoundLowBass + uSoundHighBass; // For bass
 
-   rdmPos.x -=  .013 + (sin(uTime * 5.) * .01) * (1. - progress) * (rdmPos.x * aParams.z * 1.2) * (1. - abs(cos(uTime * .1 + aParams.x * 5. ) - 1.) * .5); // For bass
-   rdmPos.y -=  .013 + (sin(uTime * 5.) * .01) * (1. - progress) * (rdmPos.y * aParams.z * 1.2) * (1. - abs(cos(uTime * .1 + aParams.x * 5. ) - 1.) * .5); // For bass
+   vec3 renderPos = mix(torusPos, vortexPos, uProgress);
 
-   vec3 renderPos = mix(torusPos, rdmPos, uProgress);
-
-   vPos = rdmPos;
+   vPos = vortexPos;
 
    vec4 mv = modelViewMatrix * vec4(renderPos, 1.);
 
    if (uProgress < .1) {
-      mv.z += (sin(mv.z + (uTime * 10. + uFreq)) * .1);
+      mv.z += (sin(mv.z + (uTime * 10. + uSoundBass)) * .1) * abs(uSoundLowBass * 1.2);
    }
    mv.z += sin(mv.x * 3. + (uTime * 5.)) * .2 * uProgress;
    mv.z += sin(mv.y * 3. + (uTime * 5.)) * .2 * uProgress;
