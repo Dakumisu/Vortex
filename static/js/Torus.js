@@ -99,18 +99,18 @@ class Torus {
 
       this.torusMesh = new Mesh(this.geometry, this.material)
       this.torusMesh.rotation.y = Math.PI
-      this.torusMesh.position.y = -5
       this.torusMesh.frustumCulled = false
 
       this.particlesGroup = new THREE.Group()
+      this.torusMesh.position.y = -5
       this.particlesGroup.add(this.torusMesh)
 
       this.scene.scene.add(this.particlesGroup)
 
 
-      setTimeout(() => {
-         this.start()
-      }, 2500);
+
+      this.start()
+
    }
 
 

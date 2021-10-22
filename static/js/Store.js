@@ -243,30 +243,30 @@ export const Store = {
    alphabetDatas: {
       alphabetGroup: null,
       alphabetArray: [
-         null,
-         null,
-         null,
-         null,
-         null
+         {},
+         {},
+         {},
+         {},
+         {}
       ],
       letterIndex: 0,
       lettersInputLimit: 5,
-      letters: 0,
+      lettersCount: 0,
       lettersPositions: {
-         x: [
-            -2,
-            -1,
-            0,
-            1,
-            2,
-         ],
-         z: [
-            -.4,
-            -.2,
-            0,
-            -.2,
-            -.4,
-         ],
+         x: {
+            x0: [0, -2],
+            x1: [1, -1],
+            x2: [2, 0],
+            x3: [3, 1],
+            x4: [4, 2]
+         },
+         z: {
+            z0: [0, -.4],
+            z1: [1, -.2],
+            z2: [2, 0.],
+            z3: [3, -.2],
+            z4: [4, -.4],
+         },
       }
    },
 

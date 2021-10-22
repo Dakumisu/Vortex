@@ -9,6 +9,8 @@ class Letter {
       this.mouse = opt.mouse
       this.scene = opt.scene.scene
 
+      console.log(opt.mesh);
+
       this.mesh = opt.mesh.clone()
       this.meshMaterial = opt.mesh.material.clone()
       this.mesh.material = this.meshMaterial
@@ -24,10 +26,12 @@ class Letter {
 
       const randomStartPositions = this.getRandomPositions()
       
-      gsap.fromTo(this.mesh.position, 3, { x: randomStartPositions.x, ease: "Power3.easeOut" }, { x: Store.alphabetDatas.lettersPositions.x[this.mesh.uuid], ease: "Power3.easeOut" })
+      // gsap.fromTo(this.mesh.position, 3, { x: randomStartPositions.x, ease: "Power3.easeOut" }, { x: Store.alphabetDatas.lettersPositions.x[this.mesh.uuid], ease: "Power3.easeOut" })
+      gsap.fromTo(this.mesh.position, 3, { x: randomStartPositions.x, ease: "Power3.easeOut" }, { x: 0, ease: "Power3.easeOut" })
       // gsap.fromTo(this.mesh.position, 3, { y: randomStartPositions.y, ease: "Power3.easeOut" }, { y: (-.5 + Math.random()) * 10, ease: "Power3.easeOut" })
       gsap.to(this.mesh.position, 3, { y: 0, ease: "Power3.easeOut" })
-      gsap.to(this.mesh.position, 3, { z: Store.alphabetDatas.lettersPositions.z[this.mesh.uuid], ease: "Power3.easeInOut" })
+      // gsap.to(this.mesh.position, 3, { z: Store.alphabetDatas.lettersPositions.z[this.mesh.uuid], ease: "Power3.easeInOut" })
+      gsap.to(this.mesh.position, 3, { z: 1, ease: "Power3.easeInOut" })
       gsap.to(this.mesh.rotation, 2, { z: 5* (Math.PI * 2), ease: "Power3.easeOut" })
    }
 
@@ -37,7 +41,7 @@ class Letter {
       gsap.to(this.mesh.material.uniforms.uAlpha, 2, { value: 0, ease: "Power3.easeOut", onComplete: () => {
          Store.alphabetDatas.letterIndex = this.mesh.uuid
          Store.alphabetDatas.alphabetArray.splice(this.mesh.uuid, 1, null)
-         Store.alphabetDatas.letters --
+         Store.alphabetDatas.lettersCount --
          Store.alphabetDatas.alphabetGroup.remove(this.mesh)
       } })
    }

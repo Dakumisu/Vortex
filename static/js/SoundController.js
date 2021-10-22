@@ -24,17 +24,15 @@ class SoundController {
 
 
 
-      // document.querySelector('.play').addEventListener('click', () => {
-      setTimeout(() => {
+      document.querySelector('.play').addEventListener('click', () => {
          this.audioLoader.load('../assets/music/anchor.mp3', (buffer) => {
             console.log(this.sound);
             this.sound.setBuffer(buffer);
             this.sound.setLoop(false);
-            this.sound.setVolume(0.1); // Ne pas oublier de bien remettre le bon niveau de freq par rapport au volume
+            this.sound.setVolume(0.5); // Ne pas oublier de bien remettre le bon niveau de freq par rapport au volume
             this.sound.play();
          });
-      }, 6000);
-      // })
+      })
 
       this.setAudioAnalyzer(this.sound)
    }
@@ -51,7 +49,7 @@ class SoundController {
          console.log(this.buffer);
          letter.sound.setBuffer(buffer);
          letter.sound.setLoop(true);
-         letter.sound.setVolume(0.1); // Ne pas oublier de bien remettre le bon niveau de freq par rapport au volume
+         letter.sound.setVolume(0.5); // Ne pas oublier de bien remettre le bon niveau de freq par rapport au volume
          letter.sound.play();
          letter.sound.connect()
       });
@@ -86,15 +84,15 @@ class SoundController {
    getSoundDatas(datas) {
       const range = datas.length / 8
 
-      Store.sound.freqDatas.uSoundLowBass = datas[range * 0] * 20
-      Store.sound.freqDatas.uSoundBass = datas[range * 1] * 20
-      Store.sound.freqDatas.uSoundHighBass = datas[range * 2] * 20
-      Store.sound.freqDatas.uSoundLowMedium = datas[range * 3] * 20
-      Store.sound.freqDatas.uSoundMedium = datas[range * 4] * 20
-      Store.sound.freqDatas.uSoundHighMedium = datas[range * 5] * 20
-      Store.sound.freqDatas.uSoundLowAcute = datas[range * 6] * 20
-      Store.sound.freqDatas.uSoundAcute = datas[range * 7] * 20
-      Store.sound.freqDatas.uSoundHighAcute = datas[range * 8 - 1] * 20
+      Store.sound.freqDatas.uSoundLowBass = datas[range * 0] * 5
+      Store.sound.freqDatas.uSoundBass = datas[range * 1] * 5
+      Store.sound.freqDatas.uSoundHighBass = datas[range * 2] * 5
+      Store.sound.freqDatas.uSoundLowMedium = datas[range * 3] * 5
+      Store.sound.freqDatas.uSoundMedium = datas[range * 4] * 5
+      Store.sound.freqDatas.uSoundHighMedium = datas[range * 5] * 5
+      Store.sound.freqDatas.uSoundLowAcute = datas[range * 6] * 5
+      Store.sound.freqDatas.uSoundAcute = datas[range * 7] * 5
+      Store.sound.freqDatas.uSoundHighAcute = datas[range * 8 - 1] * 5
    }
    
    update(time) {

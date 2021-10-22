@@ -69,7 +69,7 @@ document.addEventListener('keydown', e => {
     if (key.match(regex)) {
         if (key.match(regex).input.length && key.match(regex).input.length == 1) {
             if (!Store.alphabet[key].state) {
-                if (Store.alphabetDatas.letters < Store.alphabetDatas.lettersInputLimit) {
+                if (Store.alphabetDatas.lettersCount < Store.alphabetDatas.lettersInputLimit) {
                     Store.alphabet[key].state = true
                     Store.alphabet[key].instance = new Letter({
                         id: Store.alphabetDatas.letterIndex,
@@ -78,18 +78,21 @@ document.addEventListener('keydown', e => {
                         mouse: mouse.mouseScene
                     })
 
+                    console.log(Store.alphabet[key].instance);
+
                     soundController.addSample(Store.alphabet[key])
 
                     for (let i = 0; i < Store.alphabetDatas.alphabetArray.length; i++) {
                         console.log(Store.alphabetDatas.alphabetArray[i]);
                         if (Store.alphabetDatas.alphabetArray[i] === null) {
-                            Store.alphabetDatas.alphabetArray.splice(Store.alphabetDatas.letterIndex, 1, Store.alphabet[key].instance)
+                            Store.alphabetDatas.alphabetArray[i] = Store.alphabet[key].instance
                             // Store.alphabetDatas.alphabetArray[i].find(letterName => letterName == )
                             Store.alphabetDatas.letterIndex ++
-                            Store.alphabetDatas.letters ++
-                            console.log('here');
+                            Store.alphabetDatas.lettersCount ++
+                            console.log('here app');
                             return
                         }
+                        console.log(Store.alphabetDatas.alphabetArray[i]);
                     }
                 }
             } else {
@@ -98,7 +101,7 @@ document.addEventListener('keydown', e => {
                 console.log(Store.alphabet[key].instance);
             }
         }
-        console.log(Store.alphabetDatas.alphabetArray);
+        console.log(Store.alphabetDatas.alphabetArray.length);
     }
 })
 
@@ -117,12 +120,6 @@ document.querySelector('.expand').addEventListener('click', () => {
         torus.expand(expand)
     }
 })
-
-setTimeout(() => {
-    gsap.to(Store.params.pp.aip, 1, { damp: .825, esae: "Power.easeInOut" })
-    expand = true
-    torus.expand(expand)
-}, 10000);
 
 document.querySelector('.webgl').addEventListener('mousedown', e => {
     Store.mouseDown = true
@@ -168,14 +165,16 @@ function raf() {
         scene.update()
     
         scene.camera.updateProjectionMatrix();
-    
-        if (Store.alphabetDatas.alphabetArray.length) {
-            Store.alphabetDatas.alphabetArray.forEach(letter => {
-                if (letter !== null) {
-                    letter.update(elapsedTime)
-                }
-            })
-        }
+
+        // console.log(Store.alphabetDatas.lettersPositions.x);
+
+        // if (Store.alphabetDatas.alphabetArray.length) {
+        //     Store.alphabetDatas.alphabetArray.forEach(letter => {
+        //         if (letter !== null) {
+        //             letter.update(elapsedTime)
+        //         }
+        //     })
+        // }
     // }
 
     renderPostProc ? scene.composer.render(): scene.renderer.render(scene.scene, scene.camera)
