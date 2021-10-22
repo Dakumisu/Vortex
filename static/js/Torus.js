@@ -60,8 +60,6 @@ class Torus {
          this.params[i + 1] = THREE.MathUtils.randFloat(.7, 1.3) // Random Scale
          this.params[i + 2] = spinAngle // Angle
       }
-
-      // console.log(this.params);
       
       this.material = new THREE.ShaderMaterial({
          vertexShader: vertex,
@@ -88,7 +86,6 @@ class Torus {
          },
          side: THREE.DoubleSide,
          transparent: true,
-         // wireframe: true,
 
          /* pour les particules */
          depthTest: false,
@@ -109,7 +106,7 @@ class Torus {
 
       this.scene.scene.add(this.particlesGroup)
 
-      // this.start()
+      this.start()
    }
 
 
@@ -121,14 +118,12 @@ class Torus {
    expand(bool) {
       if (bool) {
          gsap.to(this.torusMesh.scale, .5, { x: 0, y: 0, z: 0, ease: "Expo.easeInOut"})
-         // gsap.to(this.torusMesh.rotation, 0, { y: .5 * (Math.PI * 2), ease: "Power3.easeOut", delay: .5})
          gsap.to(this.torusMesh.scale, .3, { x: 1, y: 1, z: 1, ease: "Expo.easeInOut", delay: .5})
          gsap.to(this.torusMesh.material.uniforms.uProgress, 1.1, { value: .75, ease: "Expo.easeInOut", delay: .4})
          gsap.to(this.torusMesh.material.uniforms.uAlpha, 1.1, { value: this.vortexAlpha, ease: "Expo.easeInOut", delay: .4})
       } else {
          gsap.to(this.torusMesh.material.uniforms.uProgress, 2, { value: 0, ease: "Expo.easeOut"})
          gsap.to(this.torusMesh.material.uniforms.uAlpha, 1.1, { value: this.torusAlpha, ease: "Expo.easeInOut", delay: .4})
-         // gsap.from(this.torusMesh.rotation, 1, { y: .5 * (Math.PI * 2), ease: "Power3.easeOut", delay: 1})
       }
    }
 
@@ -152,14 +147,7 @@ class Torus {
    update(et, dt) {
       this.torusMesh.rotation.z = (et * 1.75) * - Math.PI * .1
       this.particlesGroup.rotation.z += -Math.abs(Store.sound.freqDatas.uSoundHighMedium * .02) * - Math.PI * .1
-      // gsap.to(this.torusMesh.rotation, .1, { z: et *.5 + Store.sound.freq * .001, ease: "Power3.easeOut" })
-      const rdmScale = 5 + Math.random()
       this.torusMesh.material.uniforms.uTime.value = et
-      
-      // this.variations.volume.target = Store.sound.freq
-      // const easing = this.variations.volume.target > this.variations.volume.current ? this.variations.volume.upEasing : this.variations.volume.downEasing
-      // this.variations.volume.current += (this.variations.volume.target - this.variations.volume.current) * easing
-
       
       for(const [key, value] of Object.entries(Store.sound.freqDatas)) {
          this.torusMesh.material.uniforms[key].value = value

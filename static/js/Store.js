@@ -141,7 +141,6 @@ export const Store = {
 
    // Sound control
    sound: {
-      freq: 0,
       freqDatas: {
          uSoundLowBass: 0,
          uSoundBass: 0,
@@ -169,6 +168,7 @@ export const Store = {
             amount: .0011
          },
       },
-      mouseDown: false
+      mouseDown: false,
+      experienceStarted: false
    }
 }

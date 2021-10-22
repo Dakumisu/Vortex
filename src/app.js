@@ -4,7 +4,7 @@ import * as THREE from 'three' // https://threejs.org/docs/
 import { TweenLite, TweenMax, gsap } from 'gsap' // https://greensock.com/docs/
 import howlerjs from 'howler' // https://github.com/goldfire/howler.js#documentation
 
-import SoundCloudAPI from '../static/js/SoundCloudAPI' // Soundcloud API
+// import SoundCloudAPI from '../static/js/SoundCloudAPI' // Soundcloud API
 
 import { Store } from '../static/js/Store' // Store
 import Scene from '../static/js/Scene' // Création de la scène + renderer + camera
@@ -24,7 +24,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 
 // const settings = new Settings()
 
-new SoundCloudAPI()
+// new SoundCloudAPI()
 
 const scene = new Scene({
     canvas: document.querySelector('.webgl'),
@@ -39,13 +39,13 @@ const torus = new Torus({
     mouse: mouse.mouseScene
 })
 
-const soundController = new SoundController({
-    camera: scene.camera
-})
+// const soundController = new SoundController({
+//     camera: scene.camera
+// })
 
-new LoadAlphabet({
-    scene: scene.scene
-})
+// new LoadAlphabet({
+//     scene: scene.scene
+// })
 
 // const control = new Control({
 //     camera: scene.camera,
@@ -62,14 +62,9 @@ document.querySelector('.webgl').addEventListener('touchstart', e => {
 })
 
 document.addEventListener('keydown', e => {
-    // console.log(`${e.key} touch pressed`)
-    // console.log(e);
-
     const key = e.key.toLowerCase()
     const regex = /[a-zA-Z]/
     const checkKey =  e.getModifierState(key)
-
-    // console.log(key.match(regex));
 
     if (key.match(regex)) {
         if (key.match(regex).input.length && key.match(regex).input.length == 1) {
@@ -82,17 +77,6 @@ document.addEventListener('keydown', e => {
             Store.letterIndex ++
         }
     }
-
-
-    // if (e.key == 'a') {
-    //     const newLetter = new LoadModel({
-    //         name: 'alphabet_a',
-    //         model: '../assets/3D/alphabet/a.glb',
-    //         scene: scene,
-    //     })
-    //     // newLetter.add()
-    //     alphabet.push(newLetter)
-    // }
 })
 
 let renderPostProc = true
@@ -149,24 +133,21 @@ function raf() {
     const elapsedTime = scene.clock.getElapsedTime()
     const lowestElapsedTime = elapsedTime / 11
 
-    soundController.update()
-    scene.update()
     torus.update(elapsedTime, deltaTime)
-
-    scene.camera.updateProjectionMatrix();
-
-    if (Store.alphabetArray.length) {
-        Store.alphabetArray.forEach(letter => {
-            // console.log(letter);
-            if (letter !== null) {
-                letter.update(elapsedTime)
-            }
-        })
+    if (Store.params.experienceStarted) {
+        soundController.update()
+        scene.update()
+    
+        scene.camera.updateProjectionMatrix();
+    
+        if (Store.alphabetArray.length) {
+            Store.alphabetArray.forEach(letter => {
+                if (letter !== null) {
+                    letter.update(elapsedTime)
+                }
+            })
+        }
     }
-
-    // if (Store.mouseDown) {
-
-    // }
 
     renderPostProc ? scene.composer.render(): scene.renderer.render(scene.scene, scene.camera)
     

@@ -52,22 +52,7 @@ class SoundController {
 
       this.analyserNode.analyser.getFloatTimeDomainData(this.pcmData)
 
-      // console.log(this.pcmData);
-
-      let sumSquares = 0
-      for (const amplitude of this.pcmData) {
-         sumSquares += amplitude * amplitude
-      }
-
       this.getSoundDatas(this.pcmData)
-
-      // for(const [key, value] of Object.entries(Store.sound.freqDatas)) {
-      //    console.log(key, value);
-      // }
-
-      this.volume = Math.sqrt(sumSquares / this.pcmData.length)
-
-      Store.sound.freq = this.volume * 200
    }
 }
 
