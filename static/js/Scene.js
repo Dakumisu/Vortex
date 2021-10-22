@@ -77,7 +77,7 @@ class Scene {
    }
 
    update() {
-      this.composer.passes[1].uniforms.damp.value = Store.params.pp.aip.damp + Math.abs(Store.sound.freqDatas.uSoundLowBass * .04)
+      this.composer.passes[1].uniforms.damp.value = Store.params.pp.aip.damp + Math.abs(Store.sound.freqDatas.uSoundLowBass * .02)
       this.composer.passes[2].uniforms.amount.value = Store.params.pp.rgbShift.amount + Math.abs(Store.sound.freqDatas.uSoundAcute * .0008)
       // this.camera.fov = 75 + Math.abs(Store.sound.freqDatas.uSoundHighBass * 3)
       // console.log(this.camera.fov);

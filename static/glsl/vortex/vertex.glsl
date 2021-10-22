@@ -63,7 +63,9 @@ void main() {
       mv.z += (sin(mv.z + (uTime * 10. + uSoundBass)) * .1) * abs(uSoundLowBass * 1.2);
    }
    mv.z += sin(mv.x * 3. + (uTime * 5.)) * .2 * uProgress;
+   mv.z += sin(-mv.x * 3. + (uTime * 5.)) * .2 * uProgress;
    mv.z += sin(mv.y * 3. + (uTime * 5.)) * .2 * uProgress;
+   mv.z += sin(-mv.y * 3. + (uTime * 5.)) * .2 * uProgress;
    vModelViewMatrix = mv;
    gl_Position = projectionMatrix * mv;
 }

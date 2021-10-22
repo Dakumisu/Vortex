@@ -99,6 +99,7 @@ class Torus {
 
       this.torusMesh = new Mesh(this.geometry, this.material)
       this.torusMesh.rotation.y = Math.PI
+      this.torusMesh.position.y = -5
       this.torusMesh.frustumCulled = false
 
       this.particlesGroup = new THREE.Group()
@@ -106,12 +107,15 @@ class Torus {
 
       this.scene.scene.add(this.particlesGroup)
 
-      this.start()
+
+      setTimeout(() => {
+         this.start()
+      }, 2500);
    }
 
 
    start() {
-      gsap.from(this.torusMesh.position, 4, { y: -5, ease: "Power3.easeInOut" })
+      gsap.to(this.torusMesh.position, 4, { y: 0, ease: "Power3.easeInOut" })
       gsap.to(this.torusMesh.rotation, 2, { y: -.5 * (Math.PI * 2), ease: "Power3.easeOut", delay: 2 })
    }
    
@@ -146,7 +150,7 @@ class Torus {
 
    update(et, dt) {
       this.torusMesh.rotation.z = (et * 1.75) * - Math.PI * .1
-      this.particlesGroup.rotation.z += -Math.abs(Store.sound.freqDatas.uSoundHighMedium * .02) * - Math.PI * .1
+      this.particlesGroup.rotation.z += -Math.abs(Store.sound.freqDatas.uSoundHighMedium * .03) * - Math.PI * .1
       this.torusMesh.material.uniforms.uTime.value = et
       
       for(const [key, value] of Object.entries(Store.sound.freqDatas)) {

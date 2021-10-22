@@ -39,13 +39,13 @@ const torus = new Torus({
     mouse: mouse.mouseScene
 })
 
-// const soundController = new SoundController({
-//     camera: scene.camera
-// })
+const soundController = new SoundController({
+    camera: scene.camera
+})
 
-// new LoadAlphabet({
-//     scene: scene.scene
-// })
+new LoadAlphabet({
+    scene: scene.scene
+})
 
 // const control = new Control({
 //     camera: scene.camera,
@@ -55,7 +55,7 @@ const torus = new Torus({
 
 document.querySelector('.webgl').addEventListener('touchstart', e => {
     const letters = 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * 25))
-    Store.alphabetArray.push(new Letter({
+    Store.alphabetDatas.alphabetArray.push(new Letter({
         scene: scene,
         mesh: Store.alphabet[letters].mesh
     }))
@@ -68,14 +68,37 @@ document.addEventListener('keydown', e => {
 
     if (key.match(regex)) {
         if (key.match(regex).input.length && key.match(regex).input.length == 1) {
-            Store.alphabetArray.push(new Letter({
-                id: Store.letterIndex,
-                scene: scene,
-                mesh: Store.alphabet[key].mesh,
-                mouse: mouse.mouseScene
-            }))
-            Store.letterIndex ++
+            if (!Store.alphabet[key].state) {
+                if (Store.alphabetDatas.letters < Store.alphabetDatas.lettersInputLimit) {
+                    Store.alphabet[key].state = true
+                    Store.alphabet[key].instance = new Letter({
+                        id: Store.alphabetDatas.letterIndex,
+                        scene: scene,
+                        mesh: Store.alphabet[key].mesh,
+                        mouse: mouse.mouseScene
+                    })
+
+                    soundController.addSample(Store.alphabet[key])
+
+                    for (let i = 0; i < Store.alphabetDatas.alphabetArray.length; i++) {
+                        console.log(Store.alphabetDatas.alphabetArray[i]);
+                        if (Store.alphabetDatas.alphabetArray[i] === null) {
+                            Store.alphabetDatas.alphabetArray.splice(Store.alphabetDatas.letterIndex, 1, Store.alphabet[key].instance)
+                            // Store.alphabetDatas.alphabetArray[i].find(letterName => letterName == )
+                            Store.alphabetDatas.letterIndex ++
+                            Store.alphabetDatas.letters ++
+                            console.log('here');
+                            return
+                        }
+                    }
+                }
+            } else {
+                Store.alphabet[key].state = false
+                Store.alphabet[key].instance.remove()
+                console.log(Store.alphabet[key].instance);
+            }
         }
+        console.log(Store.alphabetDatas.alphabetArray);
     }
 })
 
@@ -87,13 +110,19 @@ document.querySelector('.expand').addEventListener('click', () => {
         expand = false
         torus.expand(expand)
         
-        gsap.to(Store.params.pp.aip, 1, { damp: .8, esae: "Power.easeInOut" })
+        gsap.to(Store.params.pp.aip, 1, { damp: .75, esae: "Power.easeInOut" })
     } else {
-        gsap.to(Store.params.pp.aip, 1, { damp: .875, esae: "Power.easeInOut" })
+        gsap.to(Store.params.pp.aip, 1, { damp: .825, esae: "Power.easeInOut" })
         expand = true
         torus.expand(expand)
     }
 })
+
+setTimeout(() => {
+    gsap.to(Store.params.pp.aip, 1, { damp: .825, esae: "Power.easeInOut" })
+    expand = true
+    torus.expand(expand)
+}, 10000);
 
 document.querySelector('.webgl').addEventListener('mousedown', e => {
     Store.mouseDown = true
@@ -134,20 +163,20 @@ function raf() {
     const lowestElapsedTime = elapsedTime / 11
 
     torus.update(elapsedTime, deltaTime)
-    if (Store.params.experienceStarted) {
+    // if (Store.params.experienceStarted) {
         soundController.update()
         scene.update()
     
         scene.camera.updateProjectionMatrix();
     
-        if (Store.alphabetArray.length) {
-            Store.alphabetArray.forEach(letter => {
+        if (Store.alphabetDatas.alphabetArray.length) {
+            Store.alphabetDatas.alphabetArray.forEach(letter => {
                 if (letter !== null) {
                     letter.update(elapsedTime)
                 }
             })
         }
-    }
+    // }
 
     renderPostProc ? scene.composer.render(): scene.renderer.render(scene.scene, scene.camera)
     

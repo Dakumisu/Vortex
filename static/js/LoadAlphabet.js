@@ -16,8 +16,8 @@ class LoadAlphabet {
       this.dracoLoader.setDecoderPath('../assets/js/draco/')
       this.loader.setDRACOLoader(this.dracoLoader)
 
-      Store.alphabetGroup = new Group()
-      this.scene.add(Store.alphabetGroup)
+      Store.alphabetDatas.alphabetGroup = new Group()
+      this.scene.add(Store.alphabetDatas.alphabetGroup)
 
       this.init()
    }

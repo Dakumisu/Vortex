@@ -1,4 +1,5 @@
 const modelLinkBase = `../assets/3D/alphabet/`
+const sampleLinkBase = `../assets/music/sample/`
 
 export const Store = {
    // 3D Alphabet
@@ -6,138 +7,268 @@ export const Store = {
       a: {
          key: 'a',
          mesh: null,
-         model: `${modelLinkBase}a.glb`
+         instance: null,
+         model: `${modelLinkBase}a.glb`,
+         state: false,
+         sample: `${sampleLinkBase}a.wav`,
+         audio: null
       },
       b: {
          key: 'b',
          mesh: null,
-         model: `${modelLinkBase}b.glb`
+         instance: null,
+         model: `${modelLinkBase}b.glb`,
+         state: false,
+         sample: `${sampleLinkBase}b.wav`,
+         audio: null
       },
       c: {
          key: 'c',
          mesh: null,
-         model: `${modelLinkBase}c.glb`
+         instance: null,
+         model: `${modelLinkBase}c.glb`,
+         state: false,
+         sample: `${sampleLinkBase}c.wav`,
+         audio: null
       },
       d: {
          key: 'd',
          mesh: null,
-         model: `${modelLinkBase}d.glb`
+         instance: null,
+         model: `${modelLinkBase}d.glb`,
+         state: false,
+         sample: `${sampleLinkBase}d.wav`,
+         audio: null
       },
       e: {
          key: 'e',
          mesh: null,
-         model: `${modelLinkBase}e.glb`
+         instance: null,
+         model: `${modelLinkBase}e.glb`,
+         state: false,
+         sample: `${sampleLinkBase}e.wav`,
+         audio: null
       },
       f: {
          key: 'f',
          mesh: null,
-         model: `${modelLinkBase}f.glb`
+         instance: null,
+         model: `${modelLinkBase}f.glb`,
+         state: false,
+         sample: `${sampleLinkBase}f.wav`,
+         audio: null
       },
       g: {
          key: 'g',
          mesh: null,
-         model: `${modelLinkBase}g.glb`
+         instance: null,
+         model: `${modelLinkBase}g.glb`,
+         state: false,
+         sample: `${sampleLinkBase}g.wav`,
+         audio: null
       },
       h: {
          key: 'h',
          mesh: null,
-         model: `${modelLinkBase}h.glb`
+         instance: null,
+         model: `${modelLinkBase}h.glb`,
+         state: false,
+         sample: `${sampleLinkBase}h.wav`,
+         audio: null
       },
       i: {
          key: 'i',
          mesh: null,
-         model: `${modelLinkBase}i.glb`
+         instance: null,
+         model: `${modelLinkBase}i.glb`,
+         state: false,
+         sample: `${sampleLinkBase}i.wav`,
+         audio: null
       },
       j: {
          key: 'j',
          mesh: null,
-         model: `${modelLinkBase}j.glb`
+         instance: null,
+         model: `${modelLinkBase}j.glb`,
+         state: false,
+         sample: `${sampleLinkBase}j.wav`,
+         audio: null
       },
       k: {
          key: 'k',
          mesh: null,
-         model: `${modelLinkBase}k.glb`
+         instance: null,
+         model: `${modelLinkBase}k.glb`,
+         state: false,
+         sample: `${sampleLinkBase}k.wav`,
+         audio: null
       },
       l: {
          key: 'l',
          mesh: null,
-         model: `${modelLinkBase}l.glb`
+         instance: null,
+         model: `${modelLinkBase}l.glb`,
+         state: false,
+         sample: `${sampleLinkBase}l.wav`,
+         audio: null
       },
       m: {
          key: 'm',
          mesh: null,
-         model: `${modelLinkBase}m.glb`
+         instance: null,
+         model: `${modelLinkBase}m.glb`,
+         state: false,
+         sample: `${sampleLinkBase}m.wav`,
+         audio: null
       },
       n: {
          key: 'n',
          mesh: null,
-         model: `${modelLinkBase}n.glb`
+         instance: null,
+         model: `${modelLinkBase}n.glb`,
+         state: false,
+         sample: `${sampleLinkBase}n.wav`,
+         audio: null
       },
       o: {
          key: 'o',
          mesh: null,
-         model: `${modelLinkBase}o.glb`
+         instance: null,
+         model: `${modelLinkBase}o.glb`,
+         state: false,
+         sample: `${sampleLinkBase}o.wav`,
+         audio: null
       },
       p: {
          key: 'p',
          mesh: null,
-         model: `${modelLinkBase}p.glb`
+         instance: null,
+         model: `${modelLinkBase}p.glb`,
+         state: false,
+         sample: `${sampleLinkBase}p.wav`,
+         audio: null
       },
       q: {
          key: 'q',
          mesh: null,
-         model: `${modelLinkBase}q.glb`
+         instance: null,
+         model: `${modelLinkBase}q.glb`,
+         state: false,
+         sample: `${sampleLinkBase}q.wav`,
+         audio: null
       },
       r: {
          key: 'r',
          mesh: null,
-         model: `${modelLinkBase}r.glb`
+         instance: null,
+         model: `${modelLinkBase}r.glb`,
+         state: false,
+         sample: `${sampleLinkBase}r.wav`,
+         audio: null
       },
       s: {
          key: 's',
          mesh: null,
-         model: `${modelLinkBase}s.glb`
+         instance: null,
+         model: `${modelLinkBase}s.glb`,
+         state: false,
+         sample: `${sampleLinkBase}s.wav`,
+         audio: null
       },
       t: {
          key: 't',
          mesh: null,
-         model: `${modelLinkBase}t.glb`
+         instance: null,
+         model: `${modelLinkBase}t.glb`,
+         state: false,
+         sample: `${sampleLinkBase}t.wav`,
+         audio: null
       },
       u: {
          key: 'u',
          mesh: null,
-         model: `${modelLinkBase}u.glb`
+         instance: null,
+         model: `${modelLinkBase}u.glb`,
+         state: false,
+         sample: `${sampleLinkBase}u.wav`,
+         audio: null
       },
       v: {
          key: 'v',
          mesh: null,
-         model: `${modelLinkBase}v.glb`
+         instance: null,
+         model: `${modelLinkBase}v.glb`,
+         state: false,
+         sample: `${sampleLinkBase}v.wav`,
+         audio: null
       },
       w: {
          key: 'w',
          mesh: null,
-         model: `${modelLinkBase}w.glb`
+         instance: null,
+         model: `${modelLinkBase}w.glb`,
+         state: false,
+         sample: `${sampleLinkBase}w.wav`,
+         audio: null
       },
       x: {
          key: 'x',
          mesh: null,
-         model: `${modelLinkBase}x.glb`
+         instance: null,
+         model: `${modelLinkBase}x.glb`,
+         state: false,
+         sample: `${sampleLinkBase}x.wav`,
+         audio: null
       },
       y: {
          key: 'y',
          mesh: null,
-         model: `${modelLinkBase}y.glb`
+         instance: null,
+         model: `${modelLinkBase}y.glb`,
+         state: false,
+         sample: `${sampleLinkBase}y.wav`,
+         audio: null
       },
       z: {
          key: 'z',
          mesh: null,
-         model: `${modelLinkBase}z.glb`
+         instance: null,
+         model: `${modelLinkBase}z.glb`,
+         state: false,
+         sample: `${sampleLinkBase}z.wav`,
+         audio: null
       },
    },
 
-   alphabetGroup: null,
-   alphabetArray: [],
-   letterIndex: 0,
+   alphabetDatas: {
+      alphabetGroup: null,
+      alphabetArray: [
+         null,
+         null,
+         null,
+         null,
+         null
+      ],
+      letterIndex: 0,
+      lettersInputLimit: 5,
+      letters: 0,
+      lettersPositions: {
+         x: [
+            -2,
+            -1,
+            0,
+            1,
+            2,
+         ],
+         z: [
+            -.4,
+            -.2,
+            0,
+            -.2,
+            -.4,
+         ],
+      }
+   },
 
    // Sound control
    sound: {
@@ -162,7 +293,7 @@ export const Store = {
       },
       pp: {
          aip: {
-            damp: .8
+            damp: .75
          },
          rgbShift: {
             amount: .0011
