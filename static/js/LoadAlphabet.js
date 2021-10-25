@@ -59,10 +59,10 @@ class LoadAlphabet {
                   }
                })
    
-               const rdmScale = .5 + Math.random() * .5
+               // const rdmScale = .5 + Math.random() * .5
    
                value.mesh.rotation.z = Math.PI * 2
-               value.mesh.scale.set(rdmScale, rdmScale, rdmScale)
+               // value.mesh.scale.set(rdmScale, rdmScale, rdmScale)
             }
          )
       }

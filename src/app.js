@@ -70,38 +70,42 @@ document.addEventListener('keydown', e => {
         if (key.match(regex).input.length && key.match(regex).input.length == 1) {
             if (!Store.alphabet[key].state) {
                 if (Store.alphabetDatas.lettersCount < Store.alphabetDatas.lettersInputLimit) {
+                    Store.alphabetDatas.lettersCount ++
+                    let currentIndex
+                    for (let i = 0; i < Store.alphabetDatas.availableIndex.length; i++) {
+                        if (Store.alphabetDatas.availableIndex[i] != null) {
+                            currentIndex = Store.alphabetDatas.availableIndex[i]
+                            Store.alphabetDatas.availableIndex.splice(i, 1, null)
+                            break
+                        }
+                    }
+
                     Store.alphabet[key].state = true
+                    Store.alphabet[key].id = currentIndex
                     Store.alphabet[key].instance = new Letter({
-                        id: Store.alphabetDatas.letterIndex,
+                        id: currentIndex,
+                        name: Store.alphabet[key].key,
                         scene: scene,
                         mesh: Store.alphabet[key].mesh,
                         mouse: mouse.mouseScene
                     })
 
-                    console.log(Store.alphabet[key].instance);
 
                     soundController.addSample(Store.alphabet[key])
 
                     for (let i = 0; i < Store.alphabetDatas.alphabetArray.length; i++) {
-                        console.log(Store.alphabetDatas.alphabetArray[i]);
                         if (Store.alphabetDatas.alphabetArray[i] === null) {
                             Store.alphabetDatas.alphabetArray[i] = Store.alphabet[key].instance
-                            // Store.alphabetDatas.alphabetArray[i].find(letterName => letterName == )
-                            Store.alphabetDatas.letterIndex ++
-                            Store.alphabetDatas.lettersCount ++
-                            console.log('here app');
                             return
                         }
-                        console.log(Store.alphabetDatas.alphabetArray[i]);
                     }
                 }
             } else {
                 Store.alphabet[key].state = false
                 Store.alphabet[key].instance.remove()
-                console.log(Store.alphabet[key].instance);
+                soundController.removeSample(Store.alphabet[key])
             }
         }
-        console.log(Store.alphabetDatas.alphabetArray.length);
     }
 })
 
@@ -124,8 +128,8 @@ document.querySelector('.expand').addEventListener('click', () => {
 document.querySelector('.webgl').addEventListener('mousedown', e => {
     Store.mouseDown = true
     if (e.which == 1) {
-        gsap.to(scene.camera, 1, { fov: 45, ease: "Power3.easeInOut" })
-        gsap.to(scene.camera.position, 1, { z: 6, ease: "Power3.easeInOut" })
+        gsap.to(scene.camera, 1, { fov: 35, ease: "Power3.easeInOut" })
+        gsap.to(scene.camera.position, 1, { z: 4.25, ease: "Power3.easeInOut" })
     } else if (e.which == 3) {
         gsap.to(scene.camera, 1, { fov: 145, ease: "Power3.easeInOut" })
         gsap.to(scene.camera.position, 1, { z: 0.1, ease: "Power3.easeInOut" })
@@ -168,13 +172,13 @@ function raf() {
 
         // console.log(Store.alphabetDatas.lettersPositions.x);
 
-        // if (Store.alphabetDatas.alphabetArray.length) {
-        //     Store.alphabetDatas.alphabetArray.forEach(letter => {
-        //         if (letter !== null) {
-        //             letter.update(elapsedTime)
-        //         }
-        //     })
-        // }
+        if (Store.alphabetDatas.alphabetArray.length) {
+            Store.alphabetDatas.alphabetArray.forEach(letter => {
+                if (letter !== null) {
+                    letter.update(elapsedTime)
+                }
+            })
+        }
     // }
 
     renderPostProc ? scene.composer.render(): scene.renderer.render(scene.scene, scene.camera)

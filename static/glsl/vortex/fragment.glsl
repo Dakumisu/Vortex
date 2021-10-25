@@ -31,13 +31,14 @@ void main() {
     strength *= vRandomScale;
   }
 
-  vec3 color = (uColor * (.5 + uProgress)) * (strength * .5);
-  color *= smoothstep(.5, 8., color);
-  color += ((2. + (abs((uSoundHighAcute * .6 )* uProgress) + abs(uSoundLowBass * 1.4) * .2 * uProgress) * (vPos * .2)) * 3.2) * (color * (vPos * .02) * .5) * 1.1;
+  vec3 color = (uColor * (.5 + uProgress)) * (strength * .7);
+  color *= smoothstep(.5, 6., color);
+  // color += ((2. + (abs((uSoundHighAcute * .6 )* uProgress) + abs(uSoundLowBass * .4) * .2 * uProgress) * (vPos * .2)) * 3.2) * (color * (vPos * .02) * .5) * 1.1;
+  color += (((1. * uProgress) + (abs((uSoundMedium * .4 ) * uProgress) * abs(uSoundLowBass * .2) * .5 * uProgress) * vPos * 1.1) * (color * (vPos * .2) * .3) * 1.1);
 
-  float alpha = smoothstep(1., .9, vLoop) * smoothstep(.9, 1., vLoop) * (vPos.z * 2. + uAlpha);
-  alpha *= (uAlpha * abs(uSoundHighAcute)) * (strength * .5) * vLoop;
-  alpha *= abs(.5 - uProgress) * vRandomScale;
+  float alpha = smoothstep(1., .01, vLoop) * smoothstep(.01, .8, vLoop) * (vPos.z * 5. + (uAlpha * 2.));
+  alpha += (uAlpha * (1. + (abs((uSoundMedium + uSoundAcute) * .5))));
+  alpha -= .5 * (abs(.1 - uProgress) * (vRandomScale * .6));
 
-  gl_FragColor = vec4(color, alpha + 1.);
+  gl_FragColor = vec4(color, alpha);
 }

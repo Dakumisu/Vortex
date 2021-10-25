@@ -6,15 +6,14 @@ import { Vector2 } from 'three'
 class Letter {
    constructor(opt) {
       this.id = opt.id
+      this.name = opt.name
       this.mouse = opt.mouse
       this.scene = opt.scene.scene
 
-      console.log(opt.mesh);
-
-      this.mesh = opt.mesh.clone()
-      this.meshMaterial = opt.mesh.material.clone()
-      this.mesh.material = this.meshMaterial
-      this.mesh.uuid = this.id
+      this.letterMesh = opt.mesh.clone()
+      this.letterMaterial = opt.mesh.material.clone()
+      this.letterMesh.material = this.letterMaterial
+      this.letterMesh.uuid = this.id
       
       this.target = new Vector2(0, 0)
 
@@ -22,27 +21,25 @@ class Letter {
    }
 
    add() {
-      Store.alphabetDatas.alphabetGroup.add(this.mesh)
+      Store.alphabetDatas.alphabetGroup.add(this.letterMesh)
 
       const randomStartPositions = this.getRandomPositions()
       
-      // gsap.fromTo(this.mesh.position, 3, { x: randomStartPositions.x, ease: "Power3.easeOut" }, { x: Store.alphabetDatas.lettersPositions.x[this.mesh.uuid], ease: "Power3.easeOut" })
-      gsap.fromTo(this.mesh.position, 3, { x: randomStartPositions.x, ease: "Power3.easeOut" }, { x: 0, ease: "Power3.easeOut" })
-      // gsap.fromTo(this.mesh.position, 3, { y: randomStartPositions.y, ease: "Power3.easeOut" }, { y: (-.5 + Math.random()) * 10, ease: "Power3.easeOut" })
-      gsap.to(this.mesh.position, 3, { y: 0, ease: "Power3.easeOut" })
-      // gsap.to(this.mesh.position, 3, { z: Store.alphabetDatas.lettersPositions.z[this.mesh.uuid], ease: "Power3.easeInOut" })
-      gsap.to(this.mesh.position, 3, { z: 1, ease: "Power3.easeInOut" })
-      gsap.to(this.mesh.rotation, 2, { z: 5* (Math.PI * 2), ease: "Power3.easeOut" })
+      gsap.fromTo(this.letterMesh.position, 3, { x: randomStartPositions.x, ease: "Power3.easeOut" }, { x: Store.alphabetDatas.lettersPositions.x[this.letterMesh.uuid], ease: "Power3.easeOut" })
+      gsap.fromTo(this.letterMesh.position, 3, { y: randomStartPositions.y, ease: "Power3.easeOut" }, { y: 0, ease: "Power3.easeOut" })
+      gsap.to(this.letterMesh.position, 3, { z: Store.alphabetDatas.lettersPositions.z[this.letterMesh.uuid], ease: "Power3.easeInOut" })
+      gsap.to(this.letterMesh.rotation, 2, { z: 5* (Math.PI * 2), ease: "Power3.easeOut" })
    }
 
    remove() {
-      gsap.to(this.mesh.rotation, 2, { z: 2* (Math.PI * 2), ease: "Power3.easeInOut" })
-      gsap.to(this.mesh.position, 3, { z: -100, ease: "Power3.easeInOut" })
-      gsap.to(this.mesh.material.uniforms.uAlpha, 2, { value: 0, ease: "Power3.easeOut", onComplete: () => {
-         Store.alphabetDatas.letterIndex = this.mesh.uuid
-         Store.alphabetDatas.alphabetArray.splice(this.mesh.uuid, 1, null)
+      gsap.to(this.letterMesh.rotation, 2, { z: 2* (Math.PI * 2), ease: "Power3.easeInOut" })
+      gsap.to(this.letterMesh.position, 3, { z: -100, ease: "Power3.easeInOut" })
+      gsap.to(this.letterMesh.material.uniforms.uAlpha, 2, { value: 0, ease: "Power3.easeOut", onComplete: () => {
+         Store.alphabetDatas.availableIndex.splice(this.letterMesh.uuid, 1, this.letterMesh.uuid)
+         Store.alphabet[this.name].id = null
+         Store.alphabetDatas.alphabetArray.splice(this.letterMesh.uuid, 1, null)
          Store.alphabetDatas.lettersCount --
-         Store.alphabetDatas.alphabetGroup.remove(this.mesh)
+         Store.alphabetDatas.alphabetGroup.remove(this.letterMesh)
       } })
    }
 
@@ -73,11 +70,14 @@ class Letter {
    }
 
    update(time) {
-      // if (this.mesh) {
-      //    this.mesh.rotation.x = (time * .3) * Math.PI
-      //    this.mesh.rotation.y = (time * .3) * Math.PI
-      //    this.mesh.rotation.z = (time * .3) * Math.PI
-      // }
+      if (this.letterMesh) {
+         const scale = 1 + (Store.sound.freqDatas.uSoundBass * .4)
+         this.letterMesh.scale.set(scale, scale, scale)
+         // console.log(this.letterMesh.scale);
+         // this.letterMesh.rotation.x = (time * .3) * Math.PI
+         this.letterMesh.rotation.y = (time * .3) * Math.PI
+         this.letterMesh.rotation.z = (time * .3) * Math.PI
+      }
 
       if(!isNaN(this.mouse.x * 0.)) {
          this.target.x = -this.mouse.x * 0.2;

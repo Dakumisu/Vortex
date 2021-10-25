@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
-import { BufferGeometry, Group, Mesh, PlaneBufferGeometry, SphereBufferGeometry, TorusBufferGeometry, Vector2 } from 'three'
+import { BufferGeometry, Group, InstancedBufferAttribute, InstancedBufferGeometry, MathUtils, Mesh, PlaneBufferGeometry, ShaderMaterial, SphereBufferGeometry, TorusBufferGeometry, Vector2 } from 'three'
 import vertex from '../glsl/vortex/vertex.glsl'
 import fragment from '../glsl/vortex/fragment.glsl'
 import { Store } from './Store'
@@ -21,13 +21,13 @@ class Torus {
    }
    
    init() { //Instanced Buffer Geo version
-      const torusGeometry = new TorusBufferGeometry( .4, .02, 30, 250);
+      const torusGeometry = new TorusBufferGeometry( .4, .01, 30, 250);
       const particlesCount = torusGeometry.attributes.position.array
 
       this.blueprintParticle = new PlaneBufferGeometry()
       this.blueprintParticle.scale(.1, .1, .1)
 
-      this.geometry = new THREE.InstancedBufferGeometry()
+      this.geometry = new InstancedBufferGeometry()
       
       this.geometry.index = this.blueprintParticle.index
       this.geometry.attributes.position = this.blueprintParticle.attributes.position
@@ -56,12 +56,12 @@ class Torus {
          this.vortexPositions[i + 1] = randomY
          this.vortexPositions[i + 2] = randomZ
 
-         this.params[i + 0] = THREE.MathUtils.randFloatSpread(50) // Offset
-         this.params[i + 1] = THREE.MathUtils.randFloat(.7, 1.3) // Random Scale
+         this.params[i + 0] = MathUtils.randFloatSpread(50) // Offset
+         this.params[i + 1] = MathUtils.randFloat(.7, 1.3) // Random Scale
          this.params[i + 2] = spinAngle // Angle
       }
       
-      this.material = new THREE.ShaderMaterial({
+      this.material = new ShaderMaterial({
          vertexShader: vertex,
          fragmentShader: fragment,
          uniforms: {
@@ -93,24 +93,20 @@ class Torus {
          blending: THREE.AdditiveBlending
       })
 
-      this.geometry.setAttribute( 'aTorusPositions', new THREE.InstancedBufferAttribute( this.torusPositions, 3, false ) );
-      this.geometry.setAttribute( 'aVortexPositions', new THREE.InstancedBufferAttribute( this.vortexPositions, 3, false ) );
-      this.geometry.setAttribute( 'aParams', new THREE.InstancedBufferAttribute( this.params, 3, false ) )
+      this.geometry.setAttribute( 'aTorusPositions', new InstancedBufferAttribute( this.torusPositions, 3, false ) );
+      this.geometry.setAttribute( 'aVortexPositions', new InstancedBufferAttribute( this.vortexPositions, 3, false ) );
+      this.geometry.setAttribute( 'aParams', new InstancedBufferAttribute( this.params, 3, false ) )
 
       this.torusMesh = new Mesh(this.geometry, this.material)
       this.torusMesh.rotation.y = Math.PI
+      this.torusMesh.position.y = -5
       this.torusMesh.frustumCulled = false
 
-      this.particlesGroup = new THREE.Group()
-      this.torusMesh.position.y = -5
+      this.particlesGroup = new Group()
       this.particlesGroup.add(this.torusMesh)
-
       this.scene.scene.add(this.particlesGroup)
 
-
-
       this.start()
-
    }
 
 
@@ -125,9 +121,11 @@ class Torus {
          gsap.to(this.torusMesh.scale, .3, { x: 1, y: 1, z: 1, ease: "Expo.easeInOut", delay: .5})
          gsap.to(this.torusMesh.material.uniforms.uProgress, 1.1, { value: .75, ease: "Expo.easeInOut", delay: .4})
          gsap.to(this.torusMesh.material.uniforms.uAlpha, 1.1, { value: this.vortexAlpha, ease: "Expo.easeInOut", delay: .4})
+         gsap.to(this.particlesGroup.rotation, 1, { z: this.particlesGroup.rotation.z + (2 * Math.PI) * .2, ease: "Expo.easeInOut", delay: .2 })
       } else {
          gsap.to(this.torusMesh.material.uniforms.uProgress, 2, { value: 0, ease: "Expo.easeOut"})
          gsap.to(this.torusMesh.material.uniforms.uAlpha, 1.1, { value: this.torusAlpha, ease: "Expo.easeInOut", delay: .4})
+         gsap.to(this.particlesGroup.rotation, 3, { z: this.particlesGroup.rotation.z + (2 * Math.PI) * .2, ease: "Expo.easeOut" })
       }
    }
 
@@ -143,14 +141,15 @@ class Torus {
 
    resize() {
       window.addEventListener('resize', () => {
-         this.material.uniforms.uAspect.value = new THREE.Vector2(Store.params.sizes.width, Store.params.sizes.height)
+         this.material.uniforms.uAspect.value = new Vector2(Store.params.sizes.width, Store.params.sizes.height)
          this.material.uniforms.uPixelRatio.value = window.devicePixelRatio
      })
    }
 
    update(et, dt) {
-      this.torusMesh.rotation.z = (et * 1.75) * - Math.PI * .1
-      this.particlesGroup.rotation.z += -Math.abs(Store.sound.freqDatas.uSoundHighMedium * .03) * - Math.PI * .1
+      this.torusMesh.rotation.z = (et * .2) * - Math.PI
+      this.particlesGroup.rotation.z += -Math.abs(((Store.sound.freqDatas.uSoundHighBass * .5) + (Store.sound.freqDatas.uSoundMedium * .5) + (Store.sound.freqDatas.uSoundHighAcute * .5)) * .04) * - Math.PI * .1
+      // this.particlesGroup.scale.z = 1 -Math.abs(Store.sound.freqDatas.uSoundBass * .1) * - Math.PI * .1
       this.torusMesh.material.uniforms.uTime.value = et
       
       for(const [key, value] of Object.entries(Store.sound.freqDatas)) {

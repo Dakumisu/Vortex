@@ -6,98 +6,89 @@ import { AudioListener, Audio, AudioLoader, AudioAnalyser, LuminanceFormat } fro
 class SoundController {
    constructor(opt) {
       this.camera = opt.camera
-      
-      this.listener = new AudioListener();
-      this.camera.add( this.listener );
 
-      this.currentPcmData = null
-      this.oldPcmData = null
+      this.sourceNode = {}
 
-      this.audioLoader = new AudioLoader();
+      this.samples = [
+         {},
+         {},
+         {},
+         {},
+         {},
+      ]
+
+      this.audioLoader = new AudioLoader()
+
       this.init()
-      // this.getSoundDatas()
    }
 
    init() {
+      this.audioContext = new AudioContext()
+      this.audioContext.resume()
 
-      this.sound = new Audio( this.listener );
+      this.analyser = this.audioContext.createAnalyser()
+      this.analyser.fftSize = 2048
 
+      this.bufferLength = this.analyser.frequencyBinCount
 
+      this.pcmData = new Float32Array(this.analyser.fftSize)
+
+      this.playMusic()
+   }
+
+   playMusic() {
+      this.sourceNode = this.audioContext.createBufferSource()
+
+      this.sourceNode.connect(this.audioContext.destination)
+      this.sourceNode.connect(this.analyser)
 
       document.querySelector('.play').addEventListener('click', () => {
-         this.audioLoader.load('../assets/music/anchor.mp3', (buffer) => {
-            console.log(this.sound);
-            this.sound.setBuffer(buffer);
-            this.sound.setLoop(false);
-            this.sound.setVolume(0.5); // Ne pas oublier de bien remettre le bon niveau de freq par rapport au volume
-            this.sound.play();
+         this.audioLoader.load(Store.sound.music.music_4, (buffer) => {
+            this.sourceNode.buffer = buffer;
+            this.sourceNode.loop = true;
+            this.sourceNode.volume = .1
+            this.sourceNode.start(0);
          });
       })
-
-      this.setAudioAnalyzer(this.sound)
    }
 
    addSample(letter) {
-      // const listener = new AudioListener();
-      // this.camera.add( listener );
+      this.samples[letter.id] = this.audioContext.createBufferSource()
 
-      letter.sound = new Audio( this.listener );
-
-      // this.audioLoader = new AudioLoader();
+      this.samples[letter.id].connect(this.audioContext.destination)
+      this.samples[letter.id].connect(this.analyser)
 
       this.audioLoader.load(letter.sample, (buffer) => {
-         console.log(this.buffer);
-         letter.sound.setBuffer(buffer);
-         letter.sound.setLoop(true);
-         letter.sound.setVolume(0.5); // Ne pas oublier de bien remettre le bon niveau de freq par rapport au volume
-         letter.sound.play();
-         letter.sound.connect()
+         this.samples[letter.id].buffer = buffer;
+         this.samples[letter.id].loop = true;
+         this.samples[letter.id].volume = .1
+         this.samples[letter.id].start(0);
       });
-
-      this.combineAudio(letter.sound)
-      console.log('here');
-   }
-
-   setAudioAnalyzer(sound) {
-      this.analyserNode = new AudioAnalyser( sound, 2048 );
-      this.pcmData = new Float32Array(this.analyserNode.analyser.fftSize)
-      this.currentPcmData = this.pcmData
-   }
-
-   combineAudio(sound) {
-      this.pcmData = this.currentPcmData
-      console.log(this.pcmData);
-      const newAnalyzerNode = new AudioAnalyser( sound, 2048 );
-      const newPcmData = new Float32Array(newAnalyzerNode.analyser.fftSize)
       
-      for (let i = 0; i < this.pcmData.length; i++) {
-         this.pcmData[i] *= newPcmData[i]
-      }
-
-      this.currentPcmData = this.pcmData
+      console.log(this.samples)
    }
-
-   removeSample() {
-
+   
+   removeSample(letter) {
+      this.samples[letter.id].disconnect(this.audioContext.destination)
+      this.samples[letter.id].disconnect(this.analyser)
+      this.samples.splice(letter.id, 1, {})
+      console.log(this.samples)
    }
 
    getSoundDatas(datas) {
-      const range = datas.length / 8
-
-      Store.sound.freqDatas.uSoundLowBass = datas[range * 0] * 5
-      Store.sound.freqDatas.uSoundBass = datas[range * 1] * 5
-      Store.sound.freqDatas.uSoundHighBass = datas[range * 2] * 5
-      Store.sound.freqDatas.uSoundLowMedium = datas[range * 3] * 5
-      Store.sound.freqDatas.uSoundMedium = datas[range * 4] * 5
-      Store.sound.freqDatas.uSoundHighMedium = datas[range * 5] * 5
-      Store.sound.freqDatas.uSoundLowAcute = datas[range * 6] * 5
-      Store.sound.freqDatas.uSoundAcute = datas[range * 7] * 5
-      Store.sound.freqDatas.uSoundHighAcute = datas[range * 8 - 1] * 5
+      Store.sound.freqDatas.uSoundLowBass = datas[0]
+      Store.sound.freqDatas.uSoundBass = datas[8]
+      Store.sound.freqDatas.uSoundHighBass = datas[16]
+      Store.sound.freqDatas.uSoundLowMedium = datas[32]
+      Store.sound.freqDatas.uSoundMedium = datas[64]
+      Store.sound.freqDatas.uSoundHighMedium = datas[128]
+      Store.sound.freqDatas.uSoundLowAcute = datas[256]
+      Store.sound.freqDatas.uSoundAcute = datas[512]
+      Store.sound.freqDatas.uSoundHighAcute = datas[1023]
    }
    
    update(time) {
-
-      this.analyserNode.analyser.getFloatTimeDomainData(this.pcmData)
+      this.analyser.getFloatTimeDomainData(this.pcmData)
 
       this.getSoundDatas(this.pcmData)
    }
