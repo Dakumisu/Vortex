@@ -19,7 +19,6 @@ uniform float uSoundLowAcute;
 uniform float uSoundAcute;
 uniform float uSoundHighAcute;
 
-
 attribute vec3 aTorusPositions;
 attribute vec3 aVortexPositions;
 attribute vec3 aParams;
