@@ -30,27 +30,24 @@ class SoundController {
       this.pcmData = new Float32Array(this.analyser.fftSize)
    }
 
-   playMusic() {      
-      document.querySelector('.play').addEventListener('click', () => {
-         this.sourceNode = this.audioContext.createBufferSource()
-   
-         this.sourceNode.connect(this.audioContext.destination)
-         this.sourceNode.connect(this.analyser)
+   playMusic() {         
+      this.sourceNode = this.audioContext.createBufferSource()
 
-         // console.log(Store.sound.music);
+      this.sourceNode.connect(this.audioContext.destination)
+      this.sourceNode.connect(this.analyser)
+      console.log(Store.sound.music);
 
-         if (Store.sound.music && !Store.sound.musicState) {
-            Store.sound.musicState = true
-            this.audioLoader.load(Store.sound.music, (buffer) => {
-               this.sourceNode.buffer = buffer;
-               this.sourceNode.loop = false;
-               this.sourceNode.volume = .1
-               this.sourceNode.start(0);
-               // console.log(this.sourceNode);
-               // this.sourceNode.onended = onMusicEnd()
-            });
-         }
-      })
+      if (Store.sound.music && !Store.sound.musicState) {
+         Store.sound.musicState = true
+         this.audioLoader.load(Store.sound.music, (buffer) => {
+            this.sourceNode.buffer = buffer;
+            this.sourceNode.loop = false;
+            this.sourceNode.volume = .1
+            this.sourceNode.start(0);
+            console.log(this.sourceNode);
+            // this.sourceNode.onended = onMusicEnd()
+         });
+      }
    }
 
    onMusicEnd() {

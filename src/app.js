@@ -53,7 +53,7 @@ const handleFileSelect = (evt) => {
 
     Store.sound.music = mp3Url
 
-    // console.log(mp3Url);
+    console.log(mp3Url);
     // music();
 }
 
@@ -76,6 +76,11 @@ const torus = new Torus({
 const soundController = new SoundController({
     camera: scene.camera
 })
+
+document.querySelector('.play').addEventListener('click', () => {
+    soundController.playMusic()
+})
+
 
 new LoadAlphabet({
     scene: scene.scene
