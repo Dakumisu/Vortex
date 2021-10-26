@@ -146,7 +146,7 @@ class Torus {
      })
    }
 
-   update(et, dt) {
+   update(et) {
       this.torusMesh.rotation.z = (et * .2) * - Math.PI
       this.particlesGroup.rotation.z += -Math.abs(((Store.sound.freqDatas.uSoundHighBass * .5) + (Store.sound.freqDatas.uSoundMedium * .5) + (Store.sound.freqDatas.uSoundHighAcute * .5)) * .04) * - Math.PI * .1
       // this.particlesGroup.scale.z = 1 -Math.abs(Store.sound.freqDatas.uSoundBass * .1) * - Math.PI * .1

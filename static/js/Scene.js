@@ -5,6 +5,7 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass.js';
 import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
+import { TweenLite, TweenMax, gsap } from 'gsap' // https://greensock.com/docs/
 
 import { Store } from './Store'
 
@@ -58,6 +59,21 @@ class Scene {
 		this.composer.addPass( this.afterimagePass );
       this.composer.addPass( this.rgbShift );
       this.composer.addPass( this.bloomPass );
+   }
+
+   vertigoEffect(dir) {
+      if (dir == 1) {
+         gsap.to(this.camera, 1, { fov: 35, ease: "Power3.easeInOut" })
+         gsap.to(this.camera.position, 1, { z: 4.25, ease: "Power3.easeInOut" })
+      } else if (dir == 3) {
+         gsap.to(this.camera, 1, { fov: 145, ease: "Power3.easeInOut" })
+         gsap.to(this.camera.position, 1, { z: 0.1, ease: "Power3.easeInOut" })
+      }
+   }
+
+   noVertigoEffect() {
+      gsap.to(this.camera, 1, { fov: 75, ease: "Power3.easeInOut" })
+      gsap.to(this.camera.position, 1, { z: 3, ease: "Power3.easeInOut" })
    }
 
    resize() {

@@ -15,6 +15,7 @@ class Letter {
       this.letterMesh = opt.mesh.clone()
       this.letterMaterial = opt.mesh.material.clone()
       this.letterMesh.material = this.letterMaterial
+      this.letterMesh.material.uniforms.uProgress.value = Store.params.progress
       this.letterMesh.uuid = this.id
       
       this.target = new Vector2(0, 0)
@@ -35,8 +36,8 @@ class Letter {
 
    remove() {
       gsap.to(this.letterMesh.rotation, 2, { z: 2* (Math.PI * 2), ease: "Power3.easeInOut" })
-      gsap.to(this.letterMesh.position, 3, { z: -100, ease: "Power3.easeInOut" })
-      gsap.to(this.letterMesh.material.uniforms.uAlpha, 1, { value: 0, ease: "Power3.easeOut", onComplete: () => {
+      gsap.to(this.letterMesh.position, 1.5, { z: -15, ease: "Power3.easeInOut" })
+      gsap.to(this.letterMesh.material.uniforms.uAlpha, 1, { value: 0, ease: "Power3.easeInOut", onComplete: () => {
          Store.alphabetDatas.alphabetGroup.remove(this.letterMesh)
          Store.alphabetDatas.availableIndex.splice(this.letterMesh.uuid, 1, this.letterMesh.uuid)
          Store.alphabet[this.name].id = null
@@ -69,6 +70,23 @@ class Letter {
       }
 
       return randomStartPositions
+   }
+
+   vertigoEffect(dir) {
+      if (dir == 3)
+         gsap.to(this.letterMesh.material.uniforms.uAlpha, 1, { value: .0, ease: "Expo.easeInOut"})
+   }
+      
+   noVertigoEffect() {
+      gsap.to(this.letterMesh.material.uniforms.uAlpha, 1.5, { value: 1., ease: "Expo.easeInOut"})
+   }
+
+   expand(bool) {
+      if (bool) {
+         gsap.to(this.letterMesh.material.uniforms.uProgress, 1.1, { value: .75, ease: "Expo.easeInOut", delay: .4})
+      } else {
+         gsap.to(this.letterMesh.material.uniforms.uProgress, 2, { value: 0, ease: "Expo.easeOut"})
+      }
    }
 
    update(time) {

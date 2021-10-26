@@ -1,4 +1,4 @@
-# WebGL Template
+# Vortex - Sound Experience
 
 Hi :)
 

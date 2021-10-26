@@ -314,13 +314,15 @@ export const Store = {
          `${pianoLinkBase}1.wav`, `${pianoLinkBase}2.wav`, `${pianoLinkBase}3.wav`, `${pianoLinkBase}4.wav`, `${pianoLinkBase}5.wav`, `${pianoLinkBase}6.wav`, `${pianoLinkBase}7.wav`, `${pianoLinkBase}8.wav`, `${pianoLinkBase}9.wav`, `${pianoLinkBase}10.wav`,
          `${bassLinkBase}1.wav`, `${bassLinkBase}2.wav`, `${bassLinkBase}3.wav`, `${bassLinkBase}4.wav`, `${bassLinkBase}5.wav`, `${bassLinkBase}6.wav`
       ],
-      music: {
-         music_1: `${musicLinkBase}music_1.mp3`,
-         music_2: `${musicLinkBase}music_2.mp3`,
-         music_3: `${musicLinkBase}music_3.mp3`,
-         music_4: `${musicLinkBase}music_4.mp3`,
-         music_5: `${musicLinkBase}music_5.mp3`,
-      },
+      music: null,
+      musicState: false,
+      // {
+         // music_1: `${musicLinkBase}music_1.mp3`,
+         // music_2: `${musicLinkBase}music_2.mp3`,
+         // music_3: `${musicLinkBase}music_3.mp3`,
+         // music_4: `${musicLinkBase}music_4.mp3`,
+         // music_5: `${musicLinkBase}music_5.mp3`,
+      // }
       freqDatas: {
          uSoundLowBass: 0,
          uSoundBass: 0,
@@ -334,7 +336,7 @@ export const Store = {
       }
    },
 
-   // Paramètres gééraux
+   // Paramètres généraux
    params: {
       sizes: {
          width: window.innerWidth,
@@ -349,6 +351,7 @@ export const Store = {
          },
       },
       mouseDown: false,
-      experienceStarted: false
+      experienceStarted: false,
+      progress: 0
    }
 }

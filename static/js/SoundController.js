@@ -7,8 +7,6 @@ class SoundController {
    constructor(opt) {
       this.camera = opt.camera
 
-      this.sourceNode = {}
-
       this.samples = [
          {},
          {},
@@ -30,24 +28,33 @@ class SoundController {
       this.bufferLength = this.analyser.frequencyBinCount
 
       this.pcmData = new Float32Array(this.analyser.fftSize)
-
-      this.playMusic()
    }
 
-   playMusic() {
-      this.sourceNode = this.audioContext.createBufferSource()
-
-      this.sourceNode.connect(this.audioContext.destination)
-      this.sourceNode.connect(this.analyser)
-
+   playMusic() {      
       document.querySelector('.play').addEventListener('click', () => {
-         this.audioLoader.load(Store.sound.music.music_4, (buffer) => {
-            this.sourceNode.buffer = buffer;
-            this.sourceNode.loop = true;
-            this.sourceNode.volume = .1
-            this.sourceNode.start(0);
-         });
+         this.sourceNode = this.audioContext.createBufferSource()
+   
+         this.sourceNode.connect(this.audioContext.destination)
+         this.sourceNode.connect(this.analyser)
+
+         // console.log(Store.sound.music);
+
+         if (Store.sound.music && !Store.sound.musicState) {
+            Store.sound.musicState = true
+            this.audioLoader.load(Store.sound.music, (buffer) => {
+               this.sourceNode.buffer = buffer;
+               this.sourceNode.loop = false;
+               this.sourceNode.volume = .1
+               this.sourceNode.start(0);
+               // console.log(this.sourceNode);
+               // this.sourceNode.onended = onMusicEnd()
+            });
+         }
       })
+   }
+
+   onMusicEnd() {
+      this.sourceNode = null
    }
 
    addSample(letter) {

@@ -13,6 +13,7 @@ import Letter from '../static/js/Letter' // Ajout d'une lettre à la scène
 import Mouse from '../static/js/Mouse' // Obtenir la position de la souris dans tous les environnement
 import Torus from '../static/js/Torus' // Torus
 import SoundController from '../static/js/SoundController' // Sound Controller
+import CheckLanguage from '../static/js/CheckLanguage' // Sound Controller
 import Control from '../static/js/Control' // Orbitcontrol (pour le debbugage)
 import Settings from '../static/js/Settings.js' // Dat.gui (toujours pour le debbugage)
 
@@ -26,6 +27,8 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 
 // new SoundCloudAPI()
 
+// new CheckLanguage();
+
 // Assignations des samples au clavier (AZERTY)
 (function fillSamples() {
     let i = 0
@@ -34,7 +37,28 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
         Store.alphabet[index].sample = Store.sound.samplesList[i]
         i++
     }
-}())
+}());
+
+let mp3Name, mp3Url
+
+const handleFileSelect = (evt) => {
+    var file = evt.target.files; // File object
+
+    // if (sourceNode) {
+    //     sourceNode.stop();
+    // }
+
+    mp3Name = file[0];
+    mp3Url = URL.createObjectURL(file[0]);
+
+    Store.sound.music = mp3Url
+
+    // console.log(mp3Url);
+    // music();
+}
+
+document.getElementById("file").addEventListener("change", handleFileSelect, false);
+
 
 const scene = new Scene({
     canvas: document.querySelector('.webgl'),
@@ -63,13 +87,14 @@ new LoadAlphabet({
 // })
 
 
-document.querySelector('.webgl').addEventListener('touchstart', e => {
-    const letters = 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * 25))
-    Store.alphabetDatas.alphabetArray.push(new Letter({
-        scene: scene,
-        mesh: Store.alphabet[letters].mesh
-    }))
-})
+// document.querySelector('.webgl').addEventListener('touchstart', e => {
+//     const letters = 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * 25))
+//     Store.alphabetDatas.alphabetArray.push(new Letter({
+//         scene: scene,
+//         mesh: Store.alphabet[letters].mesh
+//     }))
+// })
+let expand = false
 
 document.addEventListener('keydown', e => {
     const key = e.key.toLowerCase()
@@ -116,32 +141,65 @@ document.addEventListener('keydown', e => {
             }
         }
     }
-})
 
-let renderPostProc = true
-let expand = false
-document.querySelector('.toggle').addEventListener('click', () => renderPostProc ? renderPostProc = false: renderPostProc = true )
-document.querySelector('.expand').addEventListener('click', () => {
-    if (expand) {
-        expand = false
-        torus.expand(expand)
-        
-        gsap.to(Store.params.pp.aip, 1, { damp: .75, esae: "Power.easeInOut" })
-    } else {
-        gsap.to(Store.params.pp.aip, 1, { damp: .825, esae: "Power.easeInOut" })
-        expand = true
-        torus.expand(expand)
+    if (e.code == "Space") { // expand
+        if (expand) {
+            expand = false
+            Store.params.progress = 0
+    
+            torus.expand(expand)
+    
+            if (Store.alphabetDatas.alphabetArray.length) {
+                Store.alphabetDatas.alphabetArray.forEach(letter => {
+                    if (letter !== null) {
+                        letter.expand(expand)
+                    }
+                })
+            }
+            
+            gsap.to(Store.params.pp.aip, 1, { damp: .75, esae: "Power3.easeInOut" })
+
+            // Disable vertigo effect
+            scene.noVertigoEffect()
+
+            if (Store.alphabetDatas.alphabetArray.length) {
+                Store.alphabetDatas.alphabetArray.forEach(letter => {
+                    if (letter !== null) {
+                        letter.noVertigoEffect()
+                    }
+                })
+            }
+        } else {
+            expand = true
+            Store.params.progress = 1
+            
+            torus.expand(expand)
+            
+            if (Store.alphabetDatas.alphabetArray.length) {
+                Store.alphabetDatas.alphabetArray.forEach(letter => {
+                    if (letter !== null) {
+                        letter.expand(expand)
+                    }
+                })
+            }
+    
+            gsap.to(Store.params.pp.aip, 1, { damp: .825, esae: "Power3.easeInOut" })
+        }
     }
 })
 
 document.querySelector('.webgl').addEventListener('mousedown', e => {
     Store.mouseDown = true
-    if (e.which == 1) {
-        gsap.to(scene.camera, 1, { fov: 35, ease: "Power3.easeInOut" })
-        gsap.to(scene.camera.position, 1, { z: 4.25, ease: "Power3.easeInOut" })
-    } else if (e.which == 3) {
-        gsap.to(scene.camera, 1, { fov: 145, ease: "Power3.easeInOut" })
-        gsap.to(scene.camera.position, 1, { z: 0.1, ease: "Power3.easeInOut" })
+    if (Store.params.progress) {
+        scene.vertigoEffect(e.which)
+    
+        if (Store.alphabetDatas.alphabetArray.length) {
+            Store.alphabetDatas.alphabetArray.forEach(letter => {
+                if (letter !== null) {
+                    letter.vertigoEffect(e.which)
+                }
+            })
+        }    
     }
 });
 
@@ -153,26 +211,25 @@ document.querySelector('.webgl').addEventListener('contextmenu', e => {
 
 document.querySelector('.webgl').addEventListener('mouseup', e => {
     Store.mouseDown = false
-    gsap.to(scene.camera, 1, { fov: 75, ease: "Power3.easeInOut" })
-    gsap.to(scene.camera.position, 1, { z: 3, ease: "Power3.easeInOut" })
-});
 
-// setTimeout(() => {
-//     const parole = new SpeechSynthesisUtterance()
-//     const texte = "sheeeeeeeeeesh"
-//     parole.text = texte
-//     parole.volume = 1
-//     parole.rate = .8
-//     parole.lang = 'en-US'
-//     speechSynthesis.speak(parole)
-// }, 2000);
+    scene.noVertigoEffect()
+
+    if (Store.alphabetDatas.alphabetArray.length) {
+        Store.alphabetDatas.alphabetArray.forEach(letter => {
+            if (letter !== null) {
+                letter.noVertigoEffect()
+            }
+        })
+    }
+});
 
 function raf() {
     const deltaTime = scene.clock.getDelta()
     const elapsedTime = scene.clock.getElapsedTime()
     const lowestElapsedTime = elapsedTime / 11
 
-    torus.update(elapsedTime, deltaTime)
+    torus.update(elapsedTime)
+
     // if (Store.params.experienceStarted) {
         soundController.update()
         scene.update()
@@ -190,7 +247,7 @@ function raf() {
         }
     // }
 
-    renderPostProc ? scene.composer.render(): scene.renderer.render(scene.scene, scene.camera)
+    scene.composer.render()
     
     // Update controls
     // control.controls.update()

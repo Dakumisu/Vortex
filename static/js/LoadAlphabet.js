@@ -28,13 +28,15 @@ class LoadAlphabet {
          fragmentShader: fragment,
          uniforms: {
             uTime: { value : 0 },
-            uColor: { value: new THREE.Color(0xff55ff) },
-            uAlpha: { value: .7 },
+            // uColor: { value: new THREE.Color(0xff55ff) },
+            uColor: { value: new THREE.Color(0x2c2c2c) },
+            uAlpha: { value: 1. },
+            uProgress: { value: Store.params.progress },
             uAspect : { value : new THREE.Vector2(Store.params.sizes.width, Store.params.sizes.height) },
             uPixelRatio: { value: window.devicePixelRatio }
          },
          side: THREE.DoubleSide,
-         transparent: true,
+         // transparent: true,
 
          /* pour les particules */
          depthTest: false,
