@@ -36,9 +36,9 @@ void main() {
   // color += ((2. + (abs((uSoundHighAcute * .6 )* uProgress) + abs(uSoundLowBass * .4) * .2 * uProgress) * (vPos * .2)) * 3.2) * (color * (vPos * .02) * .5) * 1.1;
   color += (((1. * uProgress) + (abs((uSoundMedium * .4 ) * uProgress) * abs(uSoundLowBass * .2) * .5 * uProgress) * vPos * 1.1) * (color * (vPos * .2) * .3) * 1.1);
 
-  float alpha = smoothstep(1., .01, vLoop) * smoothstep(.01, .8, vLoop) * (vPos.z * 5. + (uAlpha * 2.));
-  alpha += (uAlpha * (1. + (abs((uSoundMedium + uSoundAcute) * .5))));
-  alpha -= .5 * (abs(.1 - uProgress) * (vRandomScale * .6));
+  float alpha = smoothstep(1., .75, vLoop) * smoothstep(.0, .25, vLoop) * (vPos.z * 5. + (uAlpha * 5.));
+  alpha *= (uAlpha * (1. + (abs((uSoundMedium + uSoundAcute) * .5))));
+  alpha *= .5 * (vRandomScale * .6);
 
   gl_FragColor = vec4(color, alpha);
 }

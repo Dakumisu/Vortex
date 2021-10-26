@@ -29,10 +29,7 @@ class LoadAlphabet {
          uniforms: {
             uTime: { value : 0 },
             uColor: { value: new THREE.Color(0xff55ff) },
-            uAlpha: { value: .75 },
-            uFreq: { value: 0.5 },
-            uSize: { value: 100 },
-            uProgress: { value: 0 },
+            uAlpha: { value: .7 },
             uAspect : { value : new THREE.Vector2(Store.params.sizes.width, Store.params.sizes.height) },
             uPixelRatio: { value: window.devicePixelRatio }
          },
@@ -58,11 +55,8 @@ class LoadAlphabet {
                      vertice.material = this.material
                   }
                })
-   
-               // const rdmScale = .5 + Math.random() * .5
-   
+
                value.mesh.rotation.z = Math.PI * 2
-               // value.mesh.scale.set(rdmScale, rdmScale, rdmScale)
             }
          )
       }

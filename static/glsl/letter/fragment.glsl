@@ -12,6 +12,5 @@ varying vec4 vModelViewMatrix;
 
 void main() {
   
-  // gl_FragColor = vec4(uColor * vec3(.75 + vUv * .1, 1.), uAlpha);
   gl_FragColor = vec4(uColor.yy + (vUv * uColor.xy) * .2, 1., uAlpha);
 }

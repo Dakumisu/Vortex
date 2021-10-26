@@ -10,6 +10,8 @@ class Letter {
       this.mouse = opt.mouse
       this.scene = opt.scene.scene
 
+      this.randomStrength = 1 + (Math.random() * 2)
+
       this.letterMesh = opt.mesh.clone()
       this.letterMaterial = opt.mesh.material.clone()
       this.letterMesh.material = this.letterMaterial
@@ -34,12 +36,12 @@ class Letter {
    remove() {
       gsap.to(this.letterMesh.rotation, 2, { z: 2* (Math.PI * 2), ease: "Power3.easeInOut" })
       gsap.to(this.letterMesh.position, 3, { z: -100, ease: "Power3.easeInOut" })
-      gsap.to(this.letterMesh.material.uniforms.uAlpha, 2, { value: 0, ease: "Power3.easeOut", onComplete: () => {
+      gsap.to(this.letterMesh.material.uniforms.uAlpha, 1, { value: 0, ease: "Power3.easeOut", onComplete: () => {
+         Store.alphabetDatas.alphabetGroup.remove(this.letterMesh)
          Store.alphabetDatas.availableIndex.splice(this.letterMesh.uuid, 1, this.letterMesh.uuid)
          Store.alphabet[this.name].id = null
          Store.alphabetDatas.alphabetArray.splice(this.letterMesh.uuid, 1, null)
          Store.alphabetDatas.lettersCount --
-         Store.alphabetDatas.alphabetGroup.remove(this.letterMesh)
       } })
    }
 
@@ -71,12 +73,12 @@ class Letter {
 
    update(time) {
       if (this.letterMesh) {
-         const scale = 1 + (Store.sound.freqDatas.uSoundBass * .4)
+         const scale = .75 + (Store.sound.freqDatas.uSoundBass * .4)
          this.letterMesh.scale.set(scale, scale, scale)
          // console.log(this.letterMesh.scale);
          // this.letterMesh.rotation.x = (time * .3) * Math.PI
-         this.letterMesh.rotation.y = (time * .3) * Math.PI
-         this.letterMesh.rotation.z = (time * .3) * Math.PI
+         this.letterMesh.rotation.y = (time * .3) * Math.PI + this.randomStrength
+         this.letterMesh.rotation.z = (time * .3) * Math.PI + this.randomStrength
       }
 
       if(!isNaN(this.mouse.x * 0.)) {
@@ -84,8 +86,8 @@ class Letter {
          this.target.y = this.mouse.y * 0.2;
       }
 
-      Store.alphabetDatas.alphabetGroup.rotation.y += (.1 * (this.target.x / 2 - Store.alphabetDatas.alphabetGroup.rotation.y));
-      Store.alphabetDatas.alphabetGroup.rotation.x += (.1 * (this.target.y / 2 - Store.alphabetDatas.alphabetGroup.rotation.x));
+      Store.alphabetDatas.alphabetGroup.rotation.y += (.05 * (this.target.x / 2 - Store.alphabetDatas.alphabetGroup.rotation.y));
+      Store.alphabetDatas.alphabetGroup.rotation.x += (.05 * (this.target.y / 2 - Store.alphabetDatas.alphabetGroup.rotation.x));
    }
 }
 

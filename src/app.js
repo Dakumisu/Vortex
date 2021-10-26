@@ -26,6 +26,16 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 
 // new SoundCloudAPI()
 
+// Assignations des samples au clavier (AZERTY)
+(function fillSamples() {
+    let i = 0
+    for(const [key, value] of Object.entries(Store.alphabet)) {
+        const index = Store.alphabetDatas.keysOrder[i]
+        Store.alphabet[index].sample = Store.sound.samplesList[i]
+        i++
+    }
+}())
+
 const scene = new Scene({
     canvas: document.querySelector('.webgl'),
 })
@@ -90,7 +100,6 @@ document.addEventListener('keydown', e => {
                         mouse: mouse.mouseScene
                     })
 
-
                     soundController.addSample(Store.alphabet[key])
 
                     for (let i = 0; i < Store.alphabetDatas.alphabetArray.length; i++) {
@@ -101,9 +110,9 @@ document.addEventListener('keydown', e => {
                     }
                 }
             } else {
+                soundController.removeSample(Store.alphabet[key])
                 Store.alphabet[key].state = false
                 Store.alphabet[key].instance.remove()
-                soundController.removeSample(Store.alphabet[key])
             }
         }
     }

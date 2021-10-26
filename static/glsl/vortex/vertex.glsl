@@ -43,7 +43,7 @@ void main() {
    vLoop = loop;
 
    // vortexPos.z -= -25. + ((1. - loop)) * (3000. + vortexPos.z) * (1. - abs(cos(uTime + aParams.x * 70. ) - 1.) * .5); // chaotic mode
-   vortexPos.z -= -25. + ((1. - loop)) * (30. + vortexPos.z) * (1. - abs(cos(uTime * .1 + aParams.x * 70.) - 1.) * .5);
+   vortexPos.z -= -25. + ((1. - loop)) * (50. + vortexPos.z) * (1. - abs(cos(uTime * .1 + aParams.x * 70.) - 1.) * .5);
    vortexPos.x -=  .013 + (sin(uTime * 5.) * .01) * (1. - loop) * (vortexPos.x * aParams.z * 1.2) * (1. - abs(((aParams.x * .06) * (uSoundLowBass * .2)) - 1.) * .5) * (vortexPos.z * .5 * (uSoundLowBass * .02)); // For bass
    vortexPos.y -=  .013 + (sin(uTime * 5.) * .01) * (1. - loop) * (vortexPos.y * aParams.z * 1.2) * (1. - abs(((aParams.x * .06) * (uSoundLowBass * .2)) - 1.) * .5) * (vortexPos.z * .5 * (uSoundLowBass * .02)); // For bass
 

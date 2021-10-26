@@ -12,9 +12,7 @@ class SoundController {
       this.samples = [
          {},
          {},
-         {},
-         {},
-         {},
+         {}
       ]
 
       this.audioLoader = new AudioLoader()
@@ -43,7 +41,7 @@ class SoundController {
       this.sourceNode.connect(this.analyser)
 
       document.querySelector('.play').addEventListener('click', () => {
-         this.audioLoader.load(Store.sound.music.music_1, (buffer) => {
+         this.audioLoader.load(Store.sound.music.music_4, (buffer) => {
             this.sourceNode.buffer = buffer;
             this.sourceNode.loop = true;
             this.sourceNode.volume = .1
@@ -64,27 +62,24 @@ class SoundController {
          this.samples[letter.id].volume = .1
          this.samples[letter.id].start(0);
       });
-      
-      console.log(this.samples)
    }
    
    removeSample(letter) {
       this.samples[letter.id].disconnect(this.audioContext.destination)
       this.samples[letter.id].disconnect(this.analyser)
       this.samples.splice(letter.id, 1, {})
-      console.log(this.samples)
    }
 
    getSoundDatas(datas) {
-      Store.sound.freqDatas.uSoundLowBass = datas[0] * 1.5
-      Store.sound.freqDatas.uSoundBass = datas[8] * 1.5
-      Store.sound.freqDatas.uSoundHighBass = datas[16] * 1.5
-      Store.sound.freqDatas.uSoundLowMedium = datas[32] * 1.5
-      Store.sound.freqDatas.uSoundMedium = datas[64] * 1.5
-      Store.sound.freqDatas.uSoundHighMedium = datas[128] * 1.5
-      Store.sound.freqDatas.uSoundLowAcute = datas[256] * 1.5
-      Store.sound.freqDatas.uSoundAcute = datas[512] * 1.5
-      Store.sound.freqDatas.uSoundHighAcute = datas[1023] * 1.5
+      Store.sound.freqDatas.uSoundLowBass = datas[0] * 1.25
+      Store.sound.freqDatas.uSoundBass = datas[8] * 1.25
+      Store.sound.freqDatas.uSoundHighBass = datas[16] * 1.25
+      Store.sound.freqDatas.uSoundLowMedium = datas[32] * 1.25
+      Store.sound.freqDatas.uSoundMedium = datas[64] * 1.25
+      Store.sound.freqDatas.uSoundHighMedium = datas[128] * 1.25
+      Store.sound.freqDatas.uSoundLowAcute = datas[256] * 1.25
+      Store.sound.freqDatas.uSoundAcute = datas[512] * 1.25
+      Store.sound.freqDatas.uSoundHighAcute = datas[1023] * 1.25
    }
    
    update(time) {

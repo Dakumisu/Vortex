@@ -1,14 +1,11 @@
 const modelLinkBase = `../assets/3D/alphabet/`
-const sampleLinkBase = `../assets/sound/sample/`
+
+const sampleLinkBase = `../assets/sound/samples/`
+const beatsLinkBase = `${sampleLinkBase}beats/beat_`
+const pianoLinkBase = `${sampleLinkBase}piano/piano_`
+const bassLinkBase = `${sampleLinkBase}bass/bass_`
+
 const musicLinkBase = `../assets/sound/music/`
-
-const keysOrder = [
-   'a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'w', 'x', 'c', 'v', 'b', 'n'
-]
-
-// const samplesList = [
-//    'a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'w', 'x', 'c', 'v', 'b', 'n'
-// ]
 
 export const Store = {
    // 3D Alphabet
@@ -19,7 +16,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}a.glb`,
          state: false,
-         sample: `${sampleLinkBase}a.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -29,7 +26,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}b.glb`,
          state: false,
-         sample: `${sampleLinkBase}b.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -39,7 +36,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}c.glb`,
          state: false,
-         sample: `${sampleLinkBase}c.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -49,7 +46,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}d.glb`,
          state: false,
-         sample: `${sampleLinkBase}d.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -59,7 +56,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}e.glb`,
          state: false,
-         sample: `${sampleLinkBase}e.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -69,7 +66,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}f.glb`,
          state: false,
-         sample: `${sampleLinkBase}f.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -79,7 +76,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}g.glb`,
          state: false,
-         sample: `${sampleLinkBase}g.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -89,7 +86,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}h.glb`,
          state: false,
-         sample: `${sampleLinkBase}h.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -99,7 +96,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}i.glb`,
          state: false,
-         sample: `${sampleLinkBase}i.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -109,7 +106,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}j.glb`,
          state: false,
-         sample: `${sampleLinkBase}j.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -119,7 +116,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}k.glb`,
          state: false,
-         sample: `${sampleLinkBase}k.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -129,7 +126,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}l.glb`,
          state: false,
-         sample: `${sampleLinkBase}l.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -139,7 +136,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}m.glb`,
          state: false,
-         sample: `${sampleLinkBase}m.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -149,7 +146,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}n.glb`,
          state: false,
-         sample: `${sampleLinkBase}n.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -159,7 +156,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}o.glb`,
          state: false,
-         sample: `${sampleLinkBase}o.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -169,7 +166,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}p.glb`,
          state: false,
-         sample: `${sampleLinkBase}p.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -179,7 +176,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}q.glb`,
          state: false,
-         sample: `${sampleLinkBase}q.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -189,7 +186,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}r.glb`,
          state: false,
-         sample: `${sampleLinkBase}r.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -199,7 +196,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}s.glb`,
          state: false,
-         sample: `${sampleLinkBase}s.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -209,7 +206,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}t.glb`,
          state: false,
-         sample: `${sampleLinkBase}t.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -219,7 +216,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}u.glb`,
          state: false,
-         sample: `${sampleLinkBase}u.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -229,7 +226,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}v.glb`,
          state: false,
-         sample: `${sampleLinkBase}v.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -239,7 +236,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}w.glb`,
          state: false,
-         sample: `${sampleLinkBase}w.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -249,7 +246,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}x.glb`,
          state: false,
-         sample: `${sampleLinkBase}x.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -259,7 +256,7 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}y.glb`,
          state: false,
-         sample: `${sampleLinkBase}y.wav`,
+         sample: null,
          audio: null,
          id: null
       },
@@ -269,15 +266,20 @@ export const Store = {
          instance: null,
          model: `${modelLinkBase}z.glb`,
          state: false,
-         sample: `${sampleLinkBase}z.wav`,
+         sample: null,
          audio: null,
          id: null
       },
    },
 
    alphabetDatas: {
+      keysOrder: [
+         'a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+         'q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm',
+         'w', 'x', 'c', 'v', 'b', 'n'
+      ],
       alphabetGroup: null,
-      lettersInputLimit: 5,
+      lettersInputLimit: 3,
       lettersCount: 0,
       alphabetArray: [
          null,
@@ -289,30 +291,29 @@ export const Store = {
       availableIndex: [
          0,
          1,
-         2,
-         3,
-         4
+         2
       ],
       lettersPositions: {
          x: [ 
             -2,
-            -1,
             0,
-            1,
             2
          ],
          z: [
             .0,
-            .25,
             .5,
-            .25,
-            .0,
+            .0
          ],
       }
    },
 
    // Sound control
    sound: {
+      samplesList: [
+         `${beatsLinkBase}1.wav`, `${beatsLinkBase}2.wav`, `${beatsLinkBase}3.wav`, `${beatsLinkBase}4.wav`, `${beatsLinkBase}5.wav`, `${beatsLinkBase}6.wav`, `${beatsLinkBase}7.wav`, `${beatsLinkBase}8.wav`, `${beatsLinkBase}9.wav`, `${beatsLinkBase}10.wav`,
+         `${pianoLinkBase}1.wav`, `${pianoLinkBase}2.wav`, `${pianoLinkBase}3.wav`, `${pianoLinkBase}4.wav`, `${pianoLinkBase}5.wav`, `${pianoLinkBase}6.wav`, `${pianoLinkBase}7.wav`, `${pianoLinkBase}8.wav`, `${pianoLinkBase}9.wav`, `${pianoLinkBase}10.wav`,
+         `${bassLinkBase}1.wav`, `${bassLinkBase}2.wav`, `${bassLinkBase}3.wav`, `${bassLinkBase}4.wav`, `${bassLinkBase}5.wav`, `${bassLinkBase}6.wav`
+      ],
       music: {
          music_1: `${musicLinkBase}music_1.mp3`,
          music_2: `${musicLinkBase}music_2.mp3`,
