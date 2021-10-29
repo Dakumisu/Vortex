@@ -17,6 +17,54 @@ import CheckLanguage from '../static/js/CheckLanguage' // Sound Controller
 import Control from '../static/js/Control' // Orbitcontrol (pour le debbugage)
 import Settings from '../static/js/Settings.js' // Dat.gui (toujours pour le debbugage)
 
+// import Recorder from 'recorder-js';
+
+// console.log(Recorder);
+
+// const audioContext =  new (window.AudioContext || window.webkitAudioContext)();
+ 
+// const recorder = new Recorder(audioContext, {
+//   // An array of 255 Numbers
+//   // You can use this to visualize the audio stream
+//   // If you use react, check out react-wave-stream
+//   onAnalysed: data => console.log(data),
+// });
+ 
+// let isRecording = false;
+// let blob = null;
+ 
+// console.log(navigator);
+// console.log(navigator.mediaDevices);
+
+// navigator.mediaDevices.getUserMedia({audio: true})
+//   .then(stream => recorder.init(stream))
+ 
+// function startRecording() {
+//   recorder.start()
+//     .then(() => isRecording = true);
+// }
+ 
+// function stopRecording() {
+//   recorder.stop()
+//     .then(({blob, buffer}) => {
+//       blob = blob;
+//       download()
+
+//       // buffer is an AudioBuffer
+//     });
+// }
+
+// setTimeout(() => {
+//     startRecording()
+//     setTimeout(() => {
+//         stopRecording()
+//     }, 3000);
+// }, 500);
+ 
+// function download() {
+//   Recorder.download(blob, 'my-audio-file'); // downloads a .wav file
+// }
+
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     // Mobile
 } else {
@@ -42,26 +90,25 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 let mp3Name, mp3Url
 
 const handleFileSelect = (evt) => {
-    var file = evt.target.files; // File object
-
-    // if (sourceNode) {
-    //     sourceNode.stop();
-    // }
-
-    mp3Name = file[0];
-    mp3Url = URL.createObjectURL(file[0]);
-
-    Store.sound.music = mp3Url
-
-    console.log(mp3Url);
-    // music();
+    document.getElementById("file").blur()
+    if (!evt.target.files.length == 0) {
+        var file = evt.target.files; // File object
+    
+        mp3Name = file[0];
+        mp3Url = URL.createObjectURL(file[0]);
+    
+        Store.sound.music = mp3Url
+    }
 }
 
 document.getElementById("file").addEventListener("change", handleFileSelect, false);
 
-
 const scene = new Scene({
     canvas: document.querySelector('.webgl'),
+})
+
+new LoadAlphabet({
+    scene: scene.scene
 })
 
 const mouse = new Mouse({
@@ -78,12 +125,12 @@ const soundController = new SoundController({
 })
 
 document.querySelector('.play').addEventListener('click', () => {
+    document.querySelector('.play').blur()
     soundController.playMusic()
 })
-
-
-new LoadAlphabet({
-    scene: scene.scene
+document.querySelector('.stop').addEventListener('click', () => {
+    document.querySelector('.stop').blur()
+    soundController.stopMusic()
 })
 
 // const control = new Control({
@@ -130,6 +177,7 @@ document.addEventListener('keydown', e => {
                         mouse: mouse.mouseScene
                     })
 
+                    Store.sound.samplesPlayed.splice(Store.alphabet[key].instance.id, 1, Store.alphabet[key])
                     soundController.addSample(Store.alphabet[key])
 
                     for (let i = 0; i < Store.alphabetDatas.alphabetArray.length; i++) {
@@ -141,6 +189,8 @@ document.addEventListener('keydown', e => {
                 }
             } else {
                 soundController.removeSample(Store.alphabet[key])
+                Store.sound.samplesPlayed.splice(Store.alphabet[key].instance.id, 1, null)
+                Store.alphabetDatas.availableIndex.splice(Store.alphabet[key].instance.id, 1, Store.alphabet[key].instance.id)
                 Store.alphabet[key].state = false
                 Store.alphabet[key].instance.remove()
             }
@@ -162,7 +212,7 @@ document.addEventListener('keydown', e => {
                 })
             }
             
-            gsap.to(Store.params.pp.aip, 1, { damp: .75, esae: "Power3.easeInOut" })
+            gsap.to(Store.params.pp.aip, 1, { damp: .75, ease: "Power3.easeInOut" })
 
             // Disable vertigo effect
             scene.noVertigoEffect()
@@ -188,7 +238,7 @@ document.addEventListener('keydown', e => {
                 })
             }
     
-            gsap.to(Store.params.pp.aip, 1, { damp: .825, esae: "Power3.easeInOut" })
+            gsap.to(Store.params.pp.aip, 1, { damp: .825, ease: "Power3.easeInOut" })
         }
     }
 })

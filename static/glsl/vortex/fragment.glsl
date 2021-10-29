@@ -20,7 +20,6 @@ uniform float uSoundHighAcute;
 
 varying vec2 vUv;
 varying vec3 vPos;
-varying vec4 vModelViewMatrix;
 varying float vRandomScale;
 varying float vLoop;
 
@@ -34,7 +33,7 @@ void main() {
   vec3 color = (uColor * (.5 + uProgress)) * (strength * .7);
   color *= smoothstep(.5, 6., color);
   // color += ((2. + (abs((uSoundHighAcute * .6 )* uProgress) + abs(uSoundLowBass * .4) * .2 * uProgress) * (vPos * .2)) * 3.2) * (color * (vPos * .02) * .5) * 1.1;
-  color += (((1. * uProgress) + (abs((uSoundMedium * .4 ) * uProgress) * abs(uSoundLowBass * .2) * .5 * uProgress) * vPos * 1.1) * (color * (vPos * .2) * .3) * 1.1);
+  color += (((1. * uProgress) + (abs((uSoundMedium * .4 ) * uProgress) * abs(uSoundBass * .3 + uSoundLowBass * .2) * .5 * uProgress) * vPos * 1.1) * (color * (vPos * .2) * .3) * 1.1);
 
   float alpha = smoothstep(1., .75, vLoop) * smoothstep(.0, .25, vLoop) * (vPos.z * 5. + (uAlpha * 5.));
   alpha *= (uAlpha * (1. + (abs((uSoundMedium + uSoundAcute) * .5))));

@@ -284,8 +284,6 @@ export const Store = {
       alphabetArray: [
          null,
          null,
-         null,
-         null,
          null
       ],
       availableIndex: [
@@ -309,20 +307,23 @@ export const Store = {
 
    // Sound control
    sound: {
+      // samplesList: [
+      //    `${beatsLinkBase}1.wav`, `${beatsLinkBase}2.wav`, `${beatsLinkBase}3.wav`, `${beatsLinkBase}4.wav`, `${beatsLinkBase}5.wav`, `${beatsLinkBase}6.wav`, `${beatsLinkBase}7.wav`, `${beatsLinkBase}8.wav`, `${beatsLinkBase}9.wav`, `${beatsLinkBase}10.wav`,
+      //    `${pianoLinkBase}1.wav`, `${pianoLinkBase}2.wav`, `${pianoLinkBase}3.wav`, `${pianoLinkBase}4.wav`, `${pianoLinkBase}5.wav`, `${pianoLinkBase}6.wav`, `${pianoLinkBase}7.wav`, `${pianoLinkBase}8.wav`, `${pianoLinkBase}9.wav`, `${pianoLinkBase}10.wav`,
+      //    `${bassLinkBase}1.wav`, `${bassLinkBase}2.wav`, `${bassLinkBase}3.wav`, `${bassLinkBase}4.wav`, `${bassLinkBase}5.wav`, `${bassLinkBase}6.wav`
+      // ],
       samplesList: [
-         `${beatsLinkBase}1.wav`, `${beatsLinkBase}2.wav`, `${beatsLinkBase}3.wav`, `${beatsLinkBase}4.wav`, `${beatsLinkBase}5.wav`, `${beatsLinkBase}6.wav`, `${beatsLinkBase}7.wav`, `${beatsLinkBase}8.wav`, `${beatsLinkBase}9.wav`, `${beatsLinkBase}10.wav`,
+         `../assets/sound/zo/bass-01.wav`, `../assets/sound/zo/melody-02.wav`, `../assets/sound/zo/percs-02-edm.wav`, `${beatsLinkBase}4.wav`, `${beatsLinkBase}5.wav`, `${beatsLinkBase}6.wav`, `${beatsLinkBase}7.wav`, `${beatsLinkBase}8.wav`, `${beatsLinkBase}9.wav`, `${beatsLinkBase}10.wav`,
          `${pianoLinkBase}1.wav`, `${pianoLinkBase}2.wav`, `${pianoLinkBase}3.wav`, `${pianoLinkBase}4.wav`, `${pianoLinkBase}5.wav`, `${pianoLinkBase}6.wav`, `${pianoLinkBase}7.wav`, `${pianoLinkBase}8.wav`, `${pianoLinkBase}9.wav`, `${pianoLinkBase}10.wav`,
          `${bassLinkBase}1.wav`, `${bassLinkBase}2.wav`, `${bassLinkBase}3.wav`, `${bassLinkBase}4.wav`, `${bassLinkBase}5.wav`, `${bassLinkBase}6.wav`
       ],
+      samplesPlayed: [
+         null,
+         null,
+         null
+      ],
       music: null,
       musicState: false,
-      // {
-         // music_1: `${musicLinkBase}music_1.mp3`,
-         // music_2: `${musicLinkBase}music_2.mp3`,
-         // music_3: `${musicLinkBase}music_3.mp3`,
-         // music_4: `${musicLinkBase}music_4.mp3`,
-         // music_5: `${musicLinkBase}music_5.mp3`,
-      // }
       freqDatas: {
          uSoundLowBass: 0,
          uSoundBass: 0,

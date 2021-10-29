@@ -39,9 +39,9 @@ class Letter {
       gsap.to(this.letterMesh.position, 1.5, { z: -15, ease: "Power3.easeInOut" })
       gsap.to(this.letterMesh.material.uniforms.uAlpha, 1, { value: 0, ease: "Power3.easeInOut", onComplete: () => {
          Store.alphabetDatas.alphabetGroup.remove(this.letterMesh)
-         Store.alphabetDatas.availableIndex.splice(this.letterMesh.uuid, 1, this.letterMesh.uuid)
-         Store.alphabet[this.name].id = null
          Store.alphabetDatas.alphabetArray.splice(this.letterMesh.uuid, 1, null)
+         // Store.alphabetDatas.availableIndex.splice(this.letterMesh.uuid, 1, this.letterMesh.uuid)
+         Store.alphabet[this.name].id = null
          Store.alphabetDatas.lettersCount --
       } })
    }
@@ -91,7 +91,7 @@ class Letter {
 
    update(time) {
       if (this.letterMesh) {
-         const scale = .75 + (Store.sound.freqDatas.uSoundBass * .4)
+         const scale = .75 + Math.abs((Store.sound.freqDatas.uSoundBass * .1 + Store.sound.freqDatas.uSoundAcute * .1))
          this.letterMesh.scale.set(scale, scale, scale)
          // console.log(this.letterMesh.scale);
          // this.letterMesh.rotation.x = (time * .3) * Math.PI

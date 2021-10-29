@@ -123,9 +123,9 @@ class Torus {
          gsap.to(this.torusMesh.material.uniforms.uAlpha, 1.1, { value: this.vortexAlpha, ease: "Expo.easeInOut", delay: .4})
          gsap.to(this.particlesGroup.rotation, 1, { z: this.particlesGroup.rotation.z + (2 * Math.PI) * .2, ease: "Expo.easeInOut", delay: .2 })
       } else {
-         gsap.to(this.torusMesh.material.uniforms.uProgress, 2, { value: 0, ease: "Expo.easeOut"})
-         gsap.to(this.torusMesh.material.uniforms.uAlpha, 1.1, { value: this.torusAlpha, ease: "Expo.easeInOut", delay: .4})
-         gsap.to(this.particlesGroup.rotation, 3, { z: this.particlesGroup.rotation.z + (2 * Math.PI) * .2, ease: "Expo.easeOut" })
+         gsap.to(this.torusMesh.material.uniforms.uProgress, 1.5, { value: 0, ease: "Expo.easeOut"})
+         gsap.to(this.torusMesh.material.uniforms.uAlpha, 1, { value: this.torusAlpha, ease: "Expo.easeInOut", delay: .4})
+         gsap.to(this.particlesGroup.rotation, 1.2, { z: this.particlesGroup.rotation.z + (2 * Math.PI) * .2, ease: "Power3.easeOut" })
       }
    }
 
@@ -148,7 +148,7 @@ class Torus {
 
    update(et) {
       this.torusMesh.rotation.z = (et * .2) * - Math.PI
-      this.particlesGroup.rotation.z += -Math.abs(((Store.sound.freqDatas.uSoundHighBass * .5) + (Store.sound.freqDatas.uSoundMedium * .5) + (Store.sound.freqDatas.uSoundHighAcute * .5)) * .04) * - Math.PI * .1
+      this.particlesGroup.rotation.z += -Math.abs(((Store.sound.freqDatas.uSoundHighBass * .5) + (Store.sound.freqDatas.uSoundMedium * .5) + (Store.sound.freqDatas.uSoundHighAcute * .5) + (Store.sound.freqDatas.uSoundAcute * .5)) * .04) * - Math.PI * .1
       // this.particlesGroup.scale.z = 1 -Math.abs(Store.sound.freqDatas.uSoundBass * .1) * - Math.PI * .1
       this.torusMesh.material.uniforms.uTime.value = et
       

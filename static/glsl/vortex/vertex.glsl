@@ -25,7 +25,6 @@ attribute vec3 aParams;
 
 varying vec2 vUv;
 varying vec3 vPos;
-varying vec4 vModelViewMatrix;
 varying float vRandomScale;
 varying float vLoop;
 
@@ -65,6 +64,5 @@ void main() {
    mv.z += sin(-mv.x * 3. + (uTime * 5.)) * .2 * uProgress;
    mv.z += sin(mv.y * 3. + (uTime * 5.)) * .2 * uProgress;
    mv.z += sin(-mv.y * 3. + (uTime * 5.)) * .2 * uProgress;
-   vModelViewMatrix = mv;
    gl_Position = projectionMatrix * mv;
 }

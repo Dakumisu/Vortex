@@ -13,7 +13,13 @@ class SoundController {
          {}
       ]
 
+      this.sourceNode = null
+
       this.audioLoader = new AudioLoader()
+
+      this.tempo = 60000 / 130
+
+      this.sampleLoop()
 
       this.init()
    }
@@ -30,31 +36,65 @@ class SoundController {
       this.pcmData = new Float32Array(this.analyser.fftSize)
    }
 
-   playMusic() {         
-      this.sourceNode = this.audioContext.createBufferSource()
+   sampleLoop() {
+      let counter = 0
+      setInterval(() => {
+         counter++;    
+         if (counter == 1) {
+            Store.sound.samplesPlayed.forEach((letter) => {
+               if (letter != null)
+                  this.playSample(letter)
+            })
+         }
+         if (counter == 16 || Store.sound.samplesPlayed[0] == null && Store.sound.samplesPlayed[1] == null && Store.sound.samplesPlayed[2] == null) {
+            counter = 0
+         }
+      }, this.tempo);
+   }
 
-      this.sourceNode.connect(this.audioContext.destination)
-      this.sourceNode.connect(this.analyser)
-      console.log(Store.sound.music);
-
-      if (Store.sound.music && !Store.sound.musicState) {
-         Store.sound.musicState = true
-         this.audioLoader.load(Store.sound.music, (buffer) => {
-            this.sourceNode.buffer = buffer;
-            this.sourceNode.loop = false;
-            this.sourceNode.volume = .1
-            this.sourceNode.start(0);
-            console.log(this.sourceNode);
-            // this.sourceNode.onended = onMusicEnd()
-         });
+   playMusic() {
+      if (Store.sound.music != null) {
+         if (this.sourceNode == null) {
+            this.sourceNode = this.audioContext.createBufferSource()
+      
+            this.sourceNode.connect(this.audioContext.destination)
+            this.sourceNode.connect(this.analyser)
+   
+            if (!Store.sound.musicState) {
+               Store.sound.musicState = true
+               this.audioLoader.load(Store.sound.music, (buffer) => {
+                  this.sourceNode.buffer = buffer;
+                  this.sourceNode.loop = false;
+                  this.sourceNode.start(0);
+               });
+            }
+         } else {
+            this.sourceNode.disconnect(this.audioContext.destination)
+            this.sourceNode.disconnect(this.analyser)
+            this.sourceNode = null
+            Store.sound.musicState = false
+   
+            this.playMusic()
+         }
       }
    }
 
-   onMusicEnd() {
-      this.sourceNode = null
+   stopMusic() {
+      if (this.sourceNode != null) {
+         this.sourceNode.disconnect(this.audioContext.destination)
+         this.sourceNode.disconnect(this.analyser)
+         this.sourceNode = null
+         Store.sound.musicState = false
+      }
+   }
+   
+   addSample(letter) {
+      this.samples[letter.id] = this.audioContext.createBufferSource()
+      this.samples[letter.id].connect(this.audioContext.destination)
+      this.samples[letter.id].connect(this.analyser)
    }
 
-   addSample(letter) {
+   playSample(letter) {
       this.samples[letter.id] = this.audioContext.createBufferSource()
 
       this.samples[letter.id].connect(this.audioContext.destination)
@@ -62,9 +102,8 @@ class SoundController {
 
       this.audioLoader.load(letter.sample, (buffer) => {
          this.samples[letter.id].buffer = buffer;
-         this.samples[letter.id].loop = true;
-         this.samples[letter.id].volume = .1
-         this.samples[letter.id].start(0);
+         if (this.samples[letter.id].buffer)
+            this.samples[letter.id].start(0)
       });
    }
    

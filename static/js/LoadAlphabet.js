@@ -1,11 +1,12 @@
 import * as THREE from 'three'
+import { Group } from 'three'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js' // https://threejs.org/docs/#examples/en/loaders/GLTFLoader
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js' // https://threejs.org/docs/#examples/en/loaders/DRACOLoader
 import gsap from 'gsap'
+
 import { Store } from './Store' // Store
 import vertex from '../glsl/letter/vertex.glsl'
 import fragment from '../glsl/letter/fragment.glsl'
-import { Group } from 'three'
 
 class LoadAlphabet {
    constructor(opt) {
