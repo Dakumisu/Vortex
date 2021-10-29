@@ -13,9 +13,12 @@ import Letter from '../static/js/Letter' // Ajout d'une lettre à la scène
 import Mouse from '../static/js/Mouse' // Obtenir la position de la souris dans tous les environnement
 import Torus from '../static/js/Torus' // Torus
 import SoundController from '../static/js/SoundController' // Sound Controller
-import CheckLanguage from '../static/js/CheckLanguage' // Sound Controller
+import CheckDevice from '../static/js/CheckDevice' // Sound Controller
 import Control from '../static/js/Control' // Orbitcontrol (pour le debbugage)
 import Settings from '../static/js/Settings.js' // Dat.gui (toujours pour le debbugage)
+
+
+
 
 // import Recorder from 'recorder-js';
 
@@ -65,17 +68,13 @@ import Settings from '../static/js/Settings.js' // Dat.gui (toujours pour le deb
 //   Recorder.download(blob, 'my-audio-file'); // downloads a .wav file
 // }
 
-if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    // Mobile
-} else {
-    // Desktop
-}
-
 // const settings = new Settings()
 
 // new SoundCloudAPI()
 
 // new CheckLanguage();
+
+new CheckDevice();
 
 // Assignations des samples au clavier (AZERTY)
 (function fillSamples() {
@@ -103,8 +102,10 @@ const handleFileSelect = (evt) => {
 
 document.getElementById("file").addEventListener("change", handleFileSelect, false);
 
+const canvas = document.querySelector('.webgl')
+
 const scene = new Scene({
-    canvas: document.querySelector('.webgl'),
+    canvas: canvas,
 })
 
 new LoadAlphabet({
@@ -139,7 +140,7 @@ document.querySelector('.stop').addEventListener('click', () => {
 // })
 
 
-// document.querySelector('.webgl').addEventListener('touchstart', e => {
+// canvas.addEventListener('touchstart', e => {
 //     const letters = 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * 25))
 //     Store.alphabetDatas.alphabetArray.push(new Letter({
 //         scene: scene,
@@ -188,8 +189,8 @@ document.addEventListener('keydown', e => {
                     }
                 }
             } else {
-                soundController.removeSample(Store.alphabet[key])
                 Store.sound.samplesPlayed.splice(Store.alphabet[key].instance.id, 1, null)
+                soundController.removeSample(Store.alphabet[key])
                 Store.alphabetDatas.availableIndex.splice(Store.alphabet[key].instance.id, 1, Store.alphabet[key].instance.id)
                 Store.alphabet[key].state = false
                 Store.alphabet[key].instance.remove()
@@ -243,7 +244,52 @@ document.addEventListener('keydown', e => {
     }
 })
 
-document.querySelector('.webgl').addEventListener('mousedown', e => {
+canvas.addEventListener('touchstart', e => {
+    if (expand) {
+        expand = false
+        Store.params.progress = 0
+
+        torus.expand(expand)
+
+        if (Store.alphabetDatas.alphabetArray.length) {
+            Store.alphabetDatas.alphabetArray.forEach(letter => {
+                if (letter !== null) {
+                    letter.expand(expand)
+                }
+            })
+        }
+        
+        gsap.to(Store.params.pp.aip, 1, { damp: .75, ease: "Power3.easeInOut" })
+
+        // Disable vertigo effect
+        scene.noVertigoEffect()
+
+        if (Store.alphabetDatas.alphabetArray.length) {
+            Store.alphabetDatas.alphabetArray.forEach(letter => {
+                if (letter !== null) {
+                    letter.noVertigoEffect()
+                }
+            })
+        }
+    } else {
+        expand = true
+        Store.params.progress = 1
+        
+        torus.expand(expand)
+        
+        if (Store.alphabetDatas.alphabetArray.length) {
+            Store.alphabetDatas.alphabetArray.forEach(letter => {
+                if (letter !== null) {
+                    letter.expand(expand)
+                }
+            })
+        }
+
+        gsap.to(Store.params.pp.aip, 1, { damp: .825, ease: "Power3.easeInOut" })
+    }
+});
+
+canvas.addEventListener('mousedown', e => {
     Store.mouseDown = true
     if (Store.params.progress) {
         scene.vertigoEffect(e.which)
@@ -258,13 +304,13 @@ document.querySelector('.webgl').addEventListener('mousedown', e => {
     }
 });
 
-document.querySelector('.webgl').addEventListener('contextmenu', e => {
+canvas.addEventListener('contextmenu', e => {
     e.stopPropagation()
     e.preventDefault ()
     e.cancelBubble = true;
 });
 
-document.querySelector('.webgl').addEventListener('mouseup', e => {
+canvas.addEventListener('mouseup', e => {
     Store.mouseDown = false
 
     scene.noVertigoEffect()

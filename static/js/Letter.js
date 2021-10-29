@@ -93,19 +93,19 @@ class Letter {
       if (this.letterMesh) {
          const scale = .75 + Math.abs((Store.sound.freqDatas.uSoundBass * .1 + Store.sound.freqDatas.uSoundAcute * .1))
          this.letterMesh.scale.set(scale, scale, scale)
-         // console.log(this.letterMesh.scale);
-         // this.letterMesh.rotation.x = (time * .3) * Math.PI
          this.letterMesh.rotation.y = (time * .3) * Math.PI + this.randomStrength
          this.letterMesh.rotation.z = (time * .3) * Math.PI + this.randomStrength
       }
 
-      if(!isNaN(this.mouse.x * 0.)) {
-         this.target.x = -this.mouse.x * 0.2;
-         this.target.y = this.mouse.y * 0.2;
+      if (!Store.mobile.isOnMobile) {
+         if(!isNaN(this.mouse.x * 0.)) {
+            this.target.x = -this.mouse.x * 0.2;
+            this.target.y = this.mouse.y * 0.2;
+         }
+   
+         Store.alphabetDatas.alphabetGroup.rotation.y += (.05 * (this.target.x / 2 - Store.alphabetDatas.alphabetGroup.rotation.y));
+         Store.alphabetDatas.alphabetGroup.rotation.x += (.05 * (this.target.y / 2 - Store.alphabetDatas.alphabetGroup.rotation.x));
       }
-
-      Store.alphabetDatas.alphabetGroup.rotation.y += (.05 * (this.target.x / 2 - Store.alphabetDatas.alphabetGroup.rotation.y));
-      Store.alphabetDatas.alphabetGroup.rotation.x += (.05 * (this.target.y / 2 - Store.alphabetDatas.alphabetGroup.rotation.x));
    }
 }
 

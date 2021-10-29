@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { Store } from './Store'
 
 class Mouse {
    constructor(opt) {
@@ -40,17 +41,19 @@ class Mouse {
 
    mouseMove() {
       document.addEventListener('mousemove', e => {
-         this.mouseDom.x = e.clientX
-         this.mouseDom.y = e.clientY
-         
-         this.mouseFrag.x = (this.mouseDom.x / window.innerWidth)
-         this.mouseFrag.y = (this.mouseDom.y / window.innerHeight)
-
-         this.mouseScene.x = (this.mouseDom.x / window.innerWidth) * 2 - 1
-         this.mouseScene.y = - (this.mouseDom.y / window.innerHeight) * 2 + 1
-         
-         this.mouseMap.x = this.cursorMap(this.mouseScene.x, -1, 1, -this.viewSize().width / 2, this.viewSize().width / 2)
-         this.mouseMap.y = this.cursorMap(this.mouseScene.y, -1, 1, -this.viewSize().height / 2, this.viewSize().height / 2)
+         if (!Store.mobile.isOnMobile) {
+            this.mouseDom.x = e.clientX
+            this.mouseDom.y = e.clientY
+            
+            this.mouseFrag.x = (this.mouseDom.x / window.innerWidth)
+            this.mouseFrag.y = (this.mouseDom.y / window.innerHeight)
+   
+            this.mouseScene.x = (this.mouseDom.x / window.innerWidth) * 2 - 1
+            this.mouseScene.y = - (this.mouseDom.y / window.innerHeight) * 2 + 1
+            
+            this.mouseMap.x = this.cursorMap(this.mouseScene.x, -1, 1, -this.viewSize().width / 2, this.viewSize().width / 2)
+            this.mouseMap.y = this.cursorMap(this.mouseScene.y, -1, 1, -this.viewSize().height / 2, this.viewSize().height / 2)
+         }
       })
    }
 

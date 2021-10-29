@@ -1,11 +1,11 @@
-const modelLinkBase = `../assets/3D/alphabet/`
+const modelPath = `../assets/3D/alphabet/`
 
-const sampleLinkBase = `../assets/sound/samples/`
-const beatsLinkBase = `${sampleLinkBase}beats/beat_`
-const pianoLinkBase = `${sampleLinkBase}piano/piano_`
-const bassLinkBase = `${sampleLinkBase}bass/bass_`
+const samplePath = `../assets/sound/samples/`
+const percsPath = `${samplePath}percs/beat_`
+const melodyPath = `${samplePath}melody/melody_`
+const bassPath = `${samplePath}bass/bass_`
 
-const musicLinkBase = `../assets/sound/music/`
+const musicPath = `../assets/sound/music/`
 
 export const Store = {
    // 3D Alphabet
@@ -14,7 +14,7 @@ export const Store = {
          key: 'a',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}a.glb`,
+         model: `${modelPath}a.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -24,7 +24,7 @@ export const Store = {
          key: 'b',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}b.glb`,
+         model: `${modelPath}b.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -34,7 +34,7 @@ export const Store = {
          key: 'c',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}c.glb`,
+         model: `${modelPath}c.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -44,7 +44,7 @@ export const Store = {
          key: 'd',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}d.glb`,
+         model: `${modelPath}d.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -54,7 +54,7 @@ export const Store = {
          key: 'e',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}e.glb`,
+         model: `${modelPath}e.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -64,7 +64,7 @@ export const Store = {
          key: 'f',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}f.glb`,
+         model: `${modelPath}f.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -74,7 +74,7 @@ export const Store = {
          key: 'g',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}g.glb`,
+         model: `${modelPath}g.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -84,7 +84,7 @@ export const Store = {
          key: 'h',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}h.glb`,
+         model: `${modelPath}h.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -94,7 +94,7 @@ export const Store = {
          key: 'i',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}i.glb`,
+         model: `${modelPath}i.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -104,7 +104,7 @@ export const Store = {
          key: 'j',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}j.glb`,
+         model: `${modelPath}j.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -114,7 +114,7 @@ export const Store = {
          key: 'k',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}k.glb`,
+         model: `${modelPath}k.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -124,7 +124,7 @@ export const Store = {
          key: 'l',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}l.glb`,
+         model: `${modelPath}l.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -134,7 +134,7 @@ export const Store = {
          key: 'm',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}m.glb`,
+         model: `${modelPath}m.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -144,7 +144,7 @@ export const Store = {
          key: 'n',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}n.glb`,
+         model: `${modelPath}n.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -154,7 +154,7 @@ export const Store = {
          key: 'o',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}o.glb`,
+         model: `${modelPath}o.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -164,7 +164,7 @@ export const Store = {
          key: 'p',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}p.glb`,
+         model: `${modelPath}p.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -174,7 +174,7 @@ export const Store = {
          key: 'q',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}q.glb`,
+         model: `${modelPath}q.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -184,7 +184,7 @@ export const Store = {
          key: 'r',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}r.glb`,
+         model: `${modelPath}r.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -194,7 +194,7 @@ export const Store = {
          key: 's',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}s.glb`,
+         model: `${modelPath}s.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -204,7 +204,7 @@ export const Store = {
          key: 't',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}t.glb`,
+         model: `${modelPath}t.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -214,7 +214,7 @@ export const Store = {
          key: 'u',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}u.glb`,
+         model: `${modelPath}u.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -224,7 +224,7 @@ export const Store = {
          key: 'v',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}v.glb`,
+         model: `${modelPath}v.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -234,7 +234,7 @@ export const Store = {
          key: 'w',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}w.glb`,
+         model: `${modelPath}w.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -244,7 +244,7 @@ export const Store = {
          key: 'x',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}x.glb`,
+         model: `${modelPath}x.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -254,7 +254,7 @@ export const Store = {
          key: 'y',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}y.glb`,
+         model: `${modelPath}y.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -264,7 +264,7 @@ export const Store = {
          key: 'z',
          mesh: null,
          instance: null,
-         model: `${modelLinkBase}z.glb`,
+         model: `${modelPath}z.glb`,
          state: false,
          sample: null,
          audio: null,
@@ -307,15 +307,10 @@ export const Store = {
 
    // Sound control
    sound: {
-      // samplesList: [
-      //    `${beatsLinkBase}1.wav`, `${beatsLinkBase}2.wav`, `${beatsLinkBase}3.wav`, `${beatsLinkBase}4.wav`, `${beatsLinkBase}5.wav`, `${beatsLinkBase}6.wav`, `${beatsLinkBase}7.wav`, `${beatsLinkBase}8.wav`, `${beatsLinkBase}9.wav`, `${beatsLinkBase}10.wav`,
-      //    `${pianoLinkBase}1.wav`, `${pianoLinkBase}2.wav`, `${pianoLinkBase}3.wav`, `${pianoLinkBase}4.wav`, `${pianoLinkBase}5.wav`, `${pianoLinkBase}6.wav`, `${pianoLinkBase}7.wav`, `${pianoLinkBase}8.wav`, `${pianoLinkBase}9.wav`, `${pianoLinkBase}10.wav`,
-      //    `${bassLinkBase}1.wav`, `${bassLinkBase}2.wav`, `${bassLinkBase}3.wav`, `${bassLinkBase}4.wav`, `${bassLinkBase}5.wav`, `${bassLinkBase}6.wav`
-      // ],
       samplesList: [
-         `../assets/sound/zo/bass-01.wav`, `../assets/sound/zo/melody-02.wav`, `../assets/sound/zo/percs-02-edm.wav`, `${beatsLinkBase}4.wav`, `${beatsLinkBase}5.wav`, `${beatsLinkBase}6.wav`, `${beatsLinkBase}7.wav`, `${beatsLinkBase}8.wav`, `${beatsLinkBase}9.wav`, `${beatsLinkBase}10.wav`,
-         `${pianoLinkBase}1.wav`, `${pianoLinkBase}2.wav`, `${pianoLinkBase}3.wav`, `${pianoLinkBase}4.wav`, `${pianoLinkBase}5.wav`, `${pianoLinkBase}6.wav`, `${pianoLinkBase}7.wav`, `${pianoLinkBase}8.wav`, `${pianoLinkBase}9.wav`, `${pianoLinkBase}10.wav`,
-         `${bassLinkBase}1.wav`, `${bassLinkBase}2.wav`, `${bassLinkBase}3.wav`, `${bassLinkBase}4.wav`, `${bassLinkBase}5.wav`, `${bassLinkBase}6.wav`
+         `${percsPath}1.wav`, `${percsPath}2.wav`, `${percsPath}3.wav`, `${percsPath}4.wav`, `${percsPath}5.wav`, `${percsPath}6.wav`, `${percsPath}7.wav`, `${percsPath}8.wav`, `${percsPath}9.wav`, `${percsPath}10.wav`,
+         `${melodyPath}1.wav`, `${melodyPath}2.wav`, `${melodyPath}3.wav`, `${melodyPath}4.wav`, `${melodyPath}5.wav`, `${melodyPath}6.wav`, `${melodyPath}7.wav`, `${melodyPath}8.wav`, `${melodyPath}9.wav`, `${melodyPath}10.wav`,
+         `${bassPath}1.wav`, `${bassPath}2.wav`, `${bassPath}3.wav`, `${bassPath}4.wav`, `${bassPath}5.wav`, `${bassPath}6.wav`
       ],
       samplesPlayed: [
          null,
@@ -337,6 +332,15 @@ export const Store = {
       }
    },
 
+   // Mobile
+   mobile: {
+      isOnMobile: false,
+      tilt: {
+         x: 0,
+         y: 0
+      }
+   },
+
    // Paramètres généraux
    params: {
       sizes: {
@@ -353,6 +357,12 @@ export const Store = {
       },
       mouseDown: false,
       experienceStarted: false,
-      progress: 0
+      progress: 0,
+      events: {
+         eventClick: 'click',
+         eventDown: 'mousedown',
+         eventUp: 'mouseup',
+         eventMove: 'mousemove'
+      }
    }
 }

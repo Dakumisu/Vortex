@@ -8,9 +8,9 @@ class SoundController {
       this.camera = opt.camera
 
       this.samples = [
-         {},
-         {},
-         {}
+         null,
+         null,
+         null
       ]
 
       this.sourceNode = null
@@ -39,13 +39,13 @@ class SoundController {
    sampleLoop() {
       let counter = 0
       setInterval(() => {
-         counter++;    
-         if (counter == 1) {
+         if (counter == 0) {
             Store.sound.samplesPlayed.forEach((letter) => {
                if (letter != null)
                   this.playSample(letter)
             })
          }
+         counter++;
          if (counter == 16 || Store.sound.samplesPlayed[0] == null && Store.sound.samplesPlayed[1] == null && Store.sound.samplesPlayed[2] == null) {
             counter = 0
          }
@@ -101,16 +101,17 @@ class SoundController {
       this.samples[letter.id].connect(this.analyser)
 
       this.audioLoader.load(letter.sample, (buffer) => {
-         this.samples[letter.id].buffer = buffer;
-         if (this.samples[letter.id].buffer)
+         if (this.samples[letter.id] != null) {
+            this.samples[letter.id].buffer = buffer;
             this.samples[letter.id].start(0)
-      });
+         }
+      })
    }
    
    removeSample(letter) {
       this.samples[letter.id].disconnect(this.audioContext.destination)
       this.samples[letter.id].disconnect(this.analyser)
-      this.samples.splice(letter.id, 1, {})
+      this.samples.splice(letter.id, 1, null)
    }
 
    getSoundDatas(datas) {

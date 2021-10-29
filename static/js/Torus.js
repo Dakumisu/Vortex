@@ -9,6 +9,7 @@ class Torus {
    constructor(opt) {
       this.scene = opt.scene
       this.mouse = opt.mouse
+      this.tilt = Store.mobile.tilt
 
       this.target = new Vector2(0, 0)
 
@@ -148,7 +149,7 @@ class Torus {
 
    update(et) {
       this.torusMesh.rotation.z = (et * .2) * - Math.PI
-      this.particlesGroup.rotation.z += -Math.abs(((Store.sound.freqDatas.uSoundHighBass * .5) + (Store.sound.freqDatas.uSoundMedium * .5) + (Store.sound.freqDatas.uSoundHighAcute * .5) + (Store.sound.freqDatas.uSoundAcute * .5)) * .04) * - Math.PI * .1
+      this.particlesGroup.rotation.z += -Math.abs(((Store.sound.freqDatas.uSoundHighBass * .3) + (Store.sound.freqDatas.uSoundMedium * .3) + (Store.sound.freqDatas.uSoundHighAcute * .3) + (Store.sound.freqDatas.uSoundAcute * .3)) * .04) * - Math.PI * .1
       // this.particlesGroup.scale.z = 1 -Math.abs(Store.sound.freqDatas.uSoundBass * .1) * - Math.PI * .1
       this.torusMesh.material.uniforms.uTime.value = et
       
@@ -156,14 +157,26 @@ class Torus {
          this.torusMesh.material.uniforms[key].value = value
       }
 
+      if (!Store.mobile.isOnMobile) {
+         if(!isNaN(this.mouse.x * 0.)) {
+            this.target.x = -this.mouse.x * 0.1;
+            this.target.y = this.mouse.y * 0.1;
+         }
+   
+         this.particlesGroup.rotation.y += (.02 * (this.target.x / 2 - this.particlesGroup.rotation.y));
+         this.particlesGroup.rotation.x += (.02 * (this.target.y / 2 - this.particlesGroup.rotation.x));
+      } else {
+         // console.log(this.tilt);
+         // console.log(Store.mobile.tilt);
 
-      if(!isNaN(this.mouse.x * 0.)) {
-         this.target.x = -this.mouse.x * 0.2;
-         this.target.y = this.mouse.y * 0.2;
+         if(!isNaN(Store.mobile.tilt.x * 0.)) {
+            this.target.y = -Store.mobile.tilt.x * 0.1;
+            this.target.x = Store.mobile.tilt.y * 0.1;
+         }
+   
+         this.particlesGroup.rotation.y += (.02 * (this.target.x / 2 - this.particlesGroup.rotation.y));
+         this.particlesGroup.rotation.x += (.02 * (this.target.y / 2 - this.particlesGroup.rotation.x));
       }
-
-      this.particlesGroup.rotation.y += (.03 * (this.target.x / 2 - this.particlesGroup.rotation.y));
-      this.particlesGroup.rotation.x += (.04 * (this.target.y / 2 - this.particlesGroup.rotation.x));
    }
 }
 
