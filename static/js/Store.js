@@ -317,6 +317,7 @@ export const Store = {
          null,
          null
       ],
+      loopProgress: 0,
       music: null,
       musicState: false,
       freqDatas: {
@@ -360,8 +361,6 @@ export const Store = {
       progress: 0,
       events: {
          eventClick: 'click',
-         eventDown: 'mousedown',
-         eventUp: 'mouseup',
          eventMove: 'mousemove'
       }
    }

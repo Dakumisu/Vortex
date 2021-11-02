@@ -42,10 +42,11 @@ class SoundController {
          if (counter == 0) {
             Store.sound.samplesPlayed.forEach((letter) => {
                if (letter != null)
-                  this.playSample(letter)
+               this.playSample(letter)
             })
          }
          counter++;
+         gsap.to(Store.sound, this.tempo / 1000, { loopProgress: counter / 15, ease: "Power0.easeNone" })
          if (counter == 16 || Store.sound.samplesPlayed[0] == null && Store.sound.samplesPlayed[1] == null && Store.sound.samplesPlayed[2] == null) {
             counter = 0
          }

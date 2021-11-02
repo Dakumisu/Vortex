@@ -15,9 +15,9 @@
     <meta name="publisher" content="Dakumisu" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="theme-color" content="#222222">
-    <meta name="msapplication-navbutton-color" content="#171f22">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#171f22">
+    <meta name="theme-color" content="#000000">
+    <meta name="msapplication-navbutton-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#ffffff">
     <title>Vortex</title>
     <link rel="icon" href="assets/img/icon/favicon.jpg" />
     <link rel="icon" type="image/jpg" sizes="16x16" href="assets/img/icon/favicon.jpg">
@@ -28,15 +28,20 @@
     <link rel="apple-touch-icon" href="assets/img/icon/apple-touch-favicon.jpg" />
     <meta property="og:image" content="assets/img/icon/favicon.jpg" />
     <meta name="msapplication-TileImage" content="assets/img/icon/favicon.jpg">
-    <meta name="msapplication-TileColor" content="#222222">
+    <meta name="msapplication-TileColor" content="#000000">
 </head>
 
 <body>
     <div class="buttons">
-        <input type="file" id="file" name="files[]"/>
+        <input hidden type="file" id="file" name="files[]"/>
         <button class="play">play</button>
         <button class="stop">stop</button>
     </div>
+
+    <div class="hud">
+        <button>start</button>
+    </div>
+
     <section class="canvas--container">
         <canvas class="webgl"></canvas>
     </section>

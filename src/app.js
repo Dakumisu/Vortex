@@ -11,14 +11,12 @@ import Scene from '../static/js/Scene' // Création de la scène + renderer + ca
 import LoadAlphabet from '../static/js/LoadAlphabet' // Chargement de l'alphabet
 import Letter from '../static/js/Letter' // Ajout d'une lettre à la scène
 import Mouse from '../static/js/Mouse' // Obtenir la position de la souris dans tous les environnement
-import Torus from '../static/js/Torus' // Torus
-import SoundController from '../static/js/SoundController' // Sound Controller
-import CheckDevice from '../static/js/CheckDevice' // Sound Controller
+// import PlaneButton from '../static/js/PlaneButton' // Buttons
+import Torus from '../static/js/Torus' // Torus x Vortex
+import SoundController from '../static/js/SoundController'
+import CheckDevice from '../static/js/CheckDevice'
 import Control from '../static/js/Control' // Orbitcontrol (pour le debbugage)
 import Settings from '../static/js/Settings.js' // Dat.gui (toujours pour le debbugage)
-
-
-
 
 // import Recorder from 'recorder-js';
 
@@ -116,6 +114,13 @@ const mouse = new Mouse({
     scene: scene
 })
 
+// const button = new PlaneButton({
+//     scene: scene,
+//     mouse: mouse.mouseScene,
+//     name: "test",
+//     image: test
+// })
+
 const torus = new Torus({
     scene: scene,
     mouse: mouse.mouseScene
@@ -139,16 +144,7 @@ document.querySelector('.stop').addEventListener('click', () => {
 //     renderer: scene.renderer
 // })
 
-
-// canvas.addEventListener('touchstart', e => {
-//     const letters = 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * 25))
-//     Store.alphabetDatas.alphabetArray.push(new Letter({
-//         scene: scene,
-//         mesh: Store.alphabet[letters].mesh
-//     }))
-// })
 let expand = false
-
 document.addEventListener('keydown', e => {
     const key = e.key.toLowerCase()
     const regex = /[a-zA-Z]/
@@ -349,7 +345,8 @@ function raf() {
     // }
 
     scene.composer.render()
-    
+    // scene.renderer.render(scene.scene, scene.camera)
+
     // Update controls
     // control.controls.update()
     window.requestAnimationFrame(raf)

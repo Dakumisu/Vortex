@@ -32,6 +32,7 @@ class LoadAlphabet {
             // uColor: { value: new THREE.Color(0xff55ff) },
             uColor: { value: new THREE.Color(0x2c2c2c) },
             uAlpha: { value: 1. },
+            uLoopSample: { value: Store.sound.loopProgress },
             uProgress: { value: Store.params.progress },
             uAspect : { value : new THREE.Vector2(Store.params.sizes.width, Store.params.sizes.height) },
             uPixelRatio: { value: window.devicePixelRatio }

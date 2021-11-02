@@ -91,10 +91,12 @@ class Letter {
 
    update(time) {
       if (this.letterMesh) {
-         const scale = .75 + Math.abs((Store.sound.freqDatas.uSoundBass * .1 + Store.sound.freqDatas.uSoundAcute * .1))
+         const scale = .75 - (Store.sound.loopProgress / 4) + (Math.abs((Store.sound.freqDatas.uSoundBass * .1 + Store.sound.freqDatas.uSoundAcute * .1)))
          this.letterMesh.scale.set(scale, scale, scale)
          this.letterMesh.rotation.y = (time * .3) * Math.PI + this.randomStrength
          this.letterMesh.rotation.z = (time * .3) * Math.PI + this.randomStrength
+
+         this.letterMesh.material.uniforms.uLoopSample.value = Store.sound.loopProgress
       }
 
       if (!Store.mobile.isOnMobile) {

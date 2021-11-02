@@ -16,7 +16,6 @@ class Torus {
       this.torusAlpha = .01
       this.vortexAlpha = .75
 
-      this.setVarations()
       this.init()
       this.resize()
    }
@@ -128,16 +127,6 @@ class Torus {
          gsap.to(this.torusMesh.material.uniforms.uAlpha, 1, { value: this.torusAlpha, ease: "Expo.easeInOut", delay: .4})
          gsap.to(this.particlesGroup.rotation, 1.2, { z: this.particlesGroup.rotation.z + (2 * Math.PI) * .2, ease: "Power3.easeOut" })
       }
-   }
-
-   setVarations() {
-      this.variations = {}
-
-      this.variations.volume = {}
-      this.variations.volume.target = 0
-      this.variations.volume.current = 0
-      this.variations.volume.upEasing = 1.2
-      this.variations.volume.downEasing = .7
    }
 
    resize() {
