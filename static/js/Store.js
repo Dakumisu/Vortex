@@ -273,11 +273,7 @@ export const Store = {
    },
 
    alphabetDatas: {
-      keysOrder: [
-         'a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-         'q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm',
-         'w', 'x', 'c', 'v', 'b', 'n'
-      ],
+      keysOrder: null,
       alphabetGroup: null,
       lettersInputLimit: 3,
       lettersCount: 0,
@@ -303,6 +299,19 @@ export const Store = {
             .0
          ],
       }
+   },
+
+   keyboardLayout: {
+      azertyKeyboard: [
+         'a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+         'q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm',
+         'w', 'x', 'c', 'v', 'b', 'n'
+      ],
+      qwertyKeyboard: [
+         'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+         'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
+         'w', 'x', 'c', 'v', 'b', 'n', 'm'
+      ]
    },
 
    // Sound control

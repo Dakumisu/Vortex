@@ -18,11 +18,6 @@ class CheckDevice {
          new Tilt()
      } else {
          // Desktop
-         if (window.ethereum) {
-            if (typeof window.ethereum.autoRefreshOnNetworkChange !== "undefined") {
-                window.ethereum.autoRefreshOnNetworkChange = false;
-            }
-         }
      }
    }
 

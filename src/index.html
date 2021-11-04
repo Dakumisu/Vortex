@@ -33,12 +33,15 @@
 
 <body>
     <div class="buttons">
-        <input hidden type="file" id="file" name="files[]"/>
-        <button class="play">play</button>
-        <button class="stop">stop</button>
     </div>
-
+    
     <div class="hud">
+        
+        <input type="file" class="fileMusic" name="files[]"/>
+        <button class="keyboard" data-layout="azerty">azerty</button>
+        <button class="keyboard" data-layout="qwerty">qwerty</button>
+        <button class="music" data-state="play">play</button>
+        <button class="music" data-state="stop">stop</button>
         <button>start</button>
     </div>
 
