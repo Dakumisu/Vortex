@@ -15,14 +15,9 @@ class Controls {
 
       this.expandStateState = false
 
-      this.init()
       this.resize()
       this.vertigoEffect()
       this.onKeyDown()
-   }
-
-   init() {
-
    }
 
    onKeyDown() {

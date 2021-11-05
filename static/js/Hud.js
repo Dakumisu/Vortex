@@ -12,24 +12,21 @@ class Hud {
       this.mp3Name = null
       this.mp3Url = null
 
-      this.init()
       this.resize()
       this.loadMusic()
       this.musicControl()
       this.getKeyboard()
       this.changeKeyboard()
    }
-   
-   init() {
-   }
 
    start() {
       Store.params.experienceStarted = true
    }
 
-   getKeyboard(layout = localStorage.getItem('keyboard') || 'azerty') {
+   getKeyboard(layout = localStorage.getItem('keyboard') ? localStorage.getItem('keyboard') : 'azerty') {
+      localStorage.setItem('keyboard', layout)
       // Assignations des samples au clavier
-      if (localStorage.length >= 1) {
+      if (localStorage.getItem('keyboard') != null) {
          if (localStorage.getItem('keyboard') == layout) {
             Store.alphabetDatas.keysOrder = Store.keyboardLayout[`${layout}Keyboard`]
          } else {
