@@ -32,20 +32,26 @@
 </head>
 
 <body>
-    <div class="buttons">
-    </div>
-    
     <div class="hud">
-        
-        <input type="file" class="fileMusic" name="files[]"/>
-        <button class="keyboard" data-layout="azerty">azerty</button>
-        <button class="keyboard" data-layout="qwerty">qwerty</button>
-        <button class="music" data-state="play">play</button>
-        <button class="music" data-state="stop">stop</button>
-        <button>start</button>
+        <div class="hud__menu">
+            <button>
+                <div></div>
+            </button>
+        </div>
+
+        <div class="hud__container">
+            <input type="file" class="fileMusic" name="files[]"/>
+            <button class="keyboard" data-layout="azerty">azerty</button>
+            <button class="keyboard" data-layout="qwerty">qwerty</button>
+            <button class="music" data-state="play">play</button>
+            <button class="music" data-state="stop">stop</button>
+            <button>start</button>
+        </div>
+
+        <div class="hud__background"></div>
     </div>
 
-    <section class="canvas--container">
+    <section class="canvas__container">
         <canvas class="webgl"></canvas>
     </section>
 </body>

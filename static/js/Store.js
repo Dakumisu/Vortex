@@ -362,7 +362,7 @@ export const Store = {
             damp: .75
          },
          rgbShift: {
-            amount: .0011
+            amount: .0008
          },
       },
       mouseDown: false,

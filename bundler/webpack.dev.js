@@ -19,7 +19,7 @@ module.exports = merge(
             contentBase: './dist',
             watchContentBase: true,
             open: true,
-            https: true,
+            https: false,
             useLocalIp: true,
             disableHostCheck: true,
             overlay: true,
