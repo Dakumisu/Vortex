@@ -37,10 +37,9 @@ class Letter {
    remove() {
       gsap.to(this.letterMesh.rotation, 2, { z: 2* (Math.PI * 2), ease: "Power3.easeInOut" })
       gsap.to(this.letterMesh.position, 1.5, { z: -15, ease: "Power3.easeInOut" })
-      gsap.to(this.letterMesh.material.uniforms.uAlpha, 1, { value: 0, ease: "Power3.easeInOut", onComplete: () => {
+      gsap.to(this.letterMesh.material.uniforms.uAlpha, .5, { value: 0, ease: "Power3.easeInOut", onComplete: () => {
          Store.alphabetDatas.alphabetGroup.remove(this.letterMesh)
          Store.alphabetDatas.alphabetArray.splice(this.letterMesh.uuid, 1, null)
-         // Store.alphabetDatas.availableIndex.splice(this.letterMesh.uuid, 1, this.letterMesh.uuid)
          Store.alphabet[this.name].id = null
          Store.alphabetDatas.lettersCount --
       } })

@@ -9,10 +9,7 @@ class Tilt {
    }
 
    init() {
-      this.tilt = new THREE.Vector2( {
-         x: 0,
-         y: 0
-      })
+      this.tilt = new THREE.Vector2()
    }
 
    getTilt() {
@@ -23,7 +20,8 @@ class Tilt {
          this.tilt.x = x
          this.tilt.y = y
 
-         Store.mobile.tilt = this.tilt
+         Store.mobile.tilt.x = this.tilt.x
+         Store.mobile.tilt.y = this.tilt.y
       })
    }
 }

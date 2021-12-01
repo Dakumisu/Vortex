@@ -303,23 +303,44 @@ export const Store = {
 
    keyboardLayout: {
       azertyKeyboard: [
-         'a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-         'q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm',
-         'w', 'x', 'c', 'v', 'b', 'n'
+         [
+            'a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+         ],
+         [
+            'q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm',
+         ],
+         [
+            'w', 'x', 'c', 'v', 'b', 'n'
+         ]
       ],
       qwertyKeyboard: [
-         'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
-         'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
-         'w', 'x', 'c', 'v', 'b', 'n', 'm'
+         [
+            'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p',
+         ],
+         [
+            'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l',
+         ],
+         [
+            'w', 'x', 'c', 'v', 'b', 'n', 'm'
+         ]
       ]
    },
 
    // Sound control
    sound: {
       samplesList: [
-         `${percsPath}1.wav`, `${percsPath}2.wav`, `${percsPath}3.wav`, `${percsPath}4.wav`, `${percsPath}5.wav`, `${percsPath}6.wav`, `${percsPath}7.wav`, `${percsPath}8.wav`, `${percsPath}9.wav`, `${percsPath}10.wav`,
-         `${melodyPath}1.wav`, `${melodyPath}2.wav`, `${melodyPath}3.wav`, `${melodyPath}4.wav`, `${melodyPath}5.wav`, `${melodyPath}6.wav`, `${melodyPath}7.wav`, `${melodyPath}8.wav`, `${melodyPath}9.wav`, `${melodyPath}10.wav`,
-         `${bassPath}1.wav`, `${bassPath}2.wav`, `${bassPath}3.wav`, `${bassPath}4.wav`, `${bassPath}5.wav`, `${bassPath}6.wav`
+         // Percs 
+         [
+            `${percsPath}1.wav`, `${percsPath}2.wav`, `${percsPath}3.wav`, `${percsPath}4.wav`, `${percsPath}5.wav`, `${percsPath}6.wav`, `${percsPath}7.wav`, `${percsPath}8.wav`, `${percsPath}9.wav`, `${percsPath}10.wav`,
+         ],
+         // Melodies
+         [
+            `${melodyPath}1.wav`, `${melodyPath}2.wav`, `${melodyPath}3.wav`, `${melodyPath}4.wav`, `${melodyPath}5.wav`, `${melodyPath}6.wav`, `${melodyPath}7.wav`, `${melodyPath}8.wav`, `${melodyPath}9.wav`, `${melodyPath}10.wav`,
+         ],
+         // Basses
+         [
+            `${bassPath}1.wav`, `${bassPath}2.wav`, `${bassPath}3.wav`, `${bassPath}4.wav`, `${bassPath}5.wav`, `${bassPath}6.wav`, `${bassPath}7.wav`
+         ]
       ],
       samplesPlayed: [
          null,
@@ -329,6 +350,7 @@ export const Store = {
       loopProgress: 0,
       music: null,
       musicState: false,
+      samplesAssigned: false,
       freqDatas: {
          uSoundLowBass: 0,
          uSoundBass: 0,

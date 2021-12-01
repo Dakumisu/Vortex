@@ -79,6 +79,82 @@ select {
     }
 }
 
+html {
+    font-size: 16px;
+}
+
+.hud-top {
+    width: 90vw;
+    height: auto;
+    margin: auto;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    position: fixed;
+    z-index: 10;
+    top: 5%;
+    
+    &-left {
+        position: relative;
+        width: auto;
+        height: 5rem;
+        
+        z-index: 3;
+
+        .music-infos {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            
+            span {
+                color: #fff;
+                font-size: 1rem;
+                line-height: .75rem;
+                
+                &:nth-child(2) {
+                    font-size: .9rem;
+                    font-style: italic;
+                    opacity: .75;
+                }
+            }
+        }
+    }
+    
+    &-right {
+        position: relative;
+        width: 2rem;
+        height: 2rem;
+
+        button {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            z-index: 3;
+            cursor: pointer;
+            background: none;
+            transform: rotateZ(45deg);
+
+            div {
+                top: 50%;
+                right: 50%;
+                transform: translate(-50%, -50%);
+                position: absolute;
+                // transform: rotateZ(45deg);
+                width: 2px;
+                height: 100%;
+                background-color: #fff;                    
+                &:nth-child(2) {
+                    width: 2px;
+                    transform: translate(-50%, -50%) rotateZ(90deg);
+                }
+            }
+        }
+    }
+}
 
 .hud {
     display: flex;
@@ -88,28 +164,136 @@ select {
     height: 100vh;
     z-index: 1;
 
-    &__menu {
-        position: absolute;
-        top: 100px;
-        right: 100px;
-        z-index: 3;
-        
-        button {
-            cursor: pointer;
-
-            div {
-                width: 10px;
-                height: 10px;
-                background-color: #fff;
-            }
-        }
-    }
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 
     &__container {
         width: 100%;
         height: 100%;
-        padding: 100px;
+        // padding: 2.5rem;
         z-index: 2;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .center {
+        width: 90%;
+        min-width: 1200px;
+        height: 40%;
+        min-height: 350px;
+
+        margin: auto;
+        
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        
+        &-left, &-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            height: 100%;
+            width: 45%;
+            
+            input {
+                display: none;
+            }
+            
+            .buttons {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-end;
+    
+                width: 100%;
+                height: auto;
+            }
+
+            button {
+                cursor: pointer;
+                background: none;
+                border: 1px solid #fff;
+                border-radius: 3px;
+                width: 30%;
+                
+                div {
+                    padding: .5rem 2rem;
+
+                    span {
+                        color: #fff;
+                    }
+                }
+            }
+        }
+        
+        &-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .text {
+                text-align: justify;
+                color: #fff;
+
+                p {
+                    font-size: 1.2rem;
+                    margin-bottom: .5rem;
+                    line-height: 1.1rem;
+                }
+
+                span {
+                    font-size: .9rem;
+                }
+
+                .red {
+                    color: $red;
+                }
+
+                .purple {
+                    color: $purple;
+                }
+
+                .blue {
+                    color: $blue;
+                }
+
+                .green {
+                    color: $green;
+                }
+            }
+        }
+
+        .gap {
+            width: 2px;
+            height: 100%;
+            background-color: #fff;
+            margin: 0 2rem;
+        }
+
+        &-right {
+            .buttons {
+                justify-content: space-evenly;
+            }
+
+            .keyboard-container {
+                .keyboard {
+                    width: 100%;
+
+                    &--letters {
+                        // cursor: pointer;
+                    }
+                }
+            }
+        }
     }
 
     &__background {
@@ -119,15 +303,10 @@ select {
         position: absolute;
         top: 0;
         left: 0;
-        z-index: 0;
+        z-index: -1;
         pointer-events: none;
     }
 }
-
-// button {
-//     width: auto;
-//     height: 50px;
-// }
 
 canvas {
     user-select: none;

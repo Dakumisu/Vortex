@@ -11,7 +11,7 @@ class Torus {
       this.mouse = opt.mouse
       this.tilt = Store.mobile.tilt
 
-      this.target = new Vector2(0, 0)
+      this.target = new Vector2()
 
       this.torusAlpha = .01
       this.vortexAlpha = .75
@@ -25,7 +25,7 @@ class Torus {
       const particlesCount = torusGeometry.attributes.position.array
 
       this.blueprintParticle = new PlaneBufferGeometry()
-      this.blueprintParticle.scale(.1, .1, .1)
+      this.blueprintParticle.scale(.015, .015, .015)
 
       this.geometry = new InstancedBufferGeometry()
       
@@ -147,24 +147,18 @@ class Torus {
       }
 
       if (!Store.mobile.isOnMobile) {
-         if(!isNaN(this.mouse.x * 0.)) {
-            this.target.x = -this.mouse.x * 0.1;
-            this.target.y = this.mouse.y * 0.1;
-         }
-   
-         this.particlesGroup.rotation.y += (.02 * (this.target.x / 2 - this.particlesGroup.rotation.y));
-         this.particlesGroup.rotation.x += (.02 * (this.target.y / 2 - this.particlesGroup.rotation.x));
-      } else {
-         // console.log(this.tilt);
-         // console.log(Store.mobile.tilt);
+         this.target.x = -this.mouse.x * 0.05;
+         this.target.y = this.mouse.y * 0.05;
 
-         if(!isNaN(Store.mobile.tilt.x * 0.)) {
-            this.target.y = -Store.mobile.tilt.x * 0.1;
-            this.target.x = Store.mobile.tilt.y * 0.1;
-         }
+         
+         this.particlesGroup.rotation.y += (.08 * (this.target.x / 2 - this.particlesGroup.rotation.y));
+         this.particlesGroup.rotation.x += (.08 * (this.target.y / 2 - this.particlesGroup.rotation.x));
+      } else {
+         this.target.y = -Store.mobile.tilt.x * 0.1;
+         this.target.x = Store.mobile.tilt.y * 0.1;
    
-         this.particlesGroup.rotation.y += (.02 * (this.target.x / 2 - this.particlesGroup.rotation.y));
-         this.particlesGroup.rotation.x += (.02 * (this.target.y / 2 - this.particlesGroup.rotation.x));
+         this.particlesGroup.rotation.y += (.05 * (this.target.x / 2 - this.particlesGroup.rotation.y));
+         this.particlesGroup.rotation.x += (.05 * (this.target.y / 2 - this.particlesGroup.rotation.x));
       }
    }
 }

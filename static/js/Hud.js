@@ -6,16 +6,24 @@ class Hud {
       this.soundController = opt.soundController
 
       this.nodes = {}
+      this.nodes.menuButton = document.querySelector("button.hud__button")
+      this.nodes.hud = document.querySelector("div.hud")
+      this.nodes.hudContainer = document.querySelector("div.hud__container")
       this.nodes.keyboardButtons = document.querySelectorAll("button.keyboard")
       this.nodes.musicButtons = document.querySelectorAll("button.music")
-      this.nodes.fileButton = document.querySelector(".fileMusic")
+      this.nodes.fileButton = document.querySelector("button.buttonFileMusic")
+      this.nodes.musicFile = document.querySelector("input.fileMusic")
+      this.nodes.ppr = document.querySelector("span.ppr")
       this.mp3Name = null
       this.mp3Url = null
 
+      let layoutInStorage = localStorage.getItem('keyboard') ? localStorage.getItem('keyboard') : 'azerty'
+
       this.resize()
       this.loadMusic()
+      this.menu()
       this.musicControl()
-      this.getKeyboard()
+      this.getKeyboard(layoutInStorage)
       this.changeKeyboard()
    }
 
@@ -23,7 +31,7 @@ class Hud {
       Store.params.experienceStarted = true
    }
 
-   getKeyboard(layout = localStorage.getItem('keyboard') ? localStorage.getItem('keyboard') : 'azerty') {
+   getKeyboard(layout) {
       localStorage.setItem('keyboard', layout)
       // Assignations des samples au clavier
       if (localStorage.getItem('keyboard') != null) {
@@ -34,16 +42,29 @@ class Hud {
          }
       }
 
-      this.fillSamples()
+      Store.sound.samplesAssigned = false
+
+      this.fillSamples(layout).then(() => {
+         Store.sound.samplesAssigned = true
+         this.soundController.fillSampleCache()
+      })
    }
    
-   fillSamples() {
-      let i = 0
-      for(const [key, value] of Object.entries(Store.alphabet)) {
-         const index = Store.alphabetDatas.keysOrder[i]
-         Store.alphabet[index].sample = Store.sound.samplesList[i]
-         i++
-      }
+   async fillSamples(layout) {
+      let fillLimit
+      if (layout == 'azerty') fillLimit = [10, 10, 6]
+      else fillLimit = [10, 9, 7]
+
+      new Promise ( resolve => {
+         for (let i = 0; i < fillLimit.length; i++) {
+            for (let j = 0; j < fillLimit[i]; j++) {
+               const index = Store.alphabetDatas.keysOrder[i][j]
+               Store.alphabet[index].sample = Store.sound.samplesList[i][j]         
+            }
+         }
+         
+         resolve()
+      })
    }
 
    changeKeyboard() {
@@ -61,7 +82,11 @@ class Hud {
    }
 
    loadMusic() {
-      this.nodes.fileButton.addEventListener("change", (event) => {
+      this.nodes.fileButton.addEventListener("click", (event) => {
+         this.nodes.musicFile.click()
+      })
+
+      this.nodes.musicFile.addEventListener("change", (event) => {
          this.nodes.fileButton.blur()
          if (!event.target.files.length == 0) {
             var file = event.target.files; // File object
@@ -78,12 +103,37 @@ class Hud {
       this.nodes.musicButtons.forEach(button => {
          button.addEventListener('click', () => {
             button.blur()
-            if (button.dataset.state == "play") {
-               this.soundController.playMusic()
-            } else {
-               this.soundController.stopMusic()
+            if (Store.sound.music) {
+               if (button.dataset.state == "play") {
+                  if (!Store.sound.musicState && !this.soundController.onPause) {
+                     console.log('play', Store.sound.musicState, this.soundController.onPause);
+                     this.nodes.ppr.innerHTML = 'Pause'
+                     console.log(this.nodes.ppr);
+                     this.soundController.music('play')
+                  } else if (this.soundController.onPause && Store.sound.musicState) {
+                     this.nodes.ppr.innerHTML = 'Pause'
+                     console.log('resume');
+                     this.soundController.music('resume')
+                  } else {
+                     this.nodes.ppr.innerHTML = 'Resume'
+                     console.log('pause');
+                     this.soundController.music('pause')
+                  }
+               } else if (button.dataset.state == "stop") {
+                  this.nodes.ppr.innerHTML = 'Play'
+                  console.log('stop');
+                  this.soundController.music('stop')
+               }
             }
          })
+      })
+   }
+
+   menu() {
+      console.log(this.nodes.menuButton);
+      this.nodes.menuButton.addEventListener('click', () => {
+         this.nodes.hudContainer.style.display = 'none'
+         this.nodes.hud.style.pointerEvents = 'none'
       })
    }
 
@@ -91,11 +141,7 @@ class Hud {
       window.addEventListener('resize', () => {
 
      })
-   }
-
-   update(et) {
-
-   }
+   }   
 }
 
 export default Hud

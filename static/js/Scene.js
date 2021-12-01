@@ -64,16 +64,22 @@ class Scene {
    vertigoEffect(dir) {
       if (dir == 1) {
          gsap.to(this.camera, 1, { fov: 35, ease: "Power3.easeInOut" })
-         gsap.to(this.camera.position, 1, { z: 4.25, ease: "Power3.easeInOut" })
+         gsap.to(this.camera.position, 1, { z: 4.25, ease: "Power3.easeInOut", onUpdate: () => {
+            this.camera.updateProjectionMatrix();
+         } })
       } else if (dir == 3) {
          gsap.to(this.camera, 1, { fov: 145, ease: "Power3.easeInOut" })
-         gsap.to(this.camera.position, 1, { z: 0.1, ease: "Power3.easeInOut" })
+         gsap.to(this.camera.position, 1, { z: 0.1, ease: "Power3.easeInOut", onUpdate: () => {
+            this.camera.updateProjectionMatrix();
+         } })
       }
    }
 
    noVertigoEffect() {
       gsap.to(this.camera, 1, { fov: 75, ease: "Power3.easeInOut" })
-      gsap.to(this.camera.position, 1, { z: 3, ease: "Power3.easeInOut" })
+      gsap.to(this.camera.position, 1, { z: 3, ease: "Power3.easeInOut", onUpdate: () => {
+         this.camera.updateProjectionMatrix();
+      } })
    }
 
    resize() {
@@ -95,8 +101,6 @@ class Scene {
    update() {
       this.composer.passes[1].uniforms.damp.value = Store.params.pp.aip.damp + Math.abs(Store.sound.freqDatas.uSoundBass * .03 + Store.sound.freqDatas.uSoundLowAcute * .01)
       this.composer.passes[2].uniforms.amount.value = Store.params.pp.rgbShift.amount + Math.abs(Store.sound.freqDatas.uSoundBass * .0011)
-      // this.camera.fov = 75 + Math.abs(Store.sound.freqDatas.uSoundHighBass * 3)
-      // console.log(this.camera.fov);
    }
 }
 

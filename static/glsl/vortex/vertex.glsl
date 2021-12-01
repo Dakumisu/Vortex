@@ -57,6 +57,8 @@ void main() {
 
    vec4 mv = modelViewMatrix * vec4(renderPos, 1.);
 
+   mv.xyz += pos.xyz * (PI * 2.);
+
    if (uProgress < .1) {
       mv.z += (sin(mv.z + (uTime * 10. + uSoundMedium)) * .1) * abs(uSoundLowBass * 1.2);
    }

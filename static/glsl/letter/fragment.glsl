@@ -9,8 +9,6 @@ uniform float uLoopSample;
 uniform vec3 uColor;
 
 varying vec2 vUv;
-varying vec3 vPos;
-varying vec4 vModelViewMatrix;
 
 void main() {
 

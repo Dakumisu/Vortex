@@ -11,32 +11,17 @@ class Mouse {
 
    init() {
       // Position de la souris dans le DOM
-      this.mouseDom = new THREE.Vector2( {
-         x: 0,
-         y: 0
-      })
+      this.mouseDom = new THREE.Vector2()
 
       // Position de la souris à utiliser dans fragment shader si besoin (x: [0, 1], y:[0, 1])
-      this.mouseFrag = new THREE.Vector3( {
-         x: 0,
-         y: 0,
-         z: 0
-      })
+      this.mouseFrag = new THREE.Vector3()
 
       // Position de la souris dans la scène (x: [-1, 1], y:[-1, 1])
-      this.mouseScene = new THREE.Vector3( {
-         x: 0,
-         y: 0,
-         z: 0
-      })
+      this.mouseScene = new THREE.Vector3()
       
       // Position de la souris dans la scène par rapport à la taille du DOM et de la caméra (x: [?, ?], y:[?, ?])
       // ❗ Expérimental
-      this.mouseMap = new THREE.Vector3({
-         x: 0,
-         y: 0,
-         z: 0
-      })
+      this.mouseMap = new THREE.Vector3()
    }
 
    mouseMove() {

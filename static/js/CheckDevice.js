@@ -15,7 +15,7 @@ class CheckDevice {
          Store.params.events.eventMove = "touchmove"
          Store.mobile.isOnMobile = true
      
-         new Tilt()
+         // new Tilt()
      } else {
          // Desktop
      }
