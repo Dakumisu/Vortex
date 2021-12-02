@@ -95,6 +95,7 @@ class Hud {
             this.mp3Url = URL.createObjectURL(file[0]);
 
             Store.sound.music = this.mp3Url
+            this.nodes.ppr.innerHTML = 'Play'
          }
       })
    }
@@ -106,22 +107,17 @@ class Hud {
             if (Store.sound.music) {
                if (button.dataset.state == "play") {
                   if (!Store.sound.musicState && !this.soundController.onPause) {
-                     console.log('play', Store.sound.musicState, this.soundController.onPause);
                      this.nodes.ppr.innerHTML = 'Pause'
-                     console.log(this.nodes.ppr);
                      this.soundController.music('play')
                   } else if (this.soundController.onPause && Store.sound.musicState) {
                      this.nodes.ppr.innerHTML = 'Pause'
-                     console.log('resume');
                      this.soundController.music('resume')
                   } else {
                      this.nodes.ppr.innerHTML = 'Resume'
-                     console.log('pause');
                      this.soundController.music('pause')
                   }
                } else if (button.dataset.state == "stop") {
                   this.nodes.ppr.innerHTML = 'Play'
-                  console.log('stop');
                   this.soundController.music('stop')
                }
             }
@@ -130,7 +126,6 @@ class Hud {
    }
 
    menu() {
-      console.log(this.nodes.menuButton);
       this.nodes.menuButton.addEventListener('click', () => {
          this.nodes.hudContainer.style.display = 'none'
          this.nodes.hud.style.pointerEvents = 'none'

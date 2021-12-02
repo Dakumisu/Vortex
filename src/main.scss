@@ -36,6 +36,7 @@ dd {
 }
 
 a {
+    color: inherit;
     text-decoration: none;
 }
 
@@ -84,6 +85,11 @@ html {
 }
 
 .hud-top {
+    position: fixed;
+    z-index: 10;
+    top: 5%;
+    left: 5%;
+
     width: 90vw;
     height: auto;
     margin: auto;
@@ -93,14 +99,10 @@ html {
     justify-content: space-between;
     align-items: flex-start;
 
-    position: fixed;
-    z-index: 10;
-    top: 5%;
-    
     &-left {
         position: relative;
         width: auto;
-        height: 5rem;
+        height: auto;
         
         z-index: 3;
 
@@ -246,8 +248,12 @@ html {
 
                 p {
                     font-size: 1.2rem;
-                    margin-bottom: .5rem;
-                    line-height: 1.1rem;
+                    margin-bottom: 1rem;
+                    line-height: 1.5rem;
+                    
+                    span {
+                        font-size: 1.2rem;
+                    }
                 }
 
                 span {

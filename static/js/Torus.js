@@ -147,12 +147,12 @@ class Torus {
       }
 
       if (!Store.mobile.isOnMobile) {
-         this.target.x = -this.mouse.x * 0.05;
-         this.target.y = this.mouse.y * 0.05;
+         this.target.x = -this.mouse.x * 0.4;
+         this.target.y = this.mouse.y * 0.4;
 
          
-         this.particlesGroup.rotation.y += (.08 * (this.target.x / 2 - this.particlesGroup.rotation.y));
-         this.particlesGroup.rotation.x += (.08 * (this.target.y / 2 - this.particlesGroup.rotation.x));
+         this.particlesGroup.rotation.y += (.007 * (this.target.x / 2 - this.particlesGroup.rotation.y));
+         this.particlesGroup.rotation.x += (.007 * (this.target.y / 2 - this.particlesGroup.rotation.x));
       } else {
          this.target.y = -Store.mobile.tilt.x * 0.1;
          this.target.x = Store.mobile.tilt.y * 0.1;
