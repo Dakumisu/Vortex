@@ -42,6 +42,10 @@ new LoadAlphabet()
 //     renderer: scene.renderer
 // })
 
+document.body.addEventListener('touchstart', () => {
+    document.body.requestFullscreen();
+})
+
 function raf() {
     const elapsedTime = Scene.clock.getElapsedTime()
     const lowestElapsedTime = elapsedTime / 11

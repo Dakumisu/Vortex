@@ -7,7 +7,9 @@ class Hud {
       this.nodes = {}
       this.nodes.menuButton = document.querySelector("button.hud__button")
       this.nodes.hud = document.querySelector("div.hud")
-      this.nodes.hudContainer = document.querySelector("div.hud__container")
+      this.nodes.hudContainer = this.nodes.hud.querySelector(".hud__container")
+      // this.nodes.hudContainerCenter = this.nodes.hudContainer.querySelector(".center")
+
       this.nodes.keyboardButtons = document.querySelectorAll("button.keyboard-layout")
 
       this.nodes.musicButtons = document.querySelectorAll("button.music")

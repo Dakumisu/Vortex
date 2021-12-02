@@ -1,5 +1,4 @@
 import { Store } from '@js/Store'
-import Tilt from '@js/MobileTilt'
 
 class CheckDevice {
    constructor() {
@@ -15,8 +14,13 @@ class CheckDevice {
          Store.params.events.eventMove = "touchmove"
          Store.mobile.isOnMobile = true
      
+         document.children[0].classList.add('mobile')
+         
+         // document.body.requestFullscreen();
+
+         
          // new Tilt()
-     } else {
+      } else {
          // Desktop
      }
    }

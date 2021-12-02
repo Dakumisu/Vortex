@@ -227,6 +227,7 @@ html {
     }
 
     .center {
+        position: relative;
         width: 70%;
         min-width: 1200px;
         height: 100%;
@@ -237,6 +238,14 @@ html {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
+
+        html.mobile & {
+            top: 5%;
+            height: 90%;
+            min-width: 0;
+            width: 95%;
+            margin: auto;
+        }
         
         &-left, &-right {
             display: flex;
@@ -247,6 +256,12 @@ html {
             height: 45%;
             min-height: 500px;
             width: 45%;
+            
+            html.mobile & {
+                height: 90%;
+                // min-height: 500px;
+                width: 90%;
+            }
             
             input {
                 display: none;
@@ -315,6 +330,9 @@ html {
         }
         
         &-left {
+            html.mobile & {
+                width: 100%;
+            }
             .text {
                 text-align: justify;
                 color: #fff;
@@ -357,9 +375,17 @@ html {
             min-height: 500px;
             background-color: #fff;
             margin: 0 2rem;
+
+            html.mobile & {
+                display: none;
+            }
         }
 
         &-right {
+            html.mobile & {
+                display: none;
+            }
+            
             .buttons {
                 justify-content: space-evenly;
             }
@@ -386,10 +412,6 @@ html {
                     &--default {
                         fill: white;
                         fill-opacity: .35;
-                    }
-
-                    &--letters {
-                        // cursor: pointer;
                     }
                 }
             }
