@@ -9,4 +9,5 @@ class Settings {
    }
 }
 
-export default Settings
+const out = new Settings()
+export default out

@@ -7,12 +7,11 @@ import { AfterimagePass } from 'three/examples/jsm/postprocessing/AfterimagePass
 import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js';
 import { TweenLite, TweenMax, gsap } from 'gsap' // https://greensock.com/docs/
 
-import { Store } from './Store'
+import { Store } from '@js/Store'
 
 class Scene {
    constructor(opt) {
-      this.canvas = opt.canvas
-      this.settings = opt.settings
+      this.canvas = document.querySelector('.webgl')
 
       this.lowestElapsedTime = 0
 
@@ -99,9 +98,15 @@ class Scene {
    }
 
    update() {
+   }
+   
+   render() {
       this.composer.passes[1].uniforms.damp.value = Store.params.pp.aip.damp + Math.abs(Store.sound.freqDatas.uSoundBass * .03 + Store.sound.freqDatas.uSoundLowAcute * .01)
       this.composer.passes[2].uniforms.amount.value = Store.params.pp.rgbShift.amount + Math.abs(Store.sound.freqDatas.uSoundBass * .0011)
+
+      this.composer.render()
    }
 }
 
-export default Scene
+const out = new Scene()
+export default out

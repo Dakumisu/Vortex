@@ -1,11 +1,13 @@
-@import '../static/scss/utils/_font';
-@import '../static/scss/utils/_var';
+@import './scss/utils/_font';
+@import './scss/utils/_var';
+@import './scss/utils/_breakpoints';
 
 *,
 *::before,
 *::after {
     user-select: none;
     box-sizing: border-box;
+    font-family: 'Ogg Roman';
     // cursor: none; // si cursor custom
 }
 
@@ -84,6 +86,20 @@ html {
     font-size: 16px;
 }
 
+.hide {
+    display: none !important;
+}
+
+.fadeOpacity {
+    transition: opacity .3s ease-out;
+}
+
+.fadeIn {
+    opacity: 1 !important;
+    transition: opacity .3s ease-out;
+    pointer-events: all !important;
+}
+
 .hud-top {
     position: fixed;
     z-index: 10;
@@ -121,6 +137,7 @@ html {
                     font-size: .9rem;
                     font-style: italic;
                     opacity: .75;
+                    font-family: 'Ogg Italic';
                 }
             }
         }
@@ -139,19 +156,43 @@ html {
             cursor: pointer;
             background: none;
             transform: rotateZ(45deg);
+            
+            &.menuOpen {
+                animation: rotateOpenMenuButton 1s ease-in-out forwards;
+            }
+            
+            &.menuClose {
+                animation: rotateCloseMenuButton .5s ease-out forwards;
+            }
+
+            @keyframes rotateOpenMenuButton {
+                from {
+                    transform: rotateZ(0deg);
+                }
+                to {
+                    transform: rotateZ(-135deg);
+                }
+            }
+            
+            @keyframes rotateCloseMenuButton {
+                from {
+                    transform: rotateZ(45deg);
+                }
+                to {
+                    transform: rotateZ(0deg);
+                }
+            }
 
             div {
-                top: 50%;
-                right: 50%;
-                transform: translate(-50%, -50%);
+                top: 45%;
+                right: 45%;
+                transform: translate(-45%, -45%);
                 position: absolute;
-                // transform: rotateZ(45deg);
                 width: 2px;
                 height: 100%;
                 background-color: #fff;                    
                 &:nth-child(2) {
-                    width: 2px;
-                    transform: translate(-50%, -50%) rotateZ(90deg);
+                    transform: translate(-45%, -45%) rotateZ(90deg);
                 }
             }
         }
@@ -159,8 +200,8 @@ html {
 }
 
 .hud {
-    display: flex;
-    justify-content: column;
+    opacity: 0;
+    pointer-events: none;
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -172,6 +213,8 @@ html {
     align-items: center;
 
     &__container {
+        opacity: 0;
+        pointer-events: none;
         width: 100%;
         height: 100%;
         // padding: 2.5rem;
@@ -184,25 +227,25 @@ html {
     }
 
     .center {
-        width: 90%;
+        width: 70%;
         min-width: 1200px;
-        height: 40%;
-        min-height: 350px;
-
+        height: 100%;
+        
         margin: auto;
         
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        align-items: flex-end;
+        align-items: center;
         
         &-left, &-right {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-
-            height: 100%;
+            
+            height: 45%;
+            min-height: 500px;
             width: 45%;
             
             input {
@@ -214,11 +257,11 @@ html {
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: flex-end;
-    
+                
                 width: 100%;
                 height: auto;
             }
-
+            
             button {
                 cursor: pointer;
                 background: none;
@@ -227,32 +270,62 @@ html {
                 width: 30%;
                 
                 div {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
                     padding: .5rem 2rem;
 
                     span {
                         color: #fff;
                     }
                 }
+
+                &.keyboard-layout {
+                    opacity: .5;
+                    transition: opacity .3s ease-out;
+                    
+                    &:hover {
+                        opacity: 1;
+                        transition: opacity .3s ease-out;
+                    }
+                    
+                    &.active {
+                        opacity: 1;
+                        transition: opacity .3s ease-out;
+                    }
+                }
+
+                &.svg-icon {
+                    opacity: .75;
+                    transition: opacity .3s ease-out;
+                    
+                    &:hover {
+                        opacity: 1;
+                        transition: opacity .3s ease-out;
+                    }
+
+                    svg {
+                        height: 25px;
+                        fill: #fff;
+                    }
+                }
             }
+
         }
         
         &-left {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-
             .text {
                 text-align: justify;
                 color: #fff;
 
                 p {
-                    font-size: 1.2rem;
+                    font-size: 1rem;
                     margin-bottom: 1rem;
                     line-height: 1.5rem;
                     
                     span {
-                        font-size: 1.2rem;
+                        font-size: 1rem;
                     }
                 }
 
@@ -280,7 +353,8 @@ html {
 
         .gap {
             width: 2px;
-            height: 100%;
+            height: 50%;
+            min-height: 500px;
             background-color: #fff;
             margin: 0 2rem;
         }
@@ -293,6 +367,26 @@ html {
             .keyboard-container {
                 .keyboard {
                     width: 100%;
+
+                    &--percs {
+                        fill: $purple;
+                        fill-opacity: .75;
+                    }
+
+                    &--melodies {
+                        fill: $blue;
+                        fill-opacity: .75;
+                    }
+
+                    &--basses {
+                        fill: $green;
+                        fill-opacity: .75;
+                    }
+                    
+                    &--default {
+                        fill: white;
+                        fill-opacity: .35;
+                    }
 
                     &--letters {
                         // cursor: pointer;

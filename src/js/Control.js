@@ -1,12 +1,15 @@
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls' // https://threejs.org/docs/#examples/en/controls/OrbitControls
 
-class Control {
-   constructor(opt) {
-      this.camera = opt.camera
-      this.renderer = opt.renderer
+import Scene from '@js/Scene'
 
-      this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+class Control {
+   constructor() {
+      this.controls = new OrbitControls(Scene.camera, Scene.renderer.domElement)
       this.controls.enableDamping = true
+   }
+
+   update() {
+      this.controls.update()
    }
 }
 

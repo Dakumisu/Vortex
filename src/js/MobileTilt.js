@@ -1,5 +1,5 @@
 import * as THREE from 'three'
-import { Store } from './Store'
+import { Store } from '@js/Store'
 
 class Tilt {
    constructor() {

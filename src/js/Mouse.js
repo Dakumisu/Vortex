@@ -1,10 +1,9 @@
 import * as THREE from 'three'
-import { Store } from './Store'
+import Scene from '@js/Scene'
+import { Store } from '@js/Store'
 
 class Mouse {
    constructor(opt) {
-      this.scene = opt.scene
-
       this.init()
       this.mouseMove()
    }
@@ -47,11 +46,11 @@ class Mouse {
    }
 
    viewSize() {
-      let cameraZ = this.scene.camera.position.z
+      let cameraZ = Scene.camera.position.z
       let distance = cameraZ - 0
-      let aspect = this.scene.camera.aspect
+      let aspect = Scene.camera.aspect
 
-      let vFov = this.scene.camera.fov * Math.PI / 180
+      let vFov = Scene.camera.fov * Math.PI / 180
       let height = 2 * Math.tan(vFov / 2) * distance
       let width = height * aspect
 
@@ -59,4 +58,5 @@ class Mouse {
    }
 }
 
-export default Mouse
+const out = new Mouse()
+export default out

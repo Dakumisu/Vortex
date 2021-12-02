@@ -1,15 +1,14 @@
 import gsap from 'gsap'
 
-import Letter from './Letter'
-import { Store } from './Store'
+import Letter from '@js/Letter'
+import { Store } from '@js/Store'
+import Scene from '@js/Scene'
+import Mouse from '@js/Mouse'
+import Torus from '@js/Torus'
+import SoundController from '@js/SoundController'
 
 class Controls {
    constructor(opt) {
-      this.soundController = opt.soundController
-      this.scene = opt.scene
-      this.mouse = opt.mouse
-      this.torus = opt.torus
-
       this.nodes = {}
       this.nodes.canvas = document.querySelector('canvas.webgl')
 
@@ -50,7 +49,7 @@ class Controls {
          this.expandState = false
          Store.params.progress = 0
 
-         this.torus.expand(this.expandState)
+         Torus.expand(this.expandState)
 
          if (Store.alphabetDatas.alphabetArray.length) {
             Store.alphabetDatas.alphabetArray.forEach(letter => {
@@ -66,7 +65,7 @@ class Controls {
          })
 
          // Disable vertigo effect
-         this.scene.noVertigoEffect()
+         Scene.noVertigoEffect()
 
          if (Store.alphabetDatas.alphabetArray.length) {
             Store.alphabetDatas.alphabetArray.forEach(letter => {
@@ -79,7 +78,7 @@ class Controls {
          this.expandState = true
          Store.params.progress = 1
 
-         this.torus.expand(this.expandState)
+         Torus.expand(this.expandState)
 
          if (Store.alphabetDatas.alphabetArray.length) {
             Store.alphabetDatas.alphabetArray.forEach(letter => {
@@ -121,13 +120,13 @@ class Controls {
          Store.alphabet[key].instance = new Letter({
             id: currentIndex,
             name: Store.alphabet[key].key,
-            scene: this.scene,
+            scene: Scene,
             mesh: Store.alphabet[key].mesh,
-            mouse: this.mouse.mouseScene
+            mouse: Mouse.mouseScene
          })
 
          Store.sound.samplesPlayed.splice(Store.alphabet[key].instance.id, 1, Store.alphabet[key])
-         this.soundController.addSample(Store.alphabet[key])
+         SoundController.addSample(Store.alphabet[key])
 
          for (let i = 0; i < Store.alphabetDatas.alphabetArray.length; i++) {
             if (Store.alphabetDatas.alphabetArray[i] === null) {
@@ -140,7 +139,7 @@ class Controls {
 
    removeLetter(key) {
       Store.sound.samplesPlayed.splice(Store.alphabet[key].instance.id, 1, null)
-      this.soundController.removeSample(Store.alphabet[key])
+      SoundController.removeSample(Store.alphabet[key])
       Store.alphabetDatas.availableIndex.splice(Store.alphabet[key].instance.id, 1, Store.alphabet[key].instance.id)
       Store.alphabet[key].state = false
       Store.alphabet[key].instance.remove()
@@ -150,7 +149,7 @@ class Controls {
       this.nodes.canvas.addEventListener('mousedown', e => {
          Store.mouseDown = true
          if (Store.params.progress) {
-            this.scene.vertigoEffect(e.which)
+            Scene.vertigoEffect(e.which)
    
             if (Store.alphabetDatas.alphabetArray.length) {
                Store.alphabetDatas.alphabetArray.forEach(letter => {
@@ -171,7 +170,7 @@ class Controls {
       this.nodes.canvas.addEventListener('mouseup', e => {
          Store.mouseDown = false
    
-         this.scene.noVertigoEffect()
+         Scene.noVertigoEffect()
    
          if (Store.alphabetDatas.alphabetArray.length) {
             Store.alphabetDatas.alphabetArray.forEach(letter => {
@@ -195,4 +194,5 @@ class Controls {
    }
 }
 
-export default Controls
+const out = new Controls()
+export default out

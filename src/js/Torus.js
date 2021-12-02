@@ -1,14 +1,15 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
 import { BufferGeometry, Group, InstancedBufferAttribute, InstancedBufferGeometry, MathUtils, Mesh, PlaneBufferGeometry, ShaderMaterial, SphereBufferGeometry, TorusBufferGeometry, Vector2 } from 'three'
-import vertex from '../glsl/vortex/vertex.glsl'
-import fragment from '../glsl/vortex/fragment.glsl'
-import { Store } from './Store'
+import vertex from '@glsl/vortex/vertex.glsl'
+import fragment from '@glsl/vortex/fragment.glsl'
+import { Store } from '@js/Store'
+import Scene from '@js/Scene'
+import Mouse from '@js/Mouse'
+
 
 class Torus {
    constructor(opt) {
-      this.scene = opt.scene
-      this.mouse = opt.mouse
       this.tilt = Store.mobile.tilt
 
       this.target = new Vector2()
@@ -16,10 +17,14 @@ class Torus {
       this.torusAlpha = .01
       this.vortexAlpha = .75
 
+      this.start()
+   }
+   
+   start() {
       this.init()
       this.resize()
    }
-   
+
    init() { //Instanced Buffer Geo version
       const torusGeometry = new TorusBufferGeometry( .4, .01, 30, 250);
       const particlesCount = torusGeometry.attributes.position.array
@@ -104,13 +109,13 @@ class Torus {
 
       this.particlesGroup = new Group()
       this.particlesGroup.add(this.torusMesh)
-      this.scene.scene.add(this.particlesGroup)
+      Scene.scene.add(this.particlesGroup)
 
-      this.start()
+      this.startExp()
    }
 
 
-   start() {
+   startExp() {
       gsap.to(this.torusMesh.position, 4, { y: 0, ease: "Power3.easeInOut" })
       gsap.to(this.torusMesh.rotation, 2, { y: -.5 * (Math.PI * 2), ease: "Power3.easeOut", delay: 2 })
    }
@@ -147,8 +152,8 @@ class Torus {
       }
 
       if (!Store.mobile.isOnMobile) {
-         this.target.x = -this.mouse.x * 0.4;
-         this.target.y = this.mouse.y * 0.4;
+         this.target.x = -Mouse.mouseScene.x * 0.4;
+         this.target.y = Mouse.mouseScene.y * 0.4;
 
          
          this.particlesGroup.rotation.y += (.007 * (this.target.x / 2 - this.particlesGroup.rotation.y));
@@ -163,4 +168,5 @@ class Torus {
    }
 }
 
-export default Torus
+const out = new Torus()
+export default out

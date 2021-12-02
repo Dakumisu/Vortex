@@ -1,15 +1,14 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
-import { Store } from './Store' // Store
+import { Store } from '@js/Store' // Store
 import { Vector2 } from 'three'
+import Mouse from '@js/Mouse'
 
 class Letter {
    constructor(opt) {
       this.id = opt.id
       this.name = opt.name
-      this.mouse = opt.mouse
-      this.scene = opt.scene.scene
-
+      
       this.randomStrength = 1 + (Math.random() * 2)
 
       this.letterMesh = opt.mesh.clone()
@@ -92,17 +91,15 @@ class Letter {
       if (this.letterMesh) {
          const scale = .75 - (Store.sound.loopProgress / 4) + (Math.abs((Store.sound.freqDatas.uSoundBass * .1 + Store.sound.freqDatas.uSoundAcute * .1)))
          this.letterMesh.scale.set(scale, scale, scale)
-         this.letterMesh.rotation.y = (time * .3) * Math.PI + this.randomStrength
-         this.letterMesh.rotation.z = (time * .3) * Math.PI + this.randomStrength
+         this.letterMesh.rotation.y += .004 * (Math.PI + this.randomStrength)
+         this.letterMesh.rotation.z += .004 * (Math.PI + this.randomStrength)
 
          this.letterMesh.material.uniforms.uLoopSample.value = Store.sound.loopProgress
       }
 
       if (!Store.mobile.isOnMobile) {
-         if(!isNaN(this.mouse.x * 0.)) {
-            this.target.x = -this.mouse.x * 0.2;
-            this.target.y = this.mouse.y * 0.2;
-         }
+         this.target.x = -Mouse.mouseScene.x * 0.2;
+         this.target.y = Mouse.mouseScene.y * 0.2;
    
          Store.alphabetDatas.alphabetGroup.rotation.y += (.05 * (this.target.x / 2 - Store.alphabetDatas.alphabetGroup.rotation.y));
          Store.alphabetDatas.alphabetGroup.rotation.x += (.05 * (this.target.y / 2 - Store.alphabetDatas.alphabetGroup.rotation.x));

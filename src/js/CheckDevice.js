@@ -1,5 +1,5 @@
-import { Store } from './Store'
-import Tilt from './MobileTilt'
+import { Store } from '@js/Store'
+import Tilt from '@js/MobileTilt'
 
 class CheckDevice {
    constructor() {
@@ -27,4 +27,5 @@ class CheckDevice {
    }
 }
 
-export default CheckDevice
+const out = new CheckDevice()
+export default out

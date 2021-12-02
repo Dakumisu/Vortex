@@ -1,9 +1,9 @@
 import gsap from 'gsap'
 
-import { Store } from './Store'
+import { Store } from '@js/Store'
 
 class SoundController {
-   constructor(opt) {
+   constructor() {
       this.onPause = false
 
       this.samples = [
@@ -13,6 +13,7 @@ class SoundController {
       ]
 
       this.sourceNode = null
+      this.sourceNodeCache = null
       this.musicTime = 0
       this.musicElpasedTime = 0
 
@@ -39,6 +40,7 @@ class SoundController {
       function unlock() {
          context.resume().then(clean())
       }
+
       function clean() {
          events.forEach(e => b.removeEventListener(e, unlock));
       }
@@ -75,7 +77,6 @@ class SoundController {
          if (counter == 16 || Store.sound.samplesPlayed[0] == null && Store.sound.samplesPlayed[1] == null && Store.sound.samplesPlayed[2] == null) {
             counter = 0
          }
-         // console.log(this.samplesCache.a)
       }, this.tempo);
    }
 
@@ -83,6 +84,9 @@ class SoundController {
       if (type == 'play') {
          if (this.sourceNode == null) {
             // PLAY
+            this.playMusic()
+         } else {
+            this.stopMusic()
             this.playMusic()
          }
       } else if (this.sourceNode && type == 'pause') {
@@ -99,7 +103,8 @@ class SoundController {
 
    playMusic() {
       Store.sound.musicState = true
-      // this.musicTime = 0
+
+      console.log('play');
       this.loadData(Store.sound.music, 'music')
    }
 
@@ -107,34 +112,52 @@ class SoundController {
       this.sourceNode.disconnect(this.audioContext.destination)
       this.sourceNode.disconnect(this.analyser)
       this.sourceNode = null
-      this.musicTime = 0
       this.musicElpasedTime = 0
       Store.sound.musicState = false
+      this.sourceNodeCache = null
    }
 
    pauseMusic() {
       this.onPause = true
       this.musicTime = this.audioContext.currentTime
+      console.log('pause', this.musicTime);
       this.sourceNode.stop()
       this.sourceNode.disconnect(this.audioContext.destination)
       this.sourceNode.disconnect(this.analyser)
    }
-
+   
    resumeMusic() {
       this.onPause = false
-      this.musicElpasedTime = this.audioContext.currentTime - this.musicTime
+      this.musicElpasedTime = this.musicTime 
 
-      this.playMusic()
+      // console.log(this.audioContext.currentTime, this.musicTime);
+      console.log('resume', this.musicElpasedTime);
+      
+      if (this.sourceNodeCache) {
+         this.loadMusicBuffer(this.sourceNodeCache, true)
+      } else {
+         this.playMusic()
+      }
    }
 
-   loadMusicBuffer(response) {
-      this.audioContext.decodeAudioData(response, buffer => {
+   loadMusicBuffer(response, cache) {
+      if (cache) {
          this.sourceNode = this.audioContext.createBufferSource();
-         this.sourceNode.buffer = buffer;
+         this.sourceNode.buffer = this.sourceNodeCache;
          this.sourceNode.connect(this.audioContext.destination);
          this.sourceNode.connect(this.analyser)
          this.sourceNode.start(0, this.musicElpasedTime)
-      })
+
+      } else (
+         this.audioContext.decodeAudioData(response, buffer => {
+            this.sourceNode = this.audioContext.createBufferSource();
+            this.sourceNodeCache = buffer
+            this.sourceNode.buffer = buffer;
+            this.sourceNode.connect(this.audioContext.destination);
+            this.sourceNode.connect(this.analyser)
+            this.sourceNode.start(0, this.musicElpasedTime)
+         })
+      )
    }
 
    loadData(data, type) {
@@ -146,7 +169,7 @@ class SoundController {
 
       request.onload = () => {
          const response = request.response;
-         this.loadMusicBuffer(response)
+         this.loadMusicBuffer(response, false)
       }
       
       request.send()
@@ -212,4 +235,5 @@ class SoundController {
    }
 }
 
-export default SoundController
+const out = new SoundController()
+export default out

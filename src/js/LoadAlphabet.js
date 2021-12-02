@@ -4,21 +4,20 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js' // https:/
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js' // https://threejs.org/docs/#examples/en/loaders/DRACOLoader
 import gsap from 'gsap'
 
-import { Store } from './Store' // Store
-import vertex from '../glsl/letter/vertex.glsl'
-import fragment from '../glsl/letter/fragment.glsl'
+import { Store } from '@js/Store' // Store
+import vertex from '@glsl/letter/vertex.glsl'
+import fragment from '@glsl/letter/fragment.glsl'
+import Scene from '@js/Scene'
 
 class LoadAlphabet {
    constructor(opt) {
-      this.scene = opt.scene
-
       this.loader = new GLTFLoader()
       this.dracoLoader = new DRACOLoader()
       this.dracoLoader.setDecoderPath('../assets/js/draco/')
       this.loader.setDRACOLoader(this.dracoLoader)
 
       Store.alphabetDatas.alphabetGroup = new Group()
-      this.scene.add(Store.alphabetDatas.alphabetGroup)
+      Scene.scene.add(Store.alphabetDatas.alphabetGroup)
 
       this.init()
    }
@@ -29,7 +28,6 @@ class LoadAlphabet {
          fragmentShader: fragment,
          uniforms: {
             uTime: { value : 0 },
-            // uColor: { value: new THREE.Color(0xff55ff) },
             uColor: { value: new THREE.Color(0x2c2c2c) },
             uAlpha: { value: 1. },
             uLoopSample: { value: Store.sound.loopProgress },
@@ -46,7 +44,7 @@ class LoadAlphabet {
          blending: THREE.AdditiveBlending
       })
       
-
+      
       for(const [key, value] of Object.entries(Store.alphabet)) {
          this.loader.load(
             value.model,
