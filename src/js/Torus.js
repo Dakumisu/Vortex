@@ -117,7 +117,9 @@ class Torus {
 
    startExp() {
       gsap.to(this.torusMesh.position, 4, { y: 0, ease: "Power3.easeInOut" })
-      gsap.to(this.torusMesh.rotation, 2, { y: -.5 * (Math.PI * 2), ease: "Power3.easeOut", delay: 2 })
+      gsap.to(this.torusMesh.rotation, 2, { y: -.5 * (Math.PI * 2), ease: "Power3.easeOut", delay: 2, onComplete: () => {
+         Store.params.experienceStarted = true
+      } })
    }
    
    expand(bool) {
@@ -156,8 +158,8 @@ class Torus {
          this.target.y = Mouse.mouseScene.y * 0.4;
 
          
-         this.particlesGroup.rotation.y += (.007 * (this.target.x / 2 - this.particlesGroup.rotation.y));
-         this.particlesGroup.rotation.x += (.007 * (this.target.y / 2 - this.particlesGroup.rotation.x));
+         this.particlesGroup.rotation.y += (.01 * (this.target.x / 2 - this.particlesGroup.rotation.y));
+         this.particlesGroup.rotation.x += (.01 * (this.target.y / 2 - this.particlesGroup.rotation.x));
       } else {
          this.target.y = -Store.mobile.tilt.x * 0.1;
          this.target.x = Store.mobile.tilt.y * 0.1;

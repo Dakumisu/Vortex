@@ -1,6 +1,7 @@
 import gsap from 'gsap'
 
 import { Store } from '@js/Store'
+import Hud from '@js/Hud'
 
 class SoundController {
    constructor() {
@@ -12,8 +13,8 @@ class SoundController {
          {}
       ]
 
-      this.sourceNode = null
-      this.sourceNodeCache = null
+      this.musicSourceNode = null
+      this.musicSourceNodeCache = null
       this.bufferStartTime = 0
       this.bufferPauseTime = 0
       this.bufferOffset = 0
@@ -84,20 +85,20 @@ class SoundController {
 
    music(type) {
       if (type == 'play') {
-         if (this.sourceNode == null) {
+         if (this.musicSourceNode == null) {
             // PLAY
             this.playMusic()
          } else {
             this.stopMusic()
             this.playMusic()
          }
-      } else if (this.sourceNode && type == 'pause') {
+      } else if (this.musicSourceNode && type == 'pause') {
          // PAUSE
          this.pauseMusic()
-      } else if (this.sourceNode && type == 'stop') {
+      } else if (this.musicSourceNode && type == 'stop') {
          // STOP
          this.stopMusic()
-      } else if (this.sourceNode && type == 'resume') {
+      } else if (this.musicSourceNode && type == 'resume') {
          // RESUME
          this.resumeMusic()
       }
@@ -113,24 +114,24 @@ class SoundController {
 
    stopMusic() {
       if (!this.onPause) {
-         this.sourceNode.disconnect(this.audioContext.destination)
-         this.sourceNode.disconnect(this.analyser)
+         this.musicSourceNode.disconnect(this.audioContext.destination)
+         this.musicSourceNode.disconnect(this.analyser)
       }
       
       this.onPause = false
-      this.sourceNode = null
+      this.musicSourceNode = null
       this.bufferOffset = 0
       Store.sound.musicState = false
-      this.sourceNodeCache = null
+      this.musicSourceNodeCache = null
    }
 
    pauseMusic() {
       this.onPause = true
       this.bufferPauseTime = this.audioContext.currentTime - this.bufferStartTime
       
-      this.sourceNode.stop(0)
-      this.sourceNode.disconnect(this.audioContext.destination)
-      this.sourceNode.disconnect(this.analyser)
+      this.musicSourceNode.stop(0)
+      this.musicSourceNode.disconnect(this.audioContext.destination)
+      this.musicSourceNode.disconnect(this.analyser)
    }
    
    resumeMusic() {
@@ -140,8 +141,8 @@ class SoundController {
 
       this.bufferOffset = this.bufferPauseTime
       
-      if (this.sourceNodeCache) {
-         this.loadMusicBuffer(this.sourceNodeCache, true)
+      if (this.musicSourceNodeCache) {
+         this.loadMusicBuffer(this.musicSourceNodeCache, true)
       } else {
          this.playMusic()
       }
@@ -149,21 +150,31 @@ class SoundController {
 
    loadMusicBuffer(response, cache) {
       if (cache) {
-         this.sourceNode = this.audioContext.createBufferSource();
-         this.sourceNode.buffer = this.sourceNodeCache;
-         this.sourceNode.connect(this.audioContext.destination);
-         this.sourceNode.connect(this.analyser)
-         this.sourceNode.start(0, this.bufferOffset)
+         this.musicSourceNode = this.audioContext.createBufferSource();
+         this.musicSourceNode.buffer = this.musicSourceNodeCache;
+         this.musicSourceNode.connect(this.audioContext.destination);
+         this.musicSourceNode.connect(this.analyser)
+         this.musicSourceNode.start(0, this.bufferOffset)
       } else (
          this.audioContext.decodeAudioData(response, buffer => {
-            this.sourceNode = this.audioContext.createBufferSource();
-            this.sourceNodeCache = buffer
-            this.sourceNode.buffer = buffer;
-            this.sourceNode.connect(this.audioContext.destination);
-            this.sourceNode.connect(this.analyser)
-            this.sourceNode.start(0, this.bufferOffset)
+            this.musicSourceNode = this.audioContext.createBufferSource();
+            this.musicSourceNodeCache = buffer
+            this.musicSourceNode.buffer = buffer;
+            console.log('duration', this.musicSourceNode.buffer.duration);
+            this.musicSourceNode.connect(this.audioContext.destination);
+            this.musicSourceNode.connect(this.analyser)
+            this.musicSourceNode.start(0, this.bufferOffset)
          })
       )
+
+      setTimeout(() => {
+         this.musicSourceNode.onended = () => {
+            console.log('YEET');
+            Hud.nodes.playIcon.classList.remove('hide')
+            Hud.nodes.pauseIcon.classList.add('hide')
+            this.stopMusic()
+         }
+      }, 1000);
    }
 
    loadData(data, type) {

@@ -175,26 +175,36 @@ class Hud {
    }
 
    menu() {
-      this.nodes.hudContainer.classList.add('fadeOpacity')
-      this.nodes.hud.classList.add('fadeOpacity')
+      // this.nodes.hudContainer.classList.add('fadeOpacity')
+      // this.nodes.hud.classList.add('fadeOpacity')
       
       this.nodes.menuButton.addEventListener('click', () => {
+         this.nodes.menuButton.blur()
+
          if (!this.menuOn) {
-            this.menuOn = true
-            this.nodes.hudContainer.classList.add('fadeIn')
-            this.nodes.hud.classList.add('fadeIn')
-
-            this.nodes.menuButton.classList.add('menuOpen')
-            this.nodes.menuButton.classList.remove('menuClose')
+            this.openMenu()
          } else {
-            this.menuOn = false
-            this.nodes.hudContainer.classList.remove('fadeIn')
-            this.nodes.hud.classList.remove('fadeIn')
-
-            this.nodes.menuButton.classList.add('menuClose')
-            this.nodes.menuButton.classList.remove('menuOpen')
+           this.closeMenu()
          }
       })
+   }
+
+   openMenu() {
+      this.menuOn = true
+      this.nodes.hudContainer.classList.add('fadeIn')
+      this.nodes.hud.classList.add('fadeIn')
+
+      this.nodes.menuButton.classList.add('menuOpen')
+      this.nodes.menuButton.classList.remove('menuClose')
+   }
+
+   closeMenu() {
+      this.menuOn = false
+      this.nodes.hudContainer.classList.remove('fadeIn')
+      this.nodes.hud.classList.remove('fadeIn')
+
+      this.nodes.menuButton.classList.add('menuClose')
+      this.nodes.menuButton.classList.remove('menuOpen')
    }
 
    resize() {

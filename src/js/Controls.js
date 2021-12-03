@@ -6,6 +6,8 @@ import Scene from '@js/Scene'
 import Mouse from '@js/Mouse'
 import Torus from '@js/Torus'
 import SoundController from '@js/SoundController'
+import Hud from '@js/Hud'
+
 
 class Controls {
    constructor(opt) {
@@ -36,6 +38,15 @@ class Controls {
          if (e.code == "Space") {
             this.expand()
          }
+
+         // expand
+         if (e.code == "Escape") {
+            if (!Hud.menuOn) {
+               Hud.openMenu()
+            } else {
+              Hud.closeMenu()
+            }
+         }
       })
    
       // mobile expand
@@ -45,53 +56,55 @@ class Controls {
    }
 
    expand() {
-      if (this.expandState) {
-         this.expandState = false
-         Store.params.progress = 0
-
-         Torus.expand(this.expandState)
-
-         if (Store.alphabetDatas.alphabetArray.length) {
-            Store.alphabetDatas.alphabetArray.forEach(letter => {
-               if (letter !== null) {
-                  letter.expand(this.expandState)
-               }
+      if (Store.params.experienceStarted) {
+         if (this.expandState) {
+            this.expandState = false
+            Store.params.progress = 0
+   
+            Torus.expand(this.expandState)
+   
+            if (Store.alphabetDatas.alphabetArray.length) {
+               Store.alphabetDatas.alphabetArray.forEach(letter => {
+                  if (letter !== null) {
+                     letter.expand(this.expandState)
+                  }
+               })
+            }
+   
+            gsap.to(Store.params.pp.aip, 1, {
+               damp: .75,
+               ease: "Power3.easeInOut"
+            })
+   
+            // Disable vertigo effect
+            Scene.noVertigoEffect()
+   
+            if (Store.alphabetDatas.alphabetArray.length) {
+               Store.alphabetDatas.alphabetArray.forEach(letter => {
+                  if (letter !== null) {
+                     letter.noVertigoEffect()
+                  }
+               })
+            }
+         } else {
+            this.expandState = true
+            Store.params.progress = 1
+   
+            Torus.expand(this.expandState)
+   
+            if (Store.alphabetDatas.alphabetArray.length) {
+               Store.alphabetDatas.alphabetArray.forEach(letter => {
+                  if (letter !== null) {
+                     letter.expand(this.expandState)
+                  }
+               })
+            }
+   
+            gsap.to(Store.params.pp.aip, 1, {
+               damp: .825,
+               ease: "Power3.easeInOut"
             })
          }
-
-         gsap.to(Store.params.pp.aip, 1, {
-            damp: .75,
-            ease: "Power3.easeInOut"
-         })
-
-         // Disable vertigo effect
-         Scene.noVertigoEffect()
-
-         if (Store.alphabetDatas.alphabetArray.length) {
-            Store.alphabetDatas.alphabetArray.forEach(letter => {
-               if (letter !== null) {
-                  letter.noVertigoEffect()
-               }
-            })
-         }
-      } else {
-         this.expandState = true
-         Store.params.progress = 1
-
-         Torus.expand(this.expandState)
-
-         if (Store.alphabetDatas.alphabetArray.length) {
-            Store.alphabetDatas.alphabetArray.forEach(letter => {
-               if (letter !== null) {
-                  letter.expand(this.expandState)
-               }
-            })
-         }
-
-         gsap.to(Store.params.pp.aip, 1, {
-            damp: .825,
-            ease: "Power3.easeInOut"
-         })
       }
    }
 

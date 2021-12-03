@@ -158,11 +158,11 @@ html {
             transform: rotateZ(45deg);
             
             &.menuOpen {
-                animation: rotateOpenMenuButton 1s ease-in-out forwards;
+                animation: rotateOpenMenuButton .5s ease-out forwards;
             }
             
             &.menuClose {
-                animation: rotateCloseMenuButton .5s ease-out forwards;
+                animation: rotateCloseMenuButton .5s ease-in-out forwards;
             }
 
             @keyframes rotateOpenMenuButton {
@@ -170,13 +170,13 @@ html {
                     transform: rotateZ(0deg);
                 }
                 to {
-                    transform: rotateZ(-135deg);
+                    transform: rotateZ(-45deg);
                 }
             }
             
             @keyframes rotateCloseMenuButton {
                 from {
-                    transform: rotateZ(45deg);
+                    transform: rotateZ(135deg);
                 }
                 to {
                     transform: rotateZ(0deg);
