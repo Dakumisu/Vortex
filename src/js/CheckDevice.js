@@ -13,7 +13,9 @@ class CheckDevice {
          Store.params.events.eventClick = "touchstart"
          Store.params.events.eventMove = "touchmove"
          Store.mobile.isOnMobile = true
-     
+         
+         Store.sound.strength = 2
+
          document.children[0].classList.add('mobile')
          
          // document.body.requestFullscreen();

@@ -14,8 +14,10 @@ class SoundController {
 
       this.sourceNode = null
       this.sourceNodeCache = null
-      this.musicTime = 0
-      this.musicElpasedTime = 0
+      this.bufferStartTime = 0
+      this.bufferPauseTime = 0
+      this.bufferOffset = 0
+      this.progressStart = 0
 
       this.tempo = 60000 / 130
 
@@ -104,34 +106,39 @@ class SoundController {
    playMusic() {
       Store.sound.musicState = true
 
-      console.log('play');
+      this.bufferStartTime = this.audioContext.currentTime
+      this.startTime = this.audioContext.currentTime;
       this.loadData(Store.sound.music, 'music')
    }
 
    stopMusic() {
-      this.sourceNode.disconnect(this.audioContext.destination)
-      this.sourceNode.disconnect(this.analyser)
+      if (!this.onPause) {
+         this.sourceNode.disconnect(this.audioContext.destination)
+         this.sourceNode.disconnect(this.analyser)
+      }
+      
+      this.onPause = false
       this.sourceNode = null
-      this.musicElpasedTime = 0
+      this.bufferOffset = 0
       Store.sound.musicState = false
       this.sourceNodeCache = null
    }
 
    pauseMusic() {
       this.onPause = true
-      this.musicTime = this.audioContext.currentTime
-      console.log('pause', this.musicTime);
-      this.sourceNode.stop()
+      this.bufferPauseTime = this.audioContext.currentTime - this.bufferStartTime
+      
+      this.sourceNode.stop(0)
       this.sourceNode.disconnect(this.audioContext.destination)
       this.sourceNode.disconnect(this.analyser)
    }
    
    resumeMusic() {
       this.onPause = false
-      this.musicElpasedTime = this.musicTime 
 
-      // console.log(this.audioContext.currentTime, this.musicTime);
-      console.log('resume', this.musicElpasedTime);
+      this.bufferStartTime = this.audioContext.currentTime - this.bufferPauseTime
+
+      this.bufferOffset = this.bufferPauseTime
       
       if (this.sourceNodeCache) {
          this.loadMusicBuffer(this.sourceNodeCache, true)
@@ -146,8 +153,7 @@ class SoundController {
          this.sourceNode.buffer = this.sourceNodeCache;
          this.sourceNode.connect(this.audioContext.destination);
          this.sourceNode.connect(this.analyser)
-         this.sourceNode.start(0, this.musicElpasedTime)
-
+         this.sourceNode.start(0, this.bufferOffset)
       } else (
          this.audioContext.decodeAudioData(response, buffer => {
             this.sourceNode = this.audioContext.createBufferSource();
@@ -155,7 +161,7 @@ class SoundController {
             this.sourceNode.buffer = buffer;
             this.sourceNode.connect(this.audioContext.destination);
             this.sourceNode.connect(this.analyser)
-            this.sourceNode.start(0, this.musicElpasedTime)
+            this.sourceNode.start(0, this.bufferOffset)
          })
       )
    }
@@ -217,15 +223,15 @@ class SoundController {
    }
 
    getSoundDatas(datas) {
-      Store.sound.freqDatas.uSoundLowBass = datas[0] * 1.25
-      Store.sound.freqDatas.uSoundBass = datas[8] * 1.25
-      Store.sound.freqDatas.uSoundHighBass = datas[16] * 1.25
-      Store.sound.freqDatas.uSoundLowMedium = datas[32] * 1.25
-      Store.sound.freqDatas.uSoundMedium = datas[64] * 1.25
-      Store.sound.freqDatas.uSoundHighMedium = datas[128] * 1.25
-      Store.sound.freqDatas.uSoundLowAcute = datas[256] * 1.25
-      Store.sound.freqDatas.uSoundAcute = datas[512] * 1.25
-      Store.sound.freqDatas.uSoundHighAcute = datas[1023] * 1.25
+      Store.sound.freqDatas.uSoundLowBass = datas[0] * 1.25 * Store.sound.strength
+      Store.sound.freqDatas.uSoundBass = datas[8] * 1.25 * Store.sound.strength
+      Store.sound.freqDatas.uSoundHighBass = datas[16] * 1.25 * Store.sound.strength
+      Store.sound.freqDatas.uSoundLowMedium = datas[32] * 1.25 * Store.sound.strength
+      Store.sound.freqDatas.uSoundMedium = datas[64] * 1.25 * Store.sound.strength
+      Store.sound.freqDatas.uSoundHighMedium = datas[128] * 1.25 * Store.sound.strength
+      Store.sound.freqDatas.uSoundLowAcute = datas[256] * 1.25 * Store.sound.strength
+      Store.sound.freqDatas.uSoundAcute = datas[512] * 1.25 * Store.sound.strength
+      Store.sound.freqDatas.uSoundHighAcute = datas[1023] * 1.25 * Store.sound.strength
    }
 
    update(time) {

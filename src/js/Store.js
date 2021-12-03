@@ -361,7 +361,8 @@ export const Store = {
          uSoundLowAcute: 0,
          uSoundAcute: 0,
          uSoundHighAcute: 0
-      }
+      },
+      strength: 1
    },
 
    // Mobile
