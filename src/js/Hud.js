@@ -46,14 +46,9 @@ class Hud {
 
    getKeyboard(layout) {
       localStorage.setItem('keyboard', layout)
+
       // Assignations des samples au clavier
-      if (localStorage.getItem('keyboard') != null) {
-         if (localStorage.getItem('keyboard') == layout) {
-            Store.alphabetDatas.keysOrder = Store.keyboardLayout[`${layout}Keyboard`]
-         } else {
-            Store.alphabetDatas.keysOrder = Store.keyboardLayout[`${layout}Keyboard`]
-         }
-      }
+      Store.alphabetDatas.keysOrder = Store.keyboardLayout[`${layout}Keyboard`]
 
       this.nodes.keyboardButtons.forEach(e => {
          e.dataset.layout == layout ? e.classList.add('active') : e.classList.remove('active')
@@ -106,8 +101,9 @@ class Hud {
             })
 
             const keyboardLayout = button.dataset.layout
-            localStorage.setItem('keyboard', keyboardLayout)
-            this.getKeyboard(keyboardLayout)
+            if (localStorage.getItem('keyboard') != button.dataset.layout) {
+               this.getKeyboard(keyboardLayout)
+            }
          })
       });
    }

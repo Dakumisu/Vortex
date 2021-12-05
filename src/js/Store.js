@@ -275,9 +275,11 @@ export const Store = {
    alphabetDatas: {
       keysOrder: null,
       alphabetGroup: null,
-      lettersInputLimit: 3,
+      lettersInputLimit: 5,
       lettersCount: 0,
       alphabetArray: [
+         null,
+         null,
          null,
          null,
          null
@@ -285,17 +287,23 @@ export const Store = {
       availableIndex: [
          0,
          1,
-         2
+         2,
+         3,
+         4
       ],
       lettersPositions: {
          x: [ 
-            -2,
+            -3,
+            -1.5,
             0,
-            2
+            1.5,
+            3
          ],
          z: [
             .0,
+            .25,
             .5,
+            .25,
             .0
          ],
       }
@@ -343,6 +351,8 @@ export const Store = {
          ]
       ],
       samplesPlayed: [
+         null,
+         null,
          null,
          null,
          null

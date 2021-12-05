@@ -3,11 +3,19 @@ import gsap from 'gsap'
 import { Store } from '@js/Store'
 import Hud from '@js/Hud'
 
+Array.prototype.isNull = function () {
+   for (var i = 0; i < this.length; i++)
+     if (this[i] !== null)
+       return false;
+   return true;
+}
 class SoundController {
    constructor() {
       this.onPause = false
 
       this.samples = [
+         {},
+         {},
          {},
          {},
          {}
@@ -37,7 +45,7 @@ class SoundController {
    unlockAudioContext(context) {
       if (context.state !== "suspended") return;
       const b = document.body;
-      const events = ["touchstart", "touchend", "mousedown", "keydown"];
+      const events = ["touchstart", "touchend", "mousedown", "click", "keydown"];
       events.forEach(e => b.addEventListener(e, unlock, false));
 
       function unlock() {
@@ -62,27 +70,7 @@ class SoundController {
 
       this.pcmData = new Float32Array(this.analyser.fftSize)
    }
-
-   sampleLoop() {
-      let counter = 0
-      setInterval(() => {
-         if (counter == 0) {
-            Store.sound.samplesPlayed.forEach((letter) => {
-               if (letter != null)
-                  this.playSample(letter)
-            })
-         }
-         counter++;
-         gsap.to(Store.sound, this.tempo / 1000, {
-            loopProgress: counter / 15,
-            ease: "Power0.easeNone"
-         })
-         if (counter == 16 || Store.sound.samplesPlayed[0] == null && Store.sound.samplesPlayed[1] == null && Store.sound.samplesPlayed[2] == null) {
-            counter = 0
-         }
-      }, this.tempo);
-   }
-
+   
    music(type) {
       if (type == 'play') {
          if (this.musicSourceNode == null) {
@@ -155,21 +143,22 @@ class SoundController {
          this.musicSourceNode.connect(this.audioContext.destination);
          this.musicSourceNode.connect(this.analyser)
          this.musicSourceNode.start(0, this.bufferOffset)
+         this.musicSourceNode.loop = true
       } else (
          this.audioContext.decodeAudioData(response, buffer => {
             this.musicSourceNode = this.audioContext.createBufferSource();
             this.musicSourceNodeCache = buffer
             this.musicSourceNode.buffer = buffer;
-            console.log('duration', this.musicSourceNode.buffer.duration);
             this.musicSourceNode.connect(this.audioContext.destination);
             this.musicSourceNode.connect(this.analyser)
             this.musicSourceNode.start(0, this.bufferOffset)
+            this.musicSourceNode.loop = true
          })
       )
 
       setTimeout(() => {
          this.musicSourceNode.onended = () => {
-            console.log('YEET');
+            if (this.onPause) return
             Hud.nodes.playIcon.classList.remove('hide')
             Hud.nodes.pauseIcon.classList.add('hide')
             this.stopMusic()
@@ -209,6 +198,26 @@ class SoundController {
       }
       
       request.send()
+   }
+
+   sampleLoop() {
+      let counter = 0
+      setInterval(() => {
+         if (counter == 0) {
+            Store.sound.samplesPlayed.forEach((letter) => {
+               if (letter != null)
+                  this.playSample(letter)
+            })
+         }
+         counter++;
+         gsap.to(Store.sound, this.tempo / 1000, {
+            loopProgress: counter / 15,
+            ease: "Power0.easeNone"
+         })
+         if (counter == 16 || Store.sound.samplesPlayed.isNull()) {
+            counter = 0
+         }
+      }, this.tempo);
    }
 
    playSample(letter) {

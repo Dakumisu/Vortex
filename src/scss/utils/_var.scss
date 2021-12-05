@@ -1,3 +1,51 @@
+$easings_generic: cubic-bezier(.645, .045, .355, 1);
+$easings_in-cubic: cubic-bezier(.55, .055, .675, .19);
+$easings_out-cubic: cubic-bezier(.215, .61, .355, 1);
+$easings_in-out-cubic: cubic-bezier(.645, .045, .355, 1);
+
+$easings_in-circ: cubic-bezier(.6, .04, .98, .335);
+$easings_out-circ: cubic-bezier(.075, .82, .165, 1);
+$easings_in-out-circ: cubic-bezier(.785, .135, .15, .86);
+
+$easings_in-expo: cubic-bezier(.95, .05, .795, .035);
+$easings_out-expo: cubic-bezier(.19, 1, .22, 1);
+$easings_in-out-expo: cubic-bezier(1, 0, 0, 1);
+
+$easings_in-quad: cubic-bezier(.55, .085, .68, .53);
+$easings_out-quad: cubic-bezier(.25, .46, .45, .94);
+$easings_in-out-quad: cubic-bezier(.455, .03, .515, .955);
+
+$easings_in-quart: cubic-bezier(.895, .03, .685, .22);
+$easings_out-quart: cubic-bezier(.165, .84, .44, 1);
+$easings_in-out-quart: cubic-bezier(.77, 0 .175, 1);
+
+$easings_in-quint: cubic-bezier(.755, .05, .855, .06);
+$easings_out-quint: cubic-bezier(.23, 1, .32, 1);
+$easings_in-out-quint: cubic-bezier(.86, 0 .07, 1);
+
+$easings_in-sine: cubic-bezier(.47, 0 .745, .715);
+$easings_out-sine: cubic-bezier(.39, .575, .565, 1);
+$easings_in-out-sine: cubic-bezier(.445, .05, .55, .95);
+
+$easings_in-back: cubic-bezier(.6, .28, .735, .045);
+$easings_out-back: cubic-bezier(.175, .885, .32, 1.275);
+$easings_in-out-back: cubic-bezier(.68, .55, .265, 1.55);
+
+$easings_out-swift: cubic-bezier(.55, 0, .1, 1);
+$easings_out-snap: cubic-bezier(0, .96, .22, 1);
+$easings_out-snap-2: cubic-bezier(0, .975, 0, 1);
+$easings_out-bounce: cubic-bezier(0, 1.49, .105, .94);
+
+$easings_in-out-bounce: cubic-bezier(.865, -.005, 0, 1.47);
+$easings_in-out-bounce-2: cubic-bezier(.865, -.005, 0, 1.64);
+$easings_in-out-smooth: cubic-bezier(.36, .07, .19, .97);
+
+$easings_power4-out: cubic-bezier(.24, 1, .24, 1);
+$easings_power4-in: cubic-bezier(.7, .01, .71, 0);
+
+$easings_bounce: cubic-bezier(.19, 1.51, .29, .99);
+
+
 $red: #f00;
 $purple: #D000F2;
 $blue: #00C2FF;

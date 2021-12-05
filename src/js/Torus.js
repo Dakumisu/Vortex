@@ -154,8 +154,8 @@ class Torus {
       }
 
       if (!Store.mobile.isOnMobile) {
-         this.target.x = -Mouse.mouseScene.x * 0.4;
-         this.target.y = Mouse.mouseScene.y * 0.4;
+         this.target.x = -Mouse.mouseScene.x * 0.2;
+         this.target.y = Mouse.mouseScene.y * 0.2;
 
          
          this.particlesGroup.rotation.y += (.01 * (this.target.x / 2 - this.particlesGroup.rotation.y));

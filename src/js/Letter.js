@@ -34,14 +34,15 @@ class Letter {
    }
 
    remove() {
-      gsap.to(this.letterMesh.rotation, 2, { z: 2* (Math.PI * 2), ease: "Power3.easeInOut" })
+      const currentRot = this.letterMesh.rotation
+      gsap.to(this.letterMesh.rotation, 1, { z: this.letterMesh.rotation.z + (2 * Math.PI) * Math.random(), ease: "Power3.easeOut" })
       gsap.to(this.letterMesh.position, 1.5, { z: -15, ease: "Power3.easeInOut" })
-      gsap.to(this.letterMesh.material.uniforms.uAlpha, .5, { value: 0, ease: "Power3.easeInOut", onComplete: () => {
+      gsap.to(this.letterMesh.material.uniforms.uAlpha, 1, { value: 0, ease: "Power3.easeInOut", onComplete: () => {
          Store.alphabetDatas.alphabetGroup.remove(this.letterMesh)
-         Store.alphabetDatas.alphabetArray.splice(this.letterMesh.uuid, 1, null)
-         Store.alphabet[this.name].id = null
-         Store.alphabetDatas.lettersCount --
       } })
+      Store.alphabetDatas.alphabetArray.splice(this.letterMesh.uuid, 1, null)
+      Store.alphabet[this.name].id = null
+      Store.alphabetDatas.lettersCount --
    }
 
    getRandomPositions() {
@@ -91,8 +92,8 @@ class Letter {
       if (this.letterMesh) {
          const scale = .75 - (Store.sound.loopProgress / 4) + (Math.abs((Store.sound.freqDatas.uSoundBass * .1 + Store.sound.freqDatas.uSoundAcute * .1)))
          this.letterMesh.scale.set(scale, scale, scale)
-         this.letterMesh.rotation.y += .004 * (Math.PI + this.randomStrength)
-         this.letterMesh.rotation.z += .004 * (Math.PI + this.randomStrength)
+         this.letterMesh.rotation.y += .002 * (Math.PI + this.randomStrength)
+         this.letterMesh.rotation.z += .002 * (Math.PI + this.randomStrength)
 
          this.letterMesh.material.uniforms.uLoopSample.value = Store.sound.loopProgress
       }
