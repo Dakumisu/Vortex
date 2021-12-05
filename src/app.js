@@ -1,3 +1,5 @@
+console.log(`%c   Gobelins' Workshop - Sound Experience 🎵   `, `background: #000; padding: 5px; font-size: 12px; color: #fff`)
+
 import './main.scss'
 
 import { Store } from '@js/Store' // Store
@@ -10,37 +12,15 @@ import Controls from '@js/Controls'
 import Control from '@js/Control'
 import SoundController from '@js/SoundController'
 import CheckDevice from '@js/CheckDevice'
-// import Settings from '@js/Settings.js' // Dat.gui (toujours pour le debbugage)
 import Tilt from '@js/MobileTilt'
-
-// new CheckDevice();
 
 let tilt = null
 if (Store.mobile.isOnMobile) {
     tilt = new Tilt()
 }
 
-// const canvas = 
-// const scene = new Scene({
-//     canvas: canvas,
-// })
-
 new LoadAlphabet()
 
-// const mouse = new Mouse()
-
-// const torus = new Torus()
-
-// const soundController = new SoundController()
-
-// const hud = new Hud()
-
-// const controls = new Controls()
-
-// const orbitControl = new Control({
-//     camera: scene.camera,
-//     renderer: scene.renderer
-// })
 
 document.body.addEventListener('touchstart', () => {
     document.body.requestFullscreen();
