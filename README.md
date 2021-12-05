@@ -1,4 +1,4 @@
-# Gobelins' Workshop - Sound Experience - Vortex. 🎵 
+# Gobelins' Workshop - Sound Experience - Vortex 🎵 
 
 Hi :)
 
